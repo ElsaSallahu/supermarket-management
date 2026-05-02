@@ -15,10 +15,7 @@ app.get("/products", (req, res) => {
 });
 
 app.listen(5000, () => {
-<<<<<<< HEAD
+
   console.log("Serveri po punon ne portin 5000");
 });
-=======
-  console.log("Server running on port 5000");
-});
->>>>>>> c48b731 (updates)
+
