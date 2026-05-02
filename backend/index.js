@@ -7,9 +7,18 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Backend po funksionon");
+  res.send("API is running...");
+});
+
+app.get("/products", (req, res) => {
+  res.json([]);
 });
 
 app.listen(5000, () => {
+<<<<<<< HEAD
   console.log("Serveri po punon ne portin 5000");
 });
+=======
+  console.log("Server running on port 5000");
+});
+>>>>>>> c48b731 (updates)
