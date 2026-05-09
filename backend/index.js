@@ -11,37 +11,17 @@ app.get("/", (req, res) => {
   res.send("Backend po funksionon");
 });
 
-// ➡️ Këtu shto endpoint-in GET
 app.get("/produktet", (req, res) => {
-  db.query("SELECT * FROM Produkti", (err, results) => {
+  db.query("SELECT * FROM produkti", (err, results) => {
     if (err) {
       console.log(err);
-      res.status(500).send("Gabim gjatë leximit");
+      res.status(500).send("Gabim");
     } else {
       res.json(results);
     }
   });
 });
 
-// Endpoint POST për shtim produkti
-app.post("/produktet", (req, res) => {
-  const { emri, cmimi_shitjes, stoku } = req.body;
-
-  db.query(
-  "INSERT INTO produkti (emri, cmimi_shitjes, stoku) VALUES (?, ?, ?)",
-  [emri, cmimi_shitjes, stoku],
-);
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        res.send("Gabim");
-      } else {
-        res.send("Produkti u shtua");
-      }
-    }
-  );
-});
-
 app.listen(5000, () => {
-  console.log("Serveri po punon ne portin 5000");
+  console.log("Serveri po funksionon ne portin 5000");
 });
