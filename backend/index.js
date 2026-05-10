@@ -22,6 +22,47 @@ app.get("/produktet", (req, res) => {
   });
 });
 
+app.post("/produktet", (req, res) => {
+  const {
+    emri,
+    barkodi,
+    cmimi_blerjes,
+    cmimi_shitjes,
+    njesia_matese,
+    stoku,
+    pragu_minimumi,
+    data_skadences
+  } = req.body;
+
+  const sql = `
+    INSERT INTO produkti
+    (emri, barkodi, cmimi_blerjes, cmimi_shitjes, njesia_matese, stoku, pragu_minimumi, data_skadences)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  db.query(sql, [emri, barkodi, cmimi_blerjes, cmimi_shitjes, njesia_matese, stoku, pragu_minimumi, data_skadences], (err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Gabim ne shtim");
+    } else {
+      res.send("Produkti u shtua");
+    }
+  });
+});
+
+app.delete("/produktet/:id", (req, res) => {
+  const id = req.params.id;
+
+  db.query("DELETE FROM produkti WHERE produkti_id = ?", [id], (err) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Gabim ne fshirje");
+    } else {
+      res.send("Produkti u fshi");
+    }
+  });
+});
+
 app.listen(5000, () => {
   console.log("Serveri po funksionon ne portin 5000");
 });
