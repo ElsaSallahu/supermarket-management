@@ -10,11 +10,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Auth routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-
-        {/* Main app */}
         <Route path="/*" element={<DefaultLayout />} />
       </Routes>
     </BrowserRouter>
