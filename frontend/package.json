@@ -16,13 +16,10 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^13.5.0",
-<<<<<<< HEAD
     "axios": "^1.16.1",
-=======
     "bootstrap": "^5.3.8",
     "chart.js": "^4.5.1",
     "classnames": "^2.5.1",
->>>>>>> 697f02eaf861ab3a6928287dbe265d226986a2b3
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router-dom": "^7.14.2",

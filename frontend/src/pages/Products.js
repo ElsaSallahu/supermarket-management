@@ -158,8 +158,7 @@ const deleteProduct = async (id) => {
                 <td>{p.njesia_matese}</td>
                 <td>{p.stoku}</td>
                 <td>{p.pragu_minimumi}</td>
-                <td>{p.data_skadences.split("T")[0]}</td>
-
+               <td>{p.data_skadences?.split("T")[0] || "-"}</td>
                  <td>
                   <button onClick={() => deleteProduct(p.produkti_id) } > Delete </button>
                 </td>
