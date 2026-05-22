@@ -1,4 +1,4 @@
-const express = require("express");
+﻿const express = require("express");
 const cors = require("cors");
 const db = require("./db");
 
@@ -8,46 +8,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Backend po funksionon");
-});
-
-app.get("/produktet", (req, res) => {
-  db.query("SELECT * FROM produkti", (err, results) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Gabim");
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-app.post("/produktet", (req, res) => {
-  const {
-    emri,
-    barkodi,
-    cmimi_blerjes,
-    cmimi_shitjes,
-    njesia_matese,
-    stoku,
-    pragu_minimumi,
-    data_skadences
-  } = req.body;
-
-  const sql = `
-    INSERT INTO produkti
-    (emri, barkodi, cmimi_blerjes, cmimi_shitjes, njesia_matese, stoku, pragu_minimumi, data_skadences)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-  `;
-
-  db.query(sql, [emri, barkodi, cmimi_blerjes, cmimi_shitjes, njesia_matese, stoku, pragu_minimumi, data_skadences], (err) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Gabim ne shtim");
-    } else {
-      res.send("Produkti u shtua");
-    }
-  });
+  res.send("API is running...");
 });
 
 app.delete("/produktet/:id", (req, res) => {
@@ -109,3 +70,4 @@ app.put("/produktet/:id", (req, res) => {
 app.listen(5000, () => {
   console.log("Serveri po funksionon ne portin 5000");
 });
+

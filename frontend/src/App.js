@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
@@ -146,4 +147,29 @@ function App() {
   );
 }
 
+=======
+import React from "react";
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import DefaultLayout from "./layouts/DefaultLayout";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Auth routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Main app */}
+        <Route path="/*" element={<DefaultLayout />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+>>>>>>> 697f02eaf861ab3a6928287dbe265d226986a2b3
 export default App;
