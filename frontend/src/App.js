@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
@@ -147,7 +146,6 @@ function App() {
   );
 }
 
-=======
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -171,5 +169,4 @@ function App() {
   );
 }
 
->>>>>>> 697f02eaf861ab3a6928287dbe265d226986a2b3
 export default App;
