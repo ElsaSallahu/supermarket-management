@@ -12,17 +12,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/produktet", (req, res) => {
-<<<<<<< HEAD
-  db.query("SELECT * FROM produkti", (err, results) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Gabim");
-=======
   db.query("SELECT * FROM produkti ORDER BY produkti_id DESC", (err, results) => {
     if (err) {
       console.log(err);
       res.status(500).send("Gabim ne leximin e produkteve");
->>>>>>> 697f02eaf861ab3a6928287dbe265d226986a2b3
     } else {
       res.json(results);
     }
@@ -48,17 +41,11 @@ app.post("/produktet", (req, res) => {
   `;
 
   db.query(sql, [emri, barkodi, cmimi_blerjes, cmimi_shitjes, njesia_matese, stoku, pragu_minimumi, data_skadences], (err) => {
-<<<<<<< HEAD
     if (err) {
-      console.log(err);
-      res.status(500).send("Gabim ne shtim");
-    } else {
-      res.send("Produkti u shtua");
-=======
-     if (err) {
       console.log("SQL ERROR:", err);
       return res.status(500).send(err.sqlMessage);
->>>>>>> 697f02eaf861ab3a6928287dbe265d226986a2b3
+    } else {
+      res.send("Produkti u shtua");
     }
   });
 });
@@ -117,12 +104,6 @@ app.put("/produktet/:id", (req, res) => {
   });
 });
 
-
-
 app.listen(5000, () => {
   console.log("Serveri po funksionon ne portin 5000");
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> 697f02eaf861ab3a6928287dbe265d226986a2b3
