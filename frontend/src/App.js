@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e2867bcef7aebb25a20fe81e1dc955492f950621
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
@@ -147,7 +150,10 @@ function App() {
   );
 }
 
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> e2867bcef7aebb25a20fe81e1dc955492f950621
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -171,5 +177,8 @@ function App() {
   );
 }
 
+<<<<<<< HEAD
 >>>>>>> 697f02eaf861ab3a6928287dbe265d226986a2b3
+=======
+>>>>>>> e2867bcef7aebb25a20fe81e1dc955492f950621
 export default App;

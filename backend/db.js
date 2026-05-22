@@ -4,7 +4,11 @@ const db = mysql.createConnection({
   host: "localhost",
   user: "root",
 <<<<<<< HEAD
+<<<<<<< HEAD
   password: "password",
+=======
+  password: "",
+>>>>>>> e2867bcef7aebb25a20fe81e1dc955492f950621
 =======
   password: "mYsql895?",
 >>>>>>> 697f02eaf861ab3a6928287dbe265d226986a2b3
