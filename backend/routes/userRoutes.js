@@ -37,7 +37,7 @@ router.post("/", (req, res) => {
   );
 });
 
-module.exports = router;
+
 // DELETE USER
 router.delete("/:id", (req, res) => {
   const sql = "DELETE FROM users WHERE user_id = ?";
@@ -74,3 +74,4 @@ router.put("/:id", (req, res) => {
     }
   );
 });
+module.exports = router;

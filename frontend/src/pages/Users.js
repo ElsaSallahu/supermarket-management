@@ -3,16 +3,152 @@ import React, { useEffect, useState } from "react";
 function Users() {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:5000/riona")
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("cashier");
+
+  const [editingId, setEditingId] = useState(null);
+
+  // GET USERS
+  const fetchUsers = () => {
+    fetch("http://localhost:5000/users")
       .then((res) => res.json())
       .then((data) => setUsers(data))
       .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    fetchUsers();
   }, []);
+
+  // ADD USER
+  const addUser = async () => {
+    try {
+      await fetch("http://localhost:5000/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          full_name: fullName,
+          email,
+          password,
+          role,
+        }),
+      });
+
+      fetchUsers();
+
+      setFullName("");
+      setEmail("");
+      setPassword("");
+      setRole("cashier");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // DELETE USER
+  const deleteUser = async (id) => {
+    try {
+      await fetch(`http://localhost:5000/users/${id}`, {
+        method: "DELETE",
+      });
+
+      fetchUsers();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // EDIT USER
+  const editUser = (user) => {
+    setEditingId(user.user_id);
+    setFullName(user.full_name);
+    setEmail(user.email);
+    setPassword(user.password);
+    setRole(user.role);
+  };
+
+  // UPDATE USER
+  const updateUser = async () => {
+    try {
+      await fetch(
+        `http://localhost:5000/users/${editingId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            full_name: fullName,
+            email,
+            password,
+            role,
+          }),
+        }
+      );
+
+      fetchUsers();
+
+      setEditingId(null);
+      setFullName("");
+      setEmail("");
+      setPassword("");
+      setRole("cashier");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div>
-      <h2>Users List</h2>
+      <h2>Users Management</h2>
+
+      <div>
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={fullName}
+          onChange={(e) => setFullName(e.target.value)}
+        />
+
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        >
+          <option value="admin">Admin</option>
+          <option value="manager">Manager</option>
+          <option value="cashier">Cashier</option>
+        </select>
+
+        {editingId ? (
+          <button onClick={updateUser}>
+            Update User
+          </button>
+        ) : (
+          <button onClick={addUser}>
+            Add User
+          </button>
+        )}
+      </div>
+
+      <br />
 
       <table border="1">
         <thead>
@@ -21,6 +157,7 @@ function Users() {
             <th>Full Name</th>
             <th>Email</th>
             <th>Role</th>
+            <th>Action</th>
           </tr>
         </thead>
 
@@ -31,6 +168,21 @@ function Users() {
               <td>{user.full_name}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>
+              <td>
+                <button
+                  onClick={() => editUser(user)}
+                >
+                  Edit
+                </button>
+
+                <button
+                  onClick={() =>
+                    deleteUser(user.user_id)
+                  }
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

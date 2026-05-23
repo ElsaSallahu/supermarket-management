@@ -1,51 +1,58 @@
 const router = require("express").Router();
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const db = require("../db");
 
 // REGISTER
-router.post("/register", async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+router.post("/register", (req, res) => {
+  const { full_name, email, password, role } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+  const sql = `
+    INSERT INTO users
+    (full_name, email, password, role)
+    VALUES (?, ?, ?, ?)
+  `;
 
-    const user = new User({
-      name,
-      email,
-      password: hashedPassword,
-    });
+  db.query(
+    sql,
+    [full_name, email, password, role],
+    (err) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).send("Gabim ne register");
+      }
 
-    await user.save();
-
-    res.json({ message: "User created" });
-  } catch (err) {
-    res.status(500).json(err);
-  }
+      res.json({
+        success: true,
+        message: "User u regjistrua",
+      });
+    }
+  );
 });
 
 // LOGIN
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
+router.post("/login", (req, res) => {
+  const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "User not found" });
+  const sql =
+    "SELECT * FROM users WHERE email = ? AND password = ?";
 
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ message: "Wrong password" });
+  db.query(sql, [email, password], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send("Gabim serveri");
+    }
 
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
-
-    res.json({ token, user });
-  } catch (err) {
-    res.status(500).json(err);
-  }
+    if (results.length > 0) {
+      res.json({
+        success: true,
+        user: results[0],
+      });
+    } else {
+      res.json({
+        success: false,
+        message: "Email ose password gabim",
+      });
+    }
+  });
 });
 
 module.exports = router;
