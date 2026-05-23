@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const productRoutes = require("./routes/productRoutes");
+const categoryRoutes = require("./routes/categoryRoutes");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/produktet", productRoutes);
+app.use("/categories", categoryRoutes);
 
 app.listen(5000, () => {
   console.log("Serveri po funksionon ne portin 5000");
