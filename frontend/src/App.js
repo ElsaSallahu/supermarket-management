@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e2867bcef7aebb25a20fe81e1dc955492f950621
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
@@ -53,6 +49,7 @@ function App() {
   const editoProdukt = (p) => {
     setEditId(p.produkti_id);
     setForm({
+
       emri: p.emri || "",
       barkodi: p.barkodi || "",
       cmimi_blerjes: p.cmimi_blerjes || "",
@@ -150,10 +147,6 @@ function App() {
   );
 }
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> e2867bcef7aebb25a20fe81e1dc955492f950621
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -161,6 +154,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DefaultLayout from "./layouts/DefaultLayout";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
+import Employees from "./pages/Employees";
+
 
 function App() {
   return (
@@ -169,6 +164,8 @@ function App() {
         {/* Auth routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/employees" element={<Employees />} />
+
 
         {/* Main app */}
         <Route path="/*" element={<DefaultLayout />} />
@@ -177,8 +174,5 @@ function App() {
   );
 }
 
-<<<<<<< HEAD
->>>>>>> 697f02eaf861ab3a6928287dbe265d226986a2b3
-=======
->>>>>>> e2867bcef7aebb25a20fe81e1dc955492f950621
+
 export default App;
