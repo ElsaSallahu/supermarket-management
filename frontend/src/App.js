@@ -6,6 +6,8 @@ import DefaultLayout from "./layouts/DefaultLayout";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Categories from "./pages/Categories";
+import Suppliers from "./pages/Suppliers";
+
 
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/*" element={<DefaultLayout />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/suppliers" element={<Suppliers />} />
+
       </Routes>
     </BrowserRouter>
   );
