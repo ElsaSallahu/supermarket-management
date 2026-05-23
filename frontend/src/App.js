@@ -7,6 +7,7 @@ import Login from "./auth/Login";
 import Register from "./auth/Register";
 import Categories from "./pages/Categories";
 import Suppliers from "./pages/Suppliers";
+import Users from "./pages/Users";
 
 
 
@@ -19,6 +20,8 @@ function App() {
         <Route path="/*" element={<DefaultLayout />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/suppliers" element={<Suppliers />} />
+        <Route path="/users" element={<Users />} />
+
 
       </Routes>
     </BrowserRouter>
