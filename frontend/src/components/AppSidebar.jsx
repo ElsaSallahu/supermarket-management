@@ -16,7 +16,7 @@ import { AppSidebarNav } from './AppSidebarNav'
 import { logo } from 'assets/brand/logo'
 import { sygnet } from 'assets/brand/sygnet'
 
-import getNavigation from '../_nav'
+import Navigation from '../_nav'
 
 
 const AppSidebar = () => {
@@ -46,7 +46,7 @@ const AppSidebar = () => {
           onClick={() => dispatch({ type: 'set', sidebarShow: false })}
         />
       </CSidebarHeader>
-<AppSidebarNav items={getNavigation()}  />
+<AppSidebarNav items={Navigation()}  />
       <CSidebarFooter className="border-top d-none d-lg-flex">
         <CSidebarToggler
           onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}

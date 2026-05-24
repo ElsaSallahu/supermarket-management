@@ -1,99 +1,72 @@
 import React from 'react'
-import CIcon from '@coreui/icons-react'
-import {
-  cilSpeedometer,
-  cilCart,
-  cilPeople,
-  cilUser,
-  cilBriefcase,
-} from '@coreui/icons'
-
 import { CNavItem } from '@coreui/react'
 
-const getNavigation = () => {
-  const user = JSON.parse(
-    localStorage.getItem('user')
-  )
+const navigation = [
+  {
+    component: CNavItem,
+    name: 'Dashboard',
+    to: '/dashboard',
+  },
 
-  const role =
-    user?.role || 'cashier'
+  {
+    component: CNavItem,
+    name: 'Products',
+    to: '/products',
+  },
 
-  return [
-    {
-      component: CNavItem,
-      name: 'Dashboard',
-      to: '/dashboard',
-      icon: (
-        <CIcon
-          icon={cilSpeedometer}
-          customClassName="nav-icon"
-        />
-      ),
-    },
+  {
+    component: CNavItem,
+    name: 'Users',
+    to: '/users',
+  },
 
-    {
-      component: CNavItem,
-      name: 'Products',
-      to: '/products',
-      icon: (
-        <CIcon
-          icon={cilCart}
-          customClassName="nav-icon"
-        />
-      ),
-    },
+  {
+    component: CNavItem,
+    name: 'Roles',
+    to: '/roles',
+  },
 
-    ...(role === 'admin'
-      ? [
-          {
-            component:
-              CNavItem,
-            name: 'Users',
-            to: '/users',
-            icon: (
-              <CIcon
-                icon={cilUser}
-                customClassName="nav-icon"
-              />
-            ),
-          },
+  {
+    component: CNavItem,
+    name: 'Employees',
+    to: '/employees',
+  },
 
-          {
-            component:
-              CNavItem,
-            name: 'Roles',
-            to: '/roles',
-            icon: (
-              <CIcon
-                icon={cilPeople}
-                customClassName="nav-icon"
-              />
-            ),
-          },
-        ]
-      : []),
+  {
+    component: CNavItem,
+    name: 'Cashiers',
+    to: '/cashiers',
+  },
 
-    ...(role !==
-    'cashier'
-      ? [
-          {
-            component:
-              CNavItem,
-            name:
-              'Employees',
-            to: '/employees',
-            icon: (
-              <CIcon
-                icon={
-                  cilBriefcase
-                }
-                customClassName="nav-icon"
-              />
-            ),
-          },
-        ]
-      : []),
-  ]
-}
+  {
+    component: CNavItem,
+    name: 'Categories',
+    to: '/categories',
+  },
 
-export default getNavigation
+  {
+    component: CNavItem,
+    name: 'Suppliers',
+    to: '/suppliers',
+  },
+
+  {
+    component: CNavItem,
+    name: 'Stock',
+    to: '/stock',
+  },
+
+  {
+    component: CNavItem,
+    name: 'User Activity',
+    to: '/user-activity',
+  },
+
+  {
+    component: CNavItem,
+    name: 'Product Report',
+    to: '/product-report',
+  },
+]
+
+export default navigation

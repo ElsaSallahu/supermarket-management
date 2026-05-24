@@ -46,6 +46,42 @@ function DefaultLayout() {
           <NavLink to="/products">
             Products
           </NavLink>
+
+          <NavLink to="/users">
+            Users
+          </NavLink>
+
+          <NavLink to="/roles">
+            Roles
+          </NavLink>
+
+          <NavLink to="/employees">
+            Employees
+          </NavLink>
+
+          <NavLink to="/cashiers">
+            Cashiers
+          </NavLink>
+
+          <NavLink to="/categories">
+            Categories
+          </NavLink>
+
+          <NavLink to="/suppliers">
+            Suppliers
+          </NavLink>
+
+          <NavLink to="/stock">
+            Stock
+          </NavLink>
+
+          <NavLink to="/user-activity">
+            User Activity
+          </NavLink>
+
+          <NavLink to="/product-report">
+            Product Report
+          </NavLink>
         </nav>
       </aside>
 
