@@ -9,6 +9,8 @@ const roleRoutes = require("./routes/roleRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const stockRoutes = require("./routes/stockRoutes");
 const productReportRoutes = require("./routes/productReportRoutes");
+const customerRoutes = require("./routes/customerRoutes");
+
 
 const app = express();
 
@@ -27,6 +29,7 @@ app.use("/roles", roleRoutes);
 app.use("/employees", employeeRoutes);
 app.use("/stock", stockRoutes);
 app.use("/product-report", productReportRoutes);
+app.use("/customers", customerRoutes);
 
 
 
