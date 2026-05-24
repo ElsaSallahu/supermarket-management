@@ -13,6 +13,7 @@ import Users from "./pages/Users";
 import Roles from "./pages/Roles";
 import Employee from "./pages/Employee";
 import Stock from "./pages/Stock";
+import ProductReport from "./pages/ProductReport";
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
         <Route path="/roles" element={<Roles />} />
         <Route path="/employees" element={<Employee />} />
         <Route path="/stock" element={<Stock />} />
-
+        <Route path="/product-report" element={<ProductReport />} />
+        
         <Route path="/*" element={<DefaultLayout />} />
       </Routes>
     </BrowserRouter>

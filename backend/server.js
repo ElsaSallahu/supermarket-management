@@ -8,6 +8,7 @@ const userRoutes = require("./routes/userRoutes");
 const roleRoutes = require("./routes/roleRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const stockRoutes = require("./routes/stockRoutes");
+const productReportRoutes = require("./routes/productReportRoutes");
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use("/users", userRoutes);
 app.use("/roles", roleRoutes);
 app.use("/employees", employeeRoutes);
 app.use("/stock", stockRoutes);
+app.use("/product-report", productReportRoutes);
 
 app.listen(5000, () => {
   console.log("Serveri po funksionon ne portin 5000");
