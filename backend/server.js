@@ -34,5 +34,5 @@ app.use("/customers", customerRoutes);
 
 
 app.listen(5000, () => {
-  console.log("Serveri po funksionon ne portin 5000");
+  console.log("Serveri po funksionon ne portin 5000cd");
 });
