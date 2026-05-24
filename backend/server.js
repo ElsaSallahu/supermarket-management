@@ -9,7 +9,10 @@ const roleRoutes = require("./routes/roleRoutes");
 const employeeRoutes = require("./routes/employeeRoutes");
 const stockRoutes = require("./routes/stockRoutes");
 const productReportRoutes = require("./routes/productReportRoutes");
-const customerRoutes = require("./routes/customerRoutes");
+const cashierRoutes = require("./routes/cashierRoutes");
+const userActivityRoutes = require("./routes/userActivityRoutes");
+const authRoutes = require("./routes/auth");
+
 
 
 const app = express();
@@ -29,10 +32,12 @@ app.use("/roles", roleRoutes);
 app.use("/employees", employeeRoutes);
 app.use("/stock", stockRoutes);
 app.use("/product-report", productReportRoutes);
-app.use("/customers", customerRoutes);
+app.use("/cashiers", cashierRoutes);
+app.use("/user-activity", userActivityRoutes);
+app.use("/api/auth", authRoutes);
 
 
 
 app.listen(5000, () => {
-  console.log("Serveri po funksionon ne portin 5000cd");
+  console.log("Serveri po funksionon ne portin 5000");
 });

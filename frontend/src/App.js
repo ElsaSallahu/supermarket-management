@@ -14,6 +14,9 @@ import Roles from "./pages/Roles";
 import Employee from "./pages/Employee";
 import Stock from "./pages/Stock";
 import ProductReport from "./pages/ProductReport";
+import Cashier from "./pages/Cashier";
+import UserActivity from "./pages/userActivity";
+
 
 
 function App() {
@@ -31,6 +34,11 @@ function App() {
         <Route path="/employees" element={<Employee />} />
         <Route path="/stock" element={<Stock />} />
         <Route path="/product-report" element={<ProductReport />} />
+        <Route path="/cashiers" element={<Cashier />} />
+        <Route path="/user-activity" element={<UserActivity />} />
+        
+
+
 
 
         <Route path="/*" element={<DefaultLayout />} />
