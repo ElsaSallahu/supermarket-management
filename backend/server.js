@@ -28,6 +28,8 @@ app.use("/employees", employeeRoutes);
 app.use("/stock", stockRoutes);
 app.use("/product-report", productReportRoutes);
 
+
+
 app.listen(5000, () => {
   console.log("Serveri po funksionon ne portin 5000");
 });

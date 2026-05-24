@@ -15,6 +15,7 @@ import Employee from "./pages/Employee";
 import Stock from "./pages/Stock";
 import ProductReport from "./pages/ProductReport";
 
+
 function App() {
   return (
     <BrowserRouter>
@@ -30,7 +31,8 @@ function App() {
         <Route path="/employees" element={<Employee />} />
         <Route path="/stock" element={<Stock />} />
         <Route path="/product-report" element={<ProductReport />} />
-        
+
+
         <Route path="/*" element={<DefaultLayout />} />
       </Routes>
     </BrowserRouter>
