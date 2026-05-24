@@ -12,6 +12,10 @@ const productReportRoutes = require("./routes/productReportRoutes");
 const cashierRoutes = require("./routes/cashierRoutes");
 const userActivityRoutes = require("./routes/userActivityRoutes");
 const authRoutes = require("./routes/auth");
+const salesRoutes = require("./routes/salesRoutes");
+const customerRoutes = require("./routes/customerRoutes");
+
+
 
 
 
@@ -35,6 +39,9 @@ app.use("/product-report", productReportRoutes);
 app.use("/cashiers", cashierRoutes);
 app.use("/user-activity", userActivityRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/sales", salesRoutes);
+app.use("/customers", customerRoutes);
+
 
 
 
