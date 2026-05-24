@@ -1,11 +1,13 @@
 ﻿import { useEffect, useState } from "react";
 import { getProducts } from "../api/products";
 
+
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
+  const [search, setSearch] = useState("");
 
   const [newProduct, setNewProduct] = useState({
     emri: "",
@@ -121,14 +123,22 @@ const Products = () => {
     });
   };
 
+  const filteredProducts = products.filter((p) =>
+  p.emri.toLowerCase().includes(search.toLowerCase()) ||
+  p.barkodi.toLowerCase().includes(search.toLowerCase())
+);
+
   return (
     <div className="products-page">
       <div className="section-title">
         <div>
           <p className="eyebrow">Inventory</p>
           <h2>Products</h2>
+          <input placeholder="Search product..." value={search} 
+          onChange={(e) => setSearch(e.target.value)}/>
 
           <div style={{ marginBottom: "20px" }}>
+
             <input placeholder="Emri" value={newProduct.emri} onChange={(e) => setNewProduct({ ...newProduct, emri: e.target.value })} />
             <input placeholder="Barkodi" value={newProduct.barkodi} onChange={(e) => setNewProduct({ ...newProduct, barkodi: e.target.value })} />
             <input placeholder="Cmimi Blerjes" value={newProduct.cmimi_blerjes} onChange={(e) => setNewProduct({ ...newProduct, cmimi_blerjes: e.target.value })} />
@@ -171,7 +181,7 @@ const Products = () => {
           </thead>
 
           <tbody>
-            {products.map((p) => (
+            {filteredProducts.map((p) => (
               <tr key={p.produkti_id}>
                 <td>{p.emri}</td>
                 <td>{p.barkodi}</td>
