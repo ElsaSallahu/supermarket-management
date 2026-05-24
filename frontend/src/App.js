@@ -12,6 +12,7 @@ import Suppliers from "./pages/Suppliers";
 import Users from "./pages/Users";
 import Roles from "./pages/Roles";
 import Employee from "./pages/Employee";
+import Stock from "./pages/Stock";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/roles" element={<Roles />} />
         <Route path="/employees" element={<Employee />} />
+        <Route path="/stock" element={<Stock />} />
 
         <Route path="/*" element={<DefaultLayout />} />
       </Routes>
