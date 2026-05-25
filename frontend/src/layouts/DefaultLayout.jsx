@@ -1,16 +1,11 @@
-﻿import React, { useEffect } from "react";
-import {
-  NavLink,
-  useNavigate,
-} from "react-router-dom";
-
+﻿import { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import AppContent from "../components/AppContent";
 
 function DefaultLayout() {
   const navigate =
     useNavigate();
 
-  // Protect dashboard
   useEffect(() => {
     const user =
       localStorage.getItem(
@@ -22,7 +17,6 @@ function DefaultLayout() {
     }
   }, [navigate]);
 
-  // Logout
   const handleLogout = () => {
     localStorage.removeItem(
       "user"
@@ -34,8 +28,10 @@ function DefaultLayout() {
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <div className="brand">
-          Supermarket
+        <div className="sidebar-top">
+          <h2>
+            🛒 Supermarket
+          </h2>
         </div>
 
         <nav className="sidebar-nav">
@@ -82,57 +78,16 @@ function DefaultLayout() {
           <NavLink to="/cashiers">
             Cashiers
           </NavLink>
-
-          <NavLink to="/employees">
-            Employees
-          </NavLink>
-
-          <NavLink to="/users">
-            Users
-          </NavLink>
-
-          <NavLink to="/roles">
-            Roles
-          </NavLink>
-
-          <NavLink to="/user-activity">
-            User Activity
-          </NavLink>
-
-          <NavLink to="/product-report">
-            Product Report
-          </NavLink>
-
-          <NavLink to="/sales-report">
-            Sales Report
-          </NavLink>
-
-          <NavLink to="/customer-home">
-            Customer Home
-          </NavLink>
         </nav>
       </aside>
 
       <main className="main-panel">
         <header className="topbar">
-          <div>
-            <p className="eyebrow">
-              Management System
-            </p>
+          <h1 className="page-title">
+            Supermarket
+          </h1>
 
-            <h1>
-              Supermarket Dashboard
-            </h1>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              alignItems:
-                "center",
-            }}
-          >
+          <div className="topbar-right">
             <div className="user-pill">
               Admin
             </div>
@@ -141,18 +96,7 @@ function DefaultLayout() {
               onClick={
                 handleLogout
               }
-              style={{
-                background:
-                  "#dc3545",
-                color: "white",
-                border: "none",
-                padding:
-                  "10px 15px",
-                borderRadius:
-                  "8px",
-                cursor:
-                  "pointer",
-              }}
+              className="logout-btn"
             >
               Logout
             </button>
