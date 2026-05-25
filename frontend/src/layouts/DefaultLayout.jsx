@@ -10,7 +10,7 @@ function DefaultLayout() {
   const navigate =
     useNavigate();
 
-  // PROTECT DASHBOARD
+  // Protect dashboard
   useEffect(() => {
     const user =
       localStorage.getItem(
@@ -22,7 +22,7 @@ function DefaultLayout() {
     }
   }, [navigate]);
 
-  // LOGOUT
+  // Logout
   const handleLogout = () => {
     localStorage.removeItem(
       "user"
@@ -47,22 +47,6 @@ function DefaultLayout() {
             Products
           </NavLink>
 
-          <NavLink to="/users">
-            Users
-          </NavLink>
-
-          <NavLink to="/roles">
-            Roles
-          </NavLink>
-
-          <NavLink to="/employees">
-            Employees
-          </NavLink>
-
-          <NavLink to="/cashiers">
-            Cashiers
-          </NavLink>
-
           <NavLink to="/categories">
             Categories
           </NavLink>
@@ -75,12 +59,56 @@ function DefaultLayout() {
             Stock
           </NavLink>
 
+          <NavLink to="/customers">
+            Customers
+          </NavLink>
+
+          <NavLink to="/sales">
+            Sales
+          </NavLink>
+
+          <NavLink to="/sale-items">
+            Sale Items
+          </NavLink>
+
+          <NavLink to="/payments">
+            Payments
+          </NavLink>
+
+          <NavLink to="/invoice">
+            Invoice
+          </NavLink>
+
+          <NavLink to="/cashiers">
+            Cashiers
+          </NavLink>
+
+          <NavLink to="/employees">
+            Employees
+          </NavLink>
+
+          <NavLink to="/users">
+            Users
+          </NavLink>
+
+          <NavLink to="/roles">
+            Roles
+          </NavLink>
+
           <NavLink to="/user-activity">
             User Activity
           </NavLink>
 
           <NavLink to="/product-report">
             Product Report
+          </NavLink>
+
+          <NavLink to="/sales-report">
+            Sales Report
+          </NavLink>
+
+          <NavLink to="/customer-home">
+            Customer Home
           </NavLink>
         </nav>
       </aside>
