@@ -1,207 +1,488 @@
 import { useEffect, useState } from "react";
 
+const inputStyle = {
+  width: "100%",
+  padding: "12px 14px",
+  borderRadius: "12px",
+  border: "1px solid #d1d5db",
+  outline: "none",
+  fontSize: "14px",
+};
+
 const Customers = () => {
-  const [customers, setCustomers] = useState([]);
+  const [customers, setCustomers] =
+    useState([]);
 
-  const [newCustomer, setNewCustomer] = useState({
-    full_name: "",
-    phone: "",
-    email: "",
-    address: "",
-  });
+  const [search, setSearch] =
+    useState("");
 
-  const [editingId, setEditingId] = useState(null);
+  const [newCustomer, setNewCustomer] =
+    useState({
+      full_name: "",
+      phone: "",
+      email: "",
+      address: "",
+    });
+
+  const [editingId, setEditingId] =
+    useState(null);
 
   useEffect(() => {
     loadCustomers();
   }, []);
 
-  const loadCustomers = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:5000/customers"
-      );
+  const loadCustomers =
+    async () => {
+      try {
+        const response =
+          await fetch(
+            "http://localhost:5000/customers"
+          );
 
-      const data = await response.json();
+        const data =
+          await response.json();
 
-      setCustomers(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        setCustomers(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  // ADD customer
-  const addCustomer = async () => {
-    try {
-      await fetch("http://localhost:5000/customers", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newCustomer),
-      });
+  const addCustomer =
+    async () => {
+      try {
+        await fetch(
+          "http://localhost:5000/customers",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify(
+              newCustomer
+            ),
+          }
+        );
 
-      loadCustomers();
+        loadCustomers();
 
-      setNewCustomer({
-        full_name: "",
-        phone: "",
-        email: "",
-        address: "",
-      });
+        setNewCustomer({
+          full_name: "",
+          phone: "",
+          email: "",
+          address: "",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const deleteCustomer =
+    async (id) => {
+      try {
+        await fetch(
+          `http://localhost:5000/customers/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
 
-  // DELETE customer
-  const deleteCustomer = async (id) => {
-    try {
-      await fetch(
-        `http://localhost:5000/customers/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+        loadCustomers();
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-      loadCustomers();
+  const updateCustomer =
+    async (id) => {
+      try {
+        await fetch(
+          `http://localhost:5000/customers/${id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify(
+              newCustomer
+            ),
+          }
+        );
 
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        setEditingId(
+          null
+        );
 
-  // UPDATE customer
-  const updateCustomer = async (id) => {
-    try {
-      await fetch(
-        `http://localhost:5000/customers/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newCustomer),
-        }
-      );
+        setNewCustomer({
+          full_name: "",
+          phone: "",
+          email: "",
+          address: "",
+        });
 
-      setEditingId(null);
+        loadCustomers();
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-      setNewCustomer({
-        full_name: "",
-        phone: "",
-        email: "",
-        address: "",
-      });
-
-      loadCustomers();
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const filteredCustomers =
+    customers.filter(
+      (c) =>
+        c.full_name
+          ?.toLowerCase()
+          .includes(
+            search.toLowerCase()
+          ) ||
+        c.email
+          ?.toLowerCase()
+          .includes(
+            search.toLowerCase()
+          )
+    );
 
   return (
-    <div>
-      <h1>Customers</h1>
-
-      {/* FORM */}
-      <div style={{ marginBottom: "20px" }}>
-        <input
-          placeholder="Full Name"
-          value={newCustomer.full_name}
-          onChange={(e) =>
-            setNewCustomer({
-              ...newCustomer,
-              full_name: e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="Phone"
-          value={newCustomer.phone}
-          onChange={(e) =>
-            setNewCustomer({
-              ...newCustomer,
-              phone: e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="Email"
-          value={newCustomer.email}
-          onChange={(e) =>
-            setNewCustomer({
-              ...newCustomer,
-              email: e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="Address"
-          value={newCustomer.address}
-          onChange={(e) =>
-            setNewCustomer({
-              ...newCustomer,
-              address: e.target.value,
-            })
-          }
-        />
-
-        {editingId ? (
-          <button
-            onClick={() =>
-              updateCustomer(editingId)
-            }
+    <div
+      style={{
+        padding: "24px",
+      }}
+    >
+      {/* HEADER */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent:
+            "space-between",
+          alignItems:
+            "center",
+          flexWrap: "wrap",
+          gap: "15px",
+          marginBottom:
+            "25px",
+        }}
+      >
+        <div>
+          <p
+            style={{
+              margin: 0,
+              color:
+                "#64748b",
+            }}
           >
-            Update Customer
-          </button>
-        ) : (
-          <button onClick={addCustomer}>
-            Add Customer
-          </button>
-        )}
+            Customer
+            Management
+          </p>
+
+          <h1
+            style={{
+              margin: 0,
+            }}
+          >
+            👥 Customers
+          </h1>
+        </div>
+
+        <input
+          placeholder="🔍 Search customer..."
+          value={search}
+          onChange={(e) =>
+            setSearch(
+              e.target.value
+            )
+          }
+          style={{
+            ...inputStyle,
+            width: "300px",
+          }}
+        />
       </div>
 
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Address</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+      {/* TOP CARD */}
+      <div
+        style={{
+          background:
+            "linear-gradient(135deg,#4f46e5,#7c3aed)",
+          color: "white",
+          borderRadius:
+            "22px",
+          padding: "24px",
+          marginBottom:
+            "25px",
+        }}
+      >
+        <p
+          style={{
+            margin: 0,
+            opacity: 0.9,
+          }}
+        >
+          Registered
+          Customers
+        </p>
 
-        <tbody>
-          {customers.map((c) => (
-            <tr key={c.customer_id}>
-              <td>{c.full_name}</td>
-              <td>{c.phone}</td>
-              <td>{c.email}</td>
-              <td>{c.address}</td>
+        <h1
+          style={{
+            margin:
+              "10px 0 0",
+            fontSize:
+              "42px",
+          }}
+        >
+          {
+            customers.length
+          }
+        </h1>
+      </div>
 
-              <td>
+      {/* FORM */}
+      <div
+        style={{
+          background:
+            "white",
+          padding: "22px",
+          borderRadius:
+            "20px",
+          boxShadow:
+            "0 8px 25px rgba(0,0,0,0.08)",
+          marginBottom:
+            "25px",
+        }}
+      >
+        <h2>
+          {editingId
+            ? "✏ Update Customer"
+            : "➕ Add Customer"}
+        </h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit,minmax(220px,1fr))",
+            gap: "12px",
+            marginTop:
+              "15px",
+          }}
+        >
+          <input
+            placeholder="Full Name"
+            value={
+              newCustomer.full_name
+            }
+            onChange={(e) =>
+              setNewCustomer(
+                {
+                  ...newCustomer,
+                  full_name:
+                    e.target
+                      .value,
+                }
+              )
+            }
+            style={
+              inputStyle
+            }
+          />
+
+          <input
+            placeholder="Phone"
+            value={
+              newCustomer.phone
+            }
+            onChange={(e) =>
+              setNewCustomer(
+                {
+                  ...newCustomer,
+                  phone:
+                    e.target
+                      .value,
+                }
+              )
+            }
+            style={
+              inputStyle
+            }
+          />
+
+          <input
+            placeholder="Email"
+            value={
+              newCustomer.email
+            }
+            onChange={(e) =>
+              setNewCustomer(
+                {
+                  ...newCustomer,
+                  email:
+                    e.target
+                      .value,
+                }
+              )
+            }
+            style={
+              inputStyle
+            }
+          />
+
+          <input
+            placeholder="Address"
+            value={
+              newCustomer.address
+            }
+            onChange={(e) =>
+              setNewCustomer(
+                {
+                  ...newCustomer,
+                  address:
+                    e.target
+                      .value,
+                }
+              )
+            }
+            style={
+              inputStyle
+            }
+          />
+        </div>
+
+        <button
+          onClick={() =>
+            editingId
+              ? updateCustomer(
+                  editingId
+                )
+              : addCustomer()
+          }
+          style={{
+            marginTop:
+              "18px",
+            background:
+              editingId
+                ? "#4f46e5"
+                : "#7c3aed",
+            color:
+              "white",
+            border:
+              "none",
+            padding:
+              "12px 18px",
+            borderRadius:
+              "12px",
+            cursor:
+              "pointer",
+            fontWeight:
+              "700",
+          }}
+        >
+          {editingId
+            ? "Update Customer"
+            : "Add Customer"}
+        </button>
+      </div>
+
+      {/* CUSTOMER CARDS */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(280px,1fr))",
+          gap: "18px",
+        }}
+      >
+        {filteredCustomers.map(
+          (c) => (
+            <div
+              key={
+                c.customer_id
+              }
+              style={{
+                background:
+                  "white",
+                borderRadius:
+                  "20px",
+                padding:
+                  "20px",
+                boxShadow:
+                  "0 8px 25px rgba(0,0,0,0.08)",
+                borderTop:
+                  "6px solid #7c3aed",
+              }}
+            >
+              <h3>
+                👤{" "}
+                {
+                  c.full_name
+                }
+              </h3>
+
+              <p>
+                📞{" "}
+                {
+                  c.phone
+                }
+              </p>
+
+              <p>
+                📧{" "}
+                {
+                  c.email
+                }
+              </p>
+
+              <p>
+                📍{" "}
+                {
+                  c.address
+                }
+              </p>
+
+              <div
+                style={{
+                  display:
+                    "flex",
+                  gap: "10px",
+                  marginTop:
+                    "15px",
+                }}
+              >
                 <button
                   onClick={() => {
                     setEditingId(
                       c.customer_id
                     );
 
-                    setNewCustomer({
-                      full_name: c.full_name,
-                      phone: c.phone,
-                      email: c.email,
-                      address: c.address,
-                    });
+                    setNewCustomer(
+                      {
+                        full_name:
+                          c.full_name,
+                        phone:
+                          c.phone,
+                        email:
+                          c.email,
+                        address:
+                          c.address,
+                      }
+                    );
+                  }}
+                  style={{
+                    background:
+                      "#4f46e5",
+                    color:
+                      "white",
+                    border:
+                      "none",
+                    padding:
+                      "10px",
+                    borderRadius:
+                      "10px",
+                    flex: 1,
+                    cursor:
+                      "pointer",
                   }}
                 >
-                  Edit
+                  ✏ Edit
                 </button>
 
                 <button
@@ -210,14 +491,29 @@ const Customers = () => {
                       c.customer_id
                     )
                   }
+                  style={{
+                    background:
+                      "#ef4444",
+                    color:
+                      "white",
+                    border:
+                      "none",
+                    padding:
+                      "10px",
+                    borderRadius:
+                      "10px",
+                    flex: 1,
+                    cursor:
+                      "pointer",
+                  }}
                 >
-                  Delete
+                  🗑 Delete
                 </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </div>
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 };

@@ -1,203 +1,477 @@
 import { useEffect, useState } from "react";
 
-const Sales = () => {
-  const [sales, setSales] = useState([]);
-  const [newSale, setNewSale] = useState({ customer_id: "", total_amount: "", sale_date: "",});
+const inputStyle = {
+  width: "100%",
+  padding: "12px 14px",
+  borderRadius: "12px",
+  border: "1px solid #d1d5db",
+  outline: "none",
+  fontSize: "14px",
+};
 
-  const [editingId, setEditingId] = useState(null);
+const Sales = () => {
+  const [sales, setSales] =
+    useState([]);
+
+  const [search, setSearch] =
+    useState("");
+
+  const [newSale, setNewSale] =
+    useState({
+      customer_id: "",
+      total_amount: "",
+      sale_date: "",
+    });
+
+  const [editingId, setEditingId] =
+    useState(null);
 
   useEffect(() => {
     loadSales();
   }, []);
 
-  const loadSales = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:5000/sales"
-      );
+  const loadSales =
+    async () => {
+      try {
+        const response =
+          await fetch(
+            "http://localhost:5000/sales"
+          );
 
-      const data = await response.json();
+        const data =
+          await response.json();
 
-      setSales(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        setSales(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  // ADD SALE
-  const addSale = async () => {
-    try {
-      await fetch(
-        "http://localhost:5000/sales",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify(newSale),
-        }
-      );
+  const addSale =
+    async () => {
+      try {
+        await fetch(
+          "http://localhost:5000/sales",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify(
+              newSale
+            ),
+          }
+        );
 
-      loadSales();
+        loadSales();
 
-      setNewSale({
-        customer_id: "",
-        total_amount: "",
-        sale_date: "",
-      });
+        setNewSale({
+          customer_id: "",
+          total_amount: "",
+          sale_date: "",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const deleteSale =
+    async (id) => {
+      try {
+        await fetch(
+          `http://localhost:5000/sales/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
 
-  // DELETE SALE
-  const deleteSale = async (id) => {
-    try {
-      await fetch(
-        `http://localhost:5000/sales/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+        loadSales();
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-      loadSales();
+  const updateSale =
+    async (id) => {
+      try {
+        await fetch(
+          `http://localhost:5000/sales/${id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify(
+              newSale
+            ),
+          }
+        );
 
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        setEditingId(
+          null
+        );
 
-  // UPDATE SALE
-  const updateSale = async (id) => {
-    try {
-      await fetch(
-        `http://localhost:5000/sales/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify(newSale),
-        }
-      );
+        setNewSale({
+          customer_id: "",
+          total_amount: "",
+          sale_date: "",
+        });
 
-      setEditingId(null);
+        loadSales();
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-      setNewSale({
-        customer_id: "",
-        total_amount: "",
-        sale_date: "",
-      });
+  const filteredSales =
+    sales.filter(
+      (s) =>
+        String(
+          s.customer_id
+        ).includes(search)
+    );
 
-      loadSales();
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const totalRevenue =
+    sales.reduce(
+      (sum, sale) =>
+        sum +
+        Number(
+          sale.total_amount ||
+            0
+        ),
+      0
+    );
 
   return (
-    <div>
-      <h1>Sales</h1>
-
-      {/* FORM */}
-      <div style={{ marginBottom: "20px" }}>
-        <input
-          placeholder="Customer ID"
-          value={newSale.customer_id}
-          onChange={(e) =>
-            setNewSale({
-              ...newSale,
-              customer_id:
-                e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="Total"
-          value={newSale.total_amount}
-          onChange={(e) =>
-            setNewSale({
-              ...newSale,
-              total_amount: e.target.value,
-            })
-          }
-        />
-
-        <input
-          type="date"
-          value={newSale.sale_date}
-          onChange={(e) =>
-            setNewSale({
-              ...newSale,
-              sale_date:
-                e.target.value,
-            })
-          }
-        />
-
-        {editingId ? (
-          <button
-            onClick={() =>
-              updateSale(editingId)
-            }
+    <div
+      style={{
+        padding: "24px",
+      }}
+    >
+      {/* HEADER */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent:
+            "space-between",
+          alignItems:
+            "center",
+          flexWrap: "wrap",
+          gap: "15px",
+          marginBottom:
+            "25px",
+        }}
+      >
+        <div>
+          <p
+            style={{
+              margin: 0,
+              color:
+                "#64748b",
+            }}
           >
-            Update Sale
-          </button>
-        ) : (
-          <button onClick={addSale}>
-            Add Sale
-          </button>
-        )}
+            Financial
+            Management
+          </p>
+
+          <h1
+            style={{
+              margin: 0,
+            }}
+          >
+            💰 Sales
+          </h1>
+        </div>
+
+        <input
+          placeholder="🔍 Search customer ID..."
+          value={search}
+          onChange={(e) =>
+            setSearch(
+              e.target.value
+            )
+          }
+          style={{
+            ...inputStyle,
+            width: "300px",
+          }}
+        />
       </div>
 
-      {/* TABLE */}
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Sale ID</th>
-            <th>Customer ID</th>
-            <th>Total</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+      {/* TOP CARD */}
+      <div
+        style={{
+          background:
+            "linear-gradient(135deg,#0f172a,#1e293b)",
+          color: "white",
+          borderRadius:
+            "22px",
+          padding: "24px",
+          marginBottom:
+            "25px",
+        }}
+      >
+        <p
+          style={{
+            margin: 0,
+            opacity: 0.8,
+          }}
+        >
+          Total Revenue
+        </p>
 
-        <tbody>
-          {sales.map((s) => (
-            <tr key={s.sale_id}>
-              <td>{s.sale_id}</td>
-              <td>{s.customer_id}</td>
-              <td>{s.total_amount}</td>
-              <td>
-                {s.sale_date?.split(
-                  "T"
-                )[0]}
-              </td>
+        <h1
+          style={{
+            margin:
+              "10px 0 0",
+            fontSize:
+              "42px",
+          }}
+        >
+          €
+          {totalRevenue.toFixed(
+            2
+          )}
+        </h1>
+      </div>
 
-              <td>
+      {/* FORM */}
+      <div
+        style={{
+          background:
+            "white",
+          padding: "22px",
+          borderRadius:
+            "20px",
+          boxShadow:
+            "0 8px 25px rgba(0,0,0,0.08)",
+          marginBottom:
+            "25px",
+        }}
+      >
+        <h2>
+          {editingId
+            ? "✏ Update Sale"
+            : "➕ Add Sale"}
+        </h2>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit,minmax(220px,1fr))",
+            gap: "12px",
+            marginTop:
+              "15px",
+          }}
+        >
+          <input
+            placeholder="Customer ID"
+            value={
+              newSale.customer_id
+            }
+            onChange={(e) =>
+              setNewSale(
+                {
+                  ...newSale,
+                  customer_id:
+                    e.target
+                      .value,
+                }
+              )
+            }
+            style={
+              inputStyle
+            }
+          />
+
+          <input
+            placeholder="Total Amount"
+            value={
+              newSale.total_amount
+            }
+            onChange={(e) =>
+              setNewSale(
+                {
+                  ...newSale,
+                  total_amount:
+                    e.target
+                      .value,
+                }
+              )
+            }
+            style={
+              inputStyle
+            }
+          />
+
+          <input
+            type="date"
+            value={
+              newSale.sale_date
+            }
+            onChange={(e) =>
+              setNewSale(
+                {
+                  ...newSale,
+                  sale_date:
+                    e.target
+                      .value,
+                }
+              )
+            }
+            style={
+              inputStyle
+            }
+          />
+        </div>
+
+        <button
+          onClick={() =>
+            editingId
+              ? updateSale(
+                  editingId
+                )
+              : addSale()
+          }
+          style={{
+            marginTop:
+              "18px",
+            background:
+              editingId
+                ? "#0f172a"
+                : "#059669",
+            color:
+              "white",
+            border:
+              "none",
+            padding:
+              "12px 18px",
+            borderRadius:
+              "12px",
+            cursor:
+              "pointer",
+            fontWeight:
+              "700",
+          }}
+        >
+          {editingId
+            ? "Update Sale"
+            : "Add Sale"}
+        </button>
+      </div>
+
+      {/* SALES CARDS */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(280px,1fr))",
+          gap: "18px",
+        }}
+      >
+        {filteredSales.map(
+          (s) => (
+            <div
+              key={s.sale_id}
+              style={{
+                background:
+                  "white",
+                borderRadius:
+                  "20px",
+                padding:
+                  "20px",
+                boxShadow:
+                  "0 8px 25px rgba(0,0,0,0.08)",
+                borderLeft:
+                  "6px solid #059669",
+              }}
+            >
+              <h3>
+                💵 Sale #
+                {s.sale_id}
+              </h3>
+
+              <p>
+                👤 Customer:
+                <b>
+                  {" "}
+                  {
+                    s.customer_id
+                  }
+                </b>
+              </p>
+
+              <p>
+                💰 Total:
+                <b>
+                  {" "}
+                  €
+                  {
+                    s.total_amount
+                  }
+                </b>
+              </p>
+
+              <p>
+                📅 Date:
+                <b>
+                  {" "}
+                  {s.sale_date?.split(
+                    "T"
+                  )[0]}
+                </b>
+              </p>
+
+              <div
+                style={{
+                  display:
+                    "flex",
+                  gap: "10px",
+                  marginTop:
+                    "15px",
+                }}
+              >
                 <button
                   onClick={() => {
                     setEditingId(
                       s.sale_id
                     );
 
-                    setNewSale({
-                      customer_id:
-                        s.customer_id,
-                      total_amount: s.total,
-                      sale_date:
-                        s.sale_date?.split(
-                          "T"
-                        )[0],
-                    });
+                    setNewSale(
+                      {
+                        customer_id:
+                          s.customer_id,
+
+                        total_amount:
+                          s.total_amount,
+
+                        sale_date:
+                          s.sale_date?.split(
+                            "T"
+                          )[0],
+                      }
+                    );
+                  }}
+                  style={{
+                    background:
+                      "#0f172a",
+                    color:
+                      "white",
+                    border:
+                      "none",
+                    padding:
+                      "10px",
+                    borderRadius:
+                      "10px",
+                    flex: 1,
+                    cursor:
+                      "pointer",
                   }}
                 >
-                  Edit
+                  ✏ Edit
                 </button>
 
                 <button
@@ -206,14 +480,29 @@ const Sales = () => {
                       s.sale_id
                     )
                   }
+                  style={{
+                    background:
+                      "#ef4444",
+                    color:
+                      "white",
+                    border:
+                      "none",
+                    padding:
+                      "10px",
+                    borderRadius:
+                      "10px",
+                    flex: 1,
+                    cursor:
+                      "pointer",
+                  }}
                 >
-                  Delete
+                  🗑 Delete
                 </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </div>
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 };
