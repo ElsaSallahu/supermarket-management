@@ -13,6 +13,7 @@ const cashierRoutes = require("./routes/cashierRoutes");
 const userActivityRoutes = require("./routes/userActivityRoutes");
 const authRoutes = require("./routes/auth");
 const salesRoutes = require("./routes/salesRoutes");
+const saleItemsRoutes = require("./routes/saleItemsRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
@@ -42,9 +43,10 @@ app.use("/cashiers", cashierRoutes);
 app.use("/user-activity", userActivityRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/sales", salesRoutes);
+app.use("/sale-items", saleItemsRoutes);
 app.use("/customers", customerRoutes);
 app.use("/invoice", invoiceRoutes);
-app.use("/payments", paymentRoutes);
+app.use("/payment", paymentRoutes);
 
 
 app.listen(5000, () => {
