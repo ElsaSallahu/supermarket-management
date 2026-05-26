@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
   res.send("Backend po funksionon");
 });
 
-app.use("/produktet", productRoutes);
+app.use("/product", productRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/suppliers", supplierRoutes);
 app.use("/users", userRoutes);

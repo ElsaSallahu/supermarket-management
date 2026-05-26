@@ -30,15 +30,17 @@ const Dashboard = () => {
 
         const sales =
           await salesRes.json()
+          console.log(sales)
 
         // PRODUCTS
         const productsRes =
           await fetch(
-            'http://localhost:5000/products'
+            'http://localhost:5000/product'
           )
 
         const products =
           await productsRes.json()
+          console.log(products)
 
         // CUSTOMERS
         const customersRes =
@@ -48,6 +50,7 @@ const Dashboard = () => {
 
         const customers =
           await customersRes.json()
+          console.log(customers)
 
         // ✅ TOTAL SALES
         const totalRevenue =
