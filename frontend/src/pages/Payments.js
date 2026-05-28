@@ -1,6 +1,19 @@
 import { useEffect, useState } from "react";
 
 const Payments = () => {
+    const [sale_id, setSaleId] =
+    useState("");
+
+  const [amount, setAmount] =
+    useState("");
+
+  const [
+    payment_method,
+    setPaymentMethod,
+  ] = useState("");
+
+  const [payment_date, setPaymentDate,] = useState("");
+
   const [payments, setPayments] =
     useState([]);
 
@@ -22,7 +35,7 @@ const Payments = () => {
   const loadPayments = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/payments"
+        "http://localhost:5000/payment"
       );
 
       const data =
@@ -38,27 +51,24 @@ const Payments = () => {
   const addPayment = async () => {
     try {
       await fetch(
-        "http://localhost:5000/payments",
+        "http://localhost:5000/payment",
         {
           method: "POST",
           headers: {
             "Content-Type":
               "application/json",
           },
-          body: JSON.stringify(
-            newPayment
-          ),
+          body: JSON.stringify({sale_id,amount,payment_method,payment_date,}),
         }
       );
 
       loadPayments();
 
-      setNewPayment({
-        sale_id: "",
-        amount: "",
-        payment_method: "",
-        payment_date: "",
-      });
+        setSaleId("");
+        setAmount("");
+        setPaymentMethod("");
+        setPaymentDate("");
+    
 
     } catch (err) {
       console.log(err);
@@ -71,7 +81,7 @@ const Payments = () => {
   ) => {
     try {
       await fetch(
-        `http://localhost:5000/payments/${id}`,
+        `http://localhost:5000/payment/${id}`,
         {
           method: "DELETE",
         }
@@ -89,7 +99,7 @@ const Payments = () => {
     async (id) => {
       try {
         await fetch(
-          `http://localhost:5000/payments/${id}`,
+          `http://localhost:5000/payment/${id}`,
           {
             method: "PUT",
             headers: {
@@ -118,89 +128,123 @@ const Payments = () => {
       }
     };
 
-  return (
-    <div>
-      <h1>Payments</h1>
+    return (
+  <div className="customers-page">
+    <p className="page-label"> Payment Management</p>
 
-      <div
+    <div className="page-header">
+      <h1>💳 Payments</h1>
+    </div>
+
+    {/* Card */}
+    <div
+      style={{
+        background:
+          "linear-gradient(135deg,#4f46e5,#9333ea)",
+        borderRadius: "25px",
+        padding: "30px",
+        color: "white",
+        marginBottom: "25px",
+      }}
+    >
+      <p
+        style={{
+          fontSize: "18px",
+        }}
+      >
+        Total Payments
+      </p>
+
+      <h1
+        style={{
+          fontSize: "42px",
+        }}
+      >
+        {payments.length}
+      </h1>
+    </div>
+
+    {/* Add Payment */}
+    <div
+      style={{
+        background: "white",
+        borderRadius: "25px",
+        padding: "30px",
+        marginBottom: "25px",
+      }}
+    >
+      <h2
         style={{
           marginBottom: "20px",
         }}
       >
-        <input
-          placeholder="Sale ID"
-          value={newPayment.sale_id}
-          onChange={(e) =>
-            setNewPayment({
-              ...newPayment,
-              sale_id:
-                e.target.value,
-            })
-          }
-        />
+        ➕ Add Payment
+      </h2>
 
-        <input
-          placeholder="Amount"
-          value={newPayment.amount}
-          onChange={(e) =>
-            setNewPayment({
-              ...newPayment,
-              amount:
-                e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="Payment Method"
-          value={
-            newPayment.payment_method
-          }
-          onChange={(e) =>
-            setNewPayment({
-              ...newPayment,
-              payment_method:
-                e.target.value,
-            })
-          }
-        />
-
-        <input
-          type="date"
-          value={
-            newPayment.payment_date
-          }
-          onChange={(e) =>
-            setNewPayment({
-              ...newPayment,
-              payment_date:
-                e.target.value,
-            })
-          }
-        />
-
-        {editingId ? (
-          <button
-            onClick={() =>
-              updatePayment(
-                editingId
-              )
-            }
-          >
-            Update
-          </button>
-        ) : (
-          <button
-            onClick={addPayment}
-          >
-            Add
-          </button>
-        )}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(220px,1fr))",
+          gap: "15px",
+        }}
+      >
+       <input type="number" placeholder="Sale ID" value={sale_id} onChange={(e) => setSaleId(e.target.value)} />
+       <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+       <input type="text" placeholder="Payment Method" value={payment_method} onChange={(e) => setPaymentMethod(e.target.value)} />
+       <input type="date" value={payment_date} onChange={(e) => setPaymentDate(e.target.value)} />
       </div>
 
-      <table border="1">
+      <button
+        onClick={addPayment}
+        style={{
+          marginTop: "20px",
+          background:
+            "linear-gradient(135deg,#7c3aed,#9333ea)",
+          color: "white",
+          border: "none",
+          padding:
+            "14px 30px",
+          borderRadius:
+            "15px",
+          cursor: "pointer",
+          fontWeight: "bold",
+        }}
+      >
+        Add Payment
+      </button>
+    </div>
+
+    {/* Table */}
+    <div
+      style={{
+        background: "white",
+        borderRadius: "25px",
+        padding: "30px",
+      }}
+    >
+      <h2
+        style={{
+          marginBottom: "20px",
+        }}
+      >
+        📋 Payments List
+      </h2>
+
+      <table
+        style={{
+          width: "100%",
+          borderCollapse:
+            "collapse",
+        }}
+      >
         <thead>
-          <tr>
+          <tr
+            style={{
+              background:
+                "#f3f4f6",
+            }}
+          >
             <th>ID</th>
             <th>Sale ID</th>
             <th>Amount</th>
@@ -211,70 +255,61 @@ const Payments = () => {
         </thead>
 
         <tbody>
-          {payments.map((p) => (
-            <tr
-              key={p.payment_id}
-            >
-              <td>
-                {p.payment_id}
-              </td>
-
-              <td>{p.sale_id}</td>
-
-              <td>{p.amount}</td>
-
-              <td>
-                {
-                  p.payment_method
+          {payments.map(
+            (payment) => (
+              <tr
+                key={
+                  payment.payment_id
                 }
-              </td>
-
-              <td>
-                {p.payment_date?.split(
-                  "T"
-                )[0]}
-              </td>
-
-              <td>
-                <button
-                  onClick={() => {
-                    setEditingId(
-                      p.payment_id
-                    );
-
-                    setNewPayment({
-                      sale_id:
-                        p.sale_id,
-                      amount:
-                        p.amount,
-                      payment_method:
-                        p.payment_method,
-                      payment_date:
-                        p.payment_date?.split(
-                          "T"
-                        )[0],
-                    });
-                  }}
-                >
-                  Edit
-                </button>
-
-                <button
-                  onClick={() =>
-                    deletePayment(
-                      p.payment_id
-                    )
+              >
+                <td>
+                  {
+                    payment.payment_id
                   }
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
+                </td>
+
+                <td>
+                  {
+                    payment.sale_id
+                  }
+                </td>
+
+                <td>
+                  €
+                  {
+                    payment.amount
+                  }
+                </td>
+
+                <td>
+                  {
+                    payment.payment_method
+                  }
+                </td>
+
+                <td>
+                  {new Date(
+                    payment.payment_date
+                  ).toLocaleDateString()}
+                </td>
+
+                <td>
+                  <button>
+                    Edit
+                  </button>
+
+                  <button>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            )
+          )}
         </tbody>
       </table>
     </div>
-  );
+  </div>
+);
 };
 
 export default Payments;
