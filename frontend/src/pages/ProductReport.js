@@ -1,54 +1,201 @@
-import { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
-const ProductReport = () => {
-  const [report, setReport] = useState(null);
+function ProductReport() {
+  const [report, setReport] =
+    useState(null);
 
   useEffect(() => {
     loadReport();
   }, []);
 
-  const loadReport = async () => {
-    const response = await fetch("http://localhost:5000/product-report");
-    const data = await response.json();
-    setReport(data);
-  };
+  const loadReport =
+    async () => {
+      try {
+        const response =
+          await fetch(
+            "http://localhost:5000/product-report"
+          );
+
+        const data =
+          await response.json();
+
+        setReport(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
   if (!report) {
-    return <div>Loading report...</div>;
+    return (
+      <div
+        style={{
+          padding:
+            "40px",
+          fontSize:
+            "18px",
+        }}
+      >
+        Loading report...
+      </div>
+    );
   }
 
+  const cards = [
+    {
+      title:
+        "Total Products",
+      value:
+        report.total_products,
+      icon: "📦",
+    },
+
+    {
+      title:
+        "Total Stock",
+      value:
+        report.total_stock,
+      icon: "🏬",
+    },
+
+    {
+      title:
+        "Purchase Value",
+      value: `${report.total_purchase_value} €`,
+      icon: "💰",
+    },
+
+    {
+      title:
+        "Sale Value",
+      value: `${report.total_sale_value} €`,
+      icon: "💸",
+    },
+
+    {
+      title:
+        "Low Stock Products",
+      value:
+        report.low_stock_products,
+      icon: "⚠️",
+    },
+  ];
+
   return (
-    <div>
-      <h2>Product Report</h2>
+    <div
+      style={{
+        padding: "10px",
+      }}
+    >
+      {/* HEADER */}
+      <div
+        style={{
+          marginBottom:
+            "30px",
+        }}
+      >
+        <p
+          style={{
+            color:
+              "#64748b",
+            margin: 0,
+          }}
+        >
+          Analytics &
+          Statistics
+        </p>
 
-      <div className="report-cards">
-        <div className="card">
-          <h3>Total Products</h3>
-          <p>{report.total_products}</p>
-        </div>
+        <h1>
+          📊 Product Report
+        </h1>
+      </div>
 
-        <div className="card">
-          <h3>Total Stock</h3>
-          <p>{report.total_stock}</p>
-        </div>
+      {/* CARDS */}
+      <div
+        style={{
+          display: "grid",
 
-        <div className="card">
-          <h3>Purchase Value</h3>
-          <p>{report.total_purchase_value} €</p>
-        </div>
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(240px,1fr))",
 
-        <div className="card">
-          <h3>Sale Value</h3>
-          <p>{report.total_sale_value} €</p>
-        </div>
+          gap: "20px",
+        }}
+      >
+        {cards.map(
+          (
+            card,
+            index
+          ) => (
+            <div
+              key={
+                index
+              }
+              style={{
+                background:
+                  "white",
 
-        <div className="card">
-          <h3>Low Stock Products</h3>
-          <p>{report.low_stock_products}</p>
-        </div>
+                borderRadius:
+                  "28px",
+
+                padding:
+                  "26px",
+
+                boxShadow:
+                  "0 14px 35px rgba(15,23,42,0.06)",
+
+                transition:
+                  "0.2s ease",
+              }}
+            >
+              <div
+                style={{
+                  fontSize:
+                    "32px",
+
+                  marginBottom:
+                    "12px",
+                }}
+              >
+                {
+                  card.icon
+                }
+              </div>
+
+              <p
+                style={{
+                  color:
+                    "#64748b",
+
+                  marginBottom:
+                    "8px",
+                }}
+              >
+                {
+                  card.title
+                }
+              </p>
+
+              <h1
+                style={{
+                  fontSize:
+                    "32px",
+
+                  color:
+                    "#111827",
+                }}
+              >
+                {
+                  card.value
+                }
+              </h1>
+            </div>
+          )
+        )}
       </div>
     </div>
   );
-};
+}
 
 export default ProductReport;
