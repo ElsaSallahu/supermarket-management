@@ -348,10 +348,8 @@ const Sales = () => {
 
         <div
           style={{
-            display:
-              "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit,minmax(220px,1fr))",
+            display:"grid",
+            gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",
             gap: "12px",
             marginTop:
               "15px",
@@ -461,6 +459,109 @@ const Sales = () => {
             : "Add Sale"}
         </button>
       </div>
+
+        {/* SALES TABLE */}
+      <div
+        style={{
+          background: "white",
+          padding: "22px",
+          borderRadius: "20px",
+          boxShadow:
+            "0 8px 25px rgba(0,0,0,0.08)",
+        }}
+      >
+        <h2>
+          📋 Sales List
+        </h2>
+
+        <table
+          style={{
+            width: "100%",
+            marginTop: "20px",
+          }}
+        >
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Customer ID</th>
+              <th>Total</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filteredSales.map(
+              (sale) => (
+                <tr
+                  key={
+                    sale.sale_id
+                  }
+                >
+                  <td>
+                    {
+                      sale.sale_id
+                    }
+                  </td>
+
+                  <td>
+                    {
+                      sale.customer_id
+                    }
+                  </td>
+
+                  <td>
+                    €
+                    {
+                      sale.total_amount
+                    }
+                  </td>
+
+                  <td>
+                    {new Date(
+                      sale.sale_date
+                    ).toLocaleDateString()}
+                  </td>
+
+                  <td>
+                    <button
+                      onClick={() => {
+                        setEditingId(
+                          sale.sale_id
+                        );
+
+                        setNewSale({
+                          customer_id:
+                            sale.customer_id,
+                          total_amount:
+                            sale.total_amount,
+                          sale_date:
+                            sale.sale_date?.split(
+                              "T"
+                            )[0],
+                        });
+                      }}
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        deleteSale(
+                          sale.sale_id
+                        )
+                      }
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              )
+            )}
+          </tbody>
+        </table>
+      </div>
+
     </div>
   );
 };

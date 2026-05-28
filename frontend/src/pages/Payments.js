@@ -184,15 +184,11 @@ const Payments = () => {
       <h2
         style={{
           display: "flex",
-          justifyContent:
-            "space-between",
-          alignItems:
-            "center",
-          marginBottom:
-            "25px",
-          flexWrap:
-            "wrap",
-          gap: "14px",
+          justifyContent:"space-between",
+          alignItems:"center",
+          marginBottom:"25px",
+          flexWrap:"wrap",
+          gap:"14px",
         }}
       >
         ➕ Add Payment
@@ -200,9 +196,8 @@ const Payments = () => {
 
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fit,minmax(220px,1fr))",
+          display:"grid",
+          gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",
           gap: "15px",
         }}
       >
@@ -233,100 +228,111 @@ const Payments = () => {
     </div>
 
     {/* Table */}
-    <div
+    <div style={{overflowX: "auto", }}>
+  
+   <table
+    style={{
+      width: "100%",
+      borderCollapse:"separate",
+      borderSpacing:"0 12px",
+    }}
+  >
+    <thead>
+      <tr>
+        <th style={{ textAlign: "center", padding: "15px"}}>ID</th>
+        <th style={{ textAlign: "center", padding: "15px"}}>Sale ID</th>
+        <th style={{ textAlign: "center", padding: "15px"}}>Amount</th>
+        <th style={{ textAlign: "center", padding: "15px"}}>Method</th>
+        <th style={{ textAlign: "center", padding: "15px"}}>Date</th>
+        <th style={{ textAlign: "center", padding: "15px"}}>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+  {payments.map((payment) => (
+    <tr
+      key={payment.payment_id}
       style={{
-        background: "white",
-        borderRadius: "25px",
-        padding: "30px",
+        background: "#f8fafc",
+        boxShadow:
+          "0 2px 10px rgba(0,0,0,0.05)",
+        borderRadius: "15px",
       }}
     >
-      <h2
+      <td style={{ textAlign: "center", padding: "15px" }}>
+        {payment.payment_id}
+      </td>
+
+      <td style={{ textAlign: "center", padding: "15px" }}>
+        {payment.sale_id}
+      </td>
+
+      <td
         style={{
-          marginBottom: "20px",
+          textAlign: "center",
+          padding: "15px",
+          fontWeight: "bold",
+          color: "#7c3aed",
         }}
       >
-        📋 Payments List
-      </h2>
+        €{payment.amount}
+      </td>
 
-      <table
-        style={{
-          width: "100%",
-          borderCollapse:
-            "collapse",
-        }}
-      >
-        <thead>
-          <tr
-            style={{
-              background:
-                "#f3f4f6",
-            }}
-          >
-            <th>ID</th>
-            <th>Sale ID</th>
-            <th>Amount</th>
-            <th>Method</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+      <td style={{ textAlign: "center", padding: "15px" }}>
+        <span
+          style={{
+            background: "#ede9fe",
+            color: "#7c3aed",
+            padding: "6px 12px",
+            borderRadius: "999px",
+          }}
+        >
+          {payment.payment_method}
+        </span>
+      </td>
 
-        <tbody>
-          {payments.map(
-            (payment) => (
-              <tr
-                key={
-                  payment.payment_id
-                }
-              >
-                <td>
-                  {
-                    payment.payment_id
-                  }
-                </td>
+      <td style={{ textAlign: "center", padding: "15px" }}>
+        {new Date(
+          payment.payment_date
+        ).toLocaleDateString()}
+      </td>
 
-                <td>
-                  {
-                    payment.sale_id
-                  }
-                </td>
+      <td style={{ textAlign: "center", padding: "15px" }}>
+        <button
+          style={{
+            background: "#3b82f6",
+            color: "white",
+            border: "none",
+            borderRadius: "10px",
+            padding: "8px 12px",
+            marginRight: "8px",
+          }}
+        >
+          Edit
+        </button>
 
-                <td>
-                  €
-                  {
-                    payment.amount
-                  }
-                </td>
-
-                <td>
-                  {
-                    payment.payment_method
-                  }
-                </td>
-
-                <td>
-                  {new Date(
-                    payment.payment_date
-                  ).toLocaleDateString()}
-                </td>
-
-                <td>
-                  <button>
-                    Edit
-                  </button>
-
-                  <button>
-                    Delete
-                  </button>
-                </td>
-              </tr>
+        <button
+          onClick={() =>
+            deletePayment(
+              payment.payment_id
             )
-          )}
-        </tbody>
-      </table>
+          }
+          style={{
+            background: "#ef4444",
+            color: "white",
+            border: "none",
+            borderRadius: "10px",
+            padding: "8px 12px",
+          }}
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+  </table>
     </div>
-  </div>
-);
-};
-
+     </div>
+    )}
 export default Payments;
