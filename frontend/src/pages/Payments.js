@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
 const Payments = () => {
     const [sale_id, setSaleId] =
@@ -16,6 +19,9 @@ const Payments = () => {
 
   const [payments, setPayments] =
     useState([]);
+
+  const [search, setSearch] =
+    useState("");
 
   const [newPayment, setNewPayment] =
     useState({
@@ -38,14 +44,14 @@ const Payments = () => {
         "http://localhost:5000/payment"
       );
 
-      const data =
-        await response.json();
+        const data =
+          await response.json();
 
-      setPayments(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        setPayments(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
   // ADD
   const addPayment = async () => {
@@ -101,28 +107,30 @@ const Payments = () => {
         await fetch(
           `http://localhost:5000/payment/${id}`,
           {
-            method: "PUT",
+            method:
+              "POST",
+
             headers: {
               "Content-Type":
                 "application/json",
             },
+
             body: JSON.stringify(
               newPayment
             ),
           }
         );
 
-        setEditingId(null);
+        loadPayments();
 
         setNewPayment({
           sale_id: "",
           amount: "",
-          payment_method: "",
-          payment_date: "",
+          payment_method:
+            "",
+          payment_date:
+            "",
         });
-
-        loadPayments();
-
       } catch (err) {
         console.log(err);
       }
@@ -175,7 +183,16 @@ const Payments = () => {
     >
       <h2
         style={{
-          marginBottom: "20px",
+          display: "flex",
+          justifyContent:
+            "space-between",
+          alignItems:
+            "center",
+          marginBottom:
+            "25px",
+          flexWrap:
+            "wrap",
+          gap: "14px",
         }}
       >
         ➕ Add Payment

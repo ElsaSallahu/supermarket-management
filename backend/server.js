@@ -46,7 +46,7 @@ app.use("/sales", salesRoutes);
 app.use("/sale-items", saleItemsRoutes);
 app.use("/customers", customerRoutes);
 app.use("/invoice", invoiceRoutes);
-app.use("/payment", paymentRoutes);
+app.use("/payments", paymentRoutes);
 
 
 app.listen(5000, () => {

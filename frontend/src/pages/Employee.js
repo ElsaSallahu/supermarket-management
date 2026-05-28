@@ -1,21 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
+
+const inputStyle = {
+  width: "100%",
+  padding: "12px 14px",
+  borderRadius: "14px",
+  border: "1px solid #d1d5db",
+  outline: "none",
+  fontSize: "14px",
+};
 
 function Employees() {
-  const [employees, setEmployees] = useState([]);
+  const [employees, setEmployees] =
+    useState([]);
 
-  const [fullName, setFullName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [position, setPosition] = useState("");
-  const [salary, setSalary] = useState("");
+  const [search, setSearch] =
+    useState("");
 
-  const [editingId, setEditingId] = useState(null);
+  const [fullName, setFullName] =
+    useState("");
+
+  const [phone, setPhone] =
+    useState("");
+
+  const [position, setPosition] =
+    useState("");
+
+  const [salary, setSalary] =
+    useState("");
+
+  const [editingId, setEditingId] =
+    useState(null);
 
   // GET EMPLOYEES
   const fetchEmployees = () => {
-    fetch("http://localhost:5000/employees")
-      .then((res) => res.json())
-      .then((data) => setEmployees(data))
-      .catch((err) => console.log(err));
+    fetch(
+      "http://localhost:5000/employees"
+    )
+      .then((res) =>
+        res.json()
+      )
+      .then((data) =>
+        setEmployees(data)
+      )
+      .catch((err) =>
+        console.log(err)
+      );
   };
 
   useEffect(() => {
@@ -23,182 +55,458 @@ function Employees() {
   }, []);
 
   // ADD EMPLOYEE
-  const addEmployee = async () => {
-    try {
-      await fetch(
-        "http://localhost:5000/employees",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify({
-            full_name: fullName,
-            phone,
-            position,
-            salary,
-          }),
-        }
-      );
+  const addEmployee =
+    async () => {
+      try {
+        await fetch(
+          "http://localhost:5000/employees",
+          {
+            method:
+              "POST",
 
-      fetchEmployees();
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
 
-      setFullName("");
-      setPhone("");
-      setPosition("");
-      setSalary("");
-    } catch (err) {
-      console.log(err);
-    }
+            body: JSON.stringify(
+              {
+                full_name:
+                  fullName,
+                phone,
+                position,
+                salary,
+              }
+            ),
+          }
+        );
+
+        fetchEmployees();
+
+        setFullName("");
+        setPhone("");
+        setPosition("");
+        setSalary("");
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+  // DELETE
+  const deleteEmployee =
+    async (id) => {
+      try {
+        await fetch(
+          `http://localhost:5000/employees/${id}`,
+          {
+            method:
+              "DELETE",
+          }
+        );
+
+        fetchEmployees();
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+  // EDIT
+  const editEmployee = (
+    employee
+  ) => {
+    setEditingId(
+      employee.employee_id
+    );
+
+    setFullName(
+      employee.full_name
+    );
+
+    setPhone(
+      employee.phone
+    );
+
+    setPosition(
+      employee.position
+    );
+
+    setSalary(
+      employee.salary
+    );
   };
 
-  // DELETE EMPLOYEE
-  const deleteEmployee = async (id) => {
-    try {
-      await fetch(
-        `http://localhost:5000/employees/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+  // UPDATE
+  const updateEmployee =
+    async () => {
+      try {
+        await fetch(
+          `http://localhost:5000/employees/${editingId}`,
+          {
+            method:
+              "PUT",
 
-      fetchEmployees();
-    } catch (err) {
-      console.log(err);
-    }
-  };
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
 
-  // EDIT EMPLOYEE
-  const editEmployee = (employee) => {
-    setEditingId(employee.employee_id);
-    setFullName(employee.full_name);
-    setPhone(employee.phone);
-    setPosition(employee.position);
-    setSalary(employee.salary);
-  };
+            body: JSON.stringify(
+              {
+                full_name:
+                  fullName,
+                phone,
+                position,
+                salary,
+              }
+            ),
+          }
+        );
 
-  // UPDATE EMPLOYEE
-  const updateEmployee = async () => {
-    try {
-      await fetch(
-        `http://localhost:5000/employees/${editingId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify({
-            full_name: fullName,
-            phone,
-            position,
-            salary,
-          }),
-        }
-      );
+        fetchEmployees();
 
-      fetchEmployees();
+        setEditingId(
+          null
+        );
 
-      setEditingId(null);
-      setFullName("");
-      setPhone("");
-      setPosition("");
-      setSalary("");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        setFullName("");
+        setPhone("");
+        setPosition("");
+        setSalary("");
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+  const filteredEmployees =
+    employees.filter(
+      (employee) =>
+        employee.full_name
+          ?.toLowerCase()
+          .includes(
+            search.toLowerCase()
+          ) ||
+        employee.position
+          ?.toLowerCase()
+          .includes(
+            search.toLowerCase()
+          )
+    );
 
   return (
-    <div>
-      <h2>Employees Management</h2>
+    <div
+      style={{
+        padding: "10px",
+      }}
+    >
+      {/* HEADER */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent:
+            "space-between",
+          alignItems:
+            "center",
+          marginBottom:
+            "25px",
+          flexWrap:
+            "wrap",
+          gap: "14px",
+        }}
+      >
+        <div>
+          <p
+            style={{
+              color:
+                "#64748b",
+              margin: 0,
+            }}
+          >
+            Staff Management
+          </p>
 
-      <input
-        type="text"
-        placeholder="Full Name"
-        value={fullName}
-        onChange={(e) =>
-          setFullName(e.target.value)
-        }
-      />
+          <h1>
+            👨‍💼 Employees
+          </h1>
+        </div>
 
-      <input
-        type="text"
-        placeholder="Phone"
-        value={phone}
-        onChange={(e) =>
-          setPhone(e.target.value)
-        }
-      />
+        <input
+          placeholder="🔍 Search employee..."
+          value={search}
+          onChange={(e) =>
+            setSearch(
+              e.target.value
+            )
+          }
+          style={{
+            ...inputStyle,
+            width: "300px",
+          }}
+        />
+      </div>
 
-      <input
-        type="text"
-        placeholder="Position"
-        value={position}
-        onChange={(e) =>
-          setPosition(e.target.value)
-        }
-      />
+      {/* FORM */}
+      <div
+        style={{
+          background:
+            "white",
+          borderRadius:
+            "28px",
+          padding: "24px",
+          marginBottom:
+            "25px",
+          boxShadow:
+            "0 14px 35px rgba(15,23,42,0.06)",
+        }}
+      >
+        <h2>
+          {editingId
+            ? "✏ Update Employee"
+            : "➕ Add Employee"}
+        </h2>
 
-      <input
-        type="number"
-        placeholder="Salary"
-        value={salary}
-        onChange={(e) =>
-          setSalary(e.target.value)
-        }
-      />
-
-      {editingId ? (
-        <button
-          onClick={updateEmployee}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit,minmax(220px,1fr))",
+            gap: "14px",
+            marginTop:
+              "20px",
+          }}
         >
-          Update Employee
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={
+              fullName
+            }
+            onChange={(e) =>
+              setFullName(
+                e.target
+                  .value
+              )
+            }
+            style={
+              inputStyle
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Phone"
+            value={phone}
+            onChange={(e) =>
+              setPhone(
+                e.target
+                  .value
+              )
+            }
+            style={
+              inputStyle
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Position"
+            value={
+              position
+            }
+            onChange={(e) =>
+              setPosition(
+                e.target
+                  .value
+              )
+            }
+            style={
+              inputStyle
+            }
+          />
+
+          <input
+            type="number"
+            placeholder="Salary"
+            value={
+              salary
+            }
+            onChange={(e) =>
+              setSalary(
+                e.target
+                  .value
+              )
+            }
+            style={
+              inputStyle
+            }
+          />
+        </div>
+
+        <button
+          onClick={
+            editingId
+              ? updateEmployee
+              : addEmployee
+          }
+          style={{
+            marginTop:
+              "18px",
+            background:
+              "#111827",
+            color:
+              "white",
+            border:
+              "none",
+            padding:
+              "12px 20px",
+            borderRadius:
+              "14px",
+            cursor:
+              "pointer",
+            fontWeight:
+              "600",
+          }}
+        >
+          {editingId
+            ? "Update Employee"
+            : "Add Employee"}
         </button>
-      ) : (
-        <button onClick={addEmployee}>
-          Add Employee
-        </button>
-      )}
+      </div>
 
-      <br />
-      <br />
+      {/* EMPLOYEE CARDS */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(300px,1fr))",
+          gap: "18px",
+        }}
+      >
+        {filteredEmployees.map(
+          (
+            employee
+          ) => (
+            <div
+              key={
+                employee.employee_id
+              }
+              style={{
+                background:
+                  "white",
 
-      <table border="1">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Phone</th>
-            <th>Position</th>
-            <th>Salary</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+                borderRadius:
+                  "28px",
 
-        <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.employee_id}>
-              <td>
-                {employee.employee_id}
-              </td>
-              <td>
-                {employee.full_name}
-              </td>
-              <td>{employee.phone}</td>
-              <td>
-                {employee.position}
-              </td>
-              <td>
-                {employee.salary}
-              </td>
+                padding:
+                  "22px",
 
-              <td>
+                boxShadow:
+                  "0 14px 35px rgba(15,23,42,0.06)",
+              }}
+            >
+              <div
+                style={{
+                  display:
+                    "flex",
+
+                  justifyContent:
+                    "space-between",
+
+                  alignItems:
+                    "center",
+                }}
+              >
+                <h3>
+                  {
+                    employee.full_name
+                  }
+                </h3>
+
+                <span
+                  style={{
+                    background:
+                      "#dcfce7",
+
+                    color:
+                      "#059669",
+
+                    padding:
+                      "8px 12px",
+
+                    borderRadius:
+                      "999px",
+
+                    fontWeight:
+                      "700",
+
+                    fontSize:
+                      "13px",
+                  }}
+                >
+                  $
+                  {
+                    employee.salary
+                  }
+                </span>
+              </div>
+
+              <p
+                style={{
+                  color:
+                    "#64748b",
+                  marginTop:
+                    "10px",
+                }}
+              >
+                📞{" "}
+                {
+                  employee.phone
+                }
+              </p>
+
+              <p
+                style={{
+                  color:
+                    "#64748b",
+                  marginTop:
+                    "6px",
+                }}
+              >
+                💼{" "}
+                {
+                  employee.position
+                }
+              </p>
+
+              <div
+                style={{
+                  display:
+                    "flex",
+                  gap: "10px",
+                  marginTop:
+                    "20px",
+                }}
+              >
                 <button
                   onClick={() =>
-                    editEmployee(employee)
+                    editEmployee(
+                      employee
+                    )
                   }
+                  style={{
+                    flex: 1,
+                    background:
+                      "#111827",
+                    color:
+                      "white",
+                    border:
+                      "none",
+                    borderRadius:
+                      "14px",
+                    padding:
+                      "12px",
+                    cursor:
+                      "pointer",
+                  }}
                 >
                   Edit
                 </button>
@@ -209,17 +517,31 @@ function Employees() {
                       employee.employee_id
                     )
                   }
+                  style={{
+                    flex: 1,
+                    background:
+                      "#f3f4f6",
+                    color:
+                      "#111827",
+                    border:
+                      "none",
+                    borderRadius:
+                      "14px",
+                    padding:
+                      "12px",
+                    cursor:
+                      "pointer",
+                  }}
                 >
                   Delete
                 </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </div>
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 }
 
 export default Employees;
-
