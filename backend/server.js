@@ -16,7 +16,8 @@ const salesRoutes = require("./routes/salesRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
-
+const saleItemsRoutes = require("./routes/saleItemsRoutes");
+const customerAuthRoutes = require("./routes/customerAuthRoutes");
 
 
 
@@ -45,7 +46,8 @@ app.use("/sales", salesRoutes);
 app.use("/customers", customerRoutes);
 app.use("/invoice", invoiceRoutes);
 app.use("/payments", paymentRoutes);
-
+app.use("/api/saleitems", saleItemsRoutes);
+app.use("/api/customer-auth", customerAuthRoutes);
 
 app.listen(5000, () => {
   console.log("Serveri po funksionon ne portin 5000");
