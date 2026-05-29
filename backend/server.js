@@ -17,7 +17,6 @@ const saleItemsRoutes = require("./routes/saleItemsRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
-const saleItemsRoutes = require("./routes/saleItemsRoutes");
 const customerAuthRoutes = require("./routes/customerAuthRoutes");
 
 
@@ -32,7 +31,7 @@ app.get("/", (req, res) => {
   res.send("Backend po funksionon");
 });
 
-app.use("/product", productRoutes);
+app.use("/products", productRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/suppliers", supplierRoutes);
 app.use("/users", userRoutes);
