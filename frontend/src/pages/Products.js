@@ -1,5 +1,4 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import { getProducts } from "../api/products";
 
 const inputStyle = {
   width: "100%",
@@ -42,18 +41,40 @@ const Products = () => {
     loadData();
   }, []);
 
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      setError("");
-      const res = await getProducts();
-      setProducts(Array.isArray(res.data) ? res.data : []);
-    } catch (err) {
-      setError("Start the backend server to load live products.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const loadData =
+async () => {
+  try {
+    setLoading(
+      true
+    );
+
+    setError("");
+
+    const response =
+      await fetch(
+        "http://localhost:5000/product"
+      );
+
+    const data =
+      await response.json();
+
+    setProducts(
+      data
+    );
+  } catch (err) {
+    console.log(
+      err
+    );
+
+    setError(
+      "Cannot load products"
+    );
+  } finally {
+    setLoading(
+      false
+    );
+  }
+};
 
   const clearForm = () => {
     setNewProduct({
@@ -70,8 +91,21 @@ const Products = () => {
   };
 
   const addProduct = async () => {
+    // VALIDATION - EMPTY FIELDS
+if (!newProduct.emri || !newProduct.barkodi || !newProduct.cmimi_blerjes || !newProduct.cmimi_shitjes || !newProduct.njesia_matese || !newProduct.stoku) {
+  alert("Please fill all fields");
+  return;
+}
+
+// VALIDATION - NEGATIVE VALUES
+if (Number(newProduct.cmimi_blerjes) < 0 ||
+    Number(newProduct.cmimi_shitjes) < 0 ||
+    Number(newProduct.stoku) < 0) {
+  alert("Negative values are not allowed");
+  return;
+}
     try {
-      const response = await fetch("http://localhost:5000/produktet", {
+      const response = await fetch("http://localhost:5000/product", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -95,7 +129,7 @@ const Products = () => {
   const updateProduct = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/produktet/${editingId}`,
+        `http://localhost:5000/product/${editingId}`,
         {
           method: "PUT",
           headers: {
@@ -120,7 +154,7 @@ const Products = () => {
 
   const deleteProduct = async (id) => {
     try {
-      await fetch(`http://localhost:5000/produktet/${id}`, {
+      await fetch(`http://localhost:5000/product/${id}`, {
         method: "DELETE",
       });
       await loadData();

@@ -55,6 +55,15 @@ const Payments = () => {
 
   // ADD
   const addPayment = async () => {
+    if (!sale_id || !amount || !payment_method || !payment_date) {
+  alert("Please fill all fields");
+  return;
+}
+
+if ( Number(amount)<= 0) {
+  alert("Amount must be greater than 0");
+  return;
+}
     try {
       await fetch(
         "http://localhost:5000/payment",

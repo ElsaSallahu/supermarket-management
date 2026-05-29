@@ -1,5 +1,6 @@
 ﻿import React from 'react'
 
+
 const Dashboard = React.lazy(() =>
   import('./pages/Dashboard')
 )
@@ -144,6 +145,7 @@ const routes = [
     name: 'Suppliers',
     element: Suppliers,
   },
+
 
   {
     path: '/invoice',

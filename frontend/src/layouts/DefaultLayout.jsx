@@ -60,7 +60,7 @@ function DefaultLayout() {
       {/* SIDEBAR */}
       <aside className="sidebar">
         <div className="sidebar-top">
-          <h2>
+          <h2 className="brand">
             🛒 Supermarket
           </h2>
         </div>
