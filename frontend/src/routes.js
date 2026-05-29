@@ -1,16 +1,5 @@
 ﻿import React from 'react'
 
-const CustomerProducts = React.lazy(() =>
-  import('./pages/customer/CustomerProducts')
-)
-
-const CustomerLogin = React.lazy(() =>
-  import('./pages/customer/CustomerLogin')
-)
-
-const CustomerRegister = React.lazy(() =>
-  import('./pages/customer/CustomerRegister')
-) 
 
 const Dashboard = React.lazy(() =>
   import('./pages/Dashboard')
@@ -157,23 +146,6 @@ const routes = [
     element: Suppliers,
   },
 
-  {
-  path: '/customer-products',
-  name: 'Customer Products',
-  element: CustomerProducts,
-},
-
-{
-  path: '/customer-login',
-  name: 'Customer Login',
-  element: CustomerLogin,
-},
-
-{
-  path: '/customer-register',
-  name: 'Customer Register',
-  element: CustomerRegister,
-},
 
   {
     path: '/invoice',
