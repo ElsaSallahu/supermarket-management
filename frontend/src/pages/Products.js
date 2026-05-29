@@ -70,6 +70,19 @@ const Products = () => {
   };
 
   const addProduct = async () => {
+    // VALIDATION - EMPTY FIELDS
+if (!newProduct.emri || !newProduct.barkodi || !newProduct.cmimi_blerjes || !newProduct.cmimi_shitjes || !newProduct.njesia_matese || !newProduct.stoku) {
+  alert("Please fill all fields");
+  return;
+}
+
+// VALIDATION - NEGATIVE VALUES
+if (Number(newProduct.cmimi_blerjes) < 0 ||
+    Number(newProduct.cmimi_shitjes) < 0 ||
+    Number(newProduct.stoku) < 0) {
+  alert("Negative values are not allowed");
+  return;
+}
     try {
       const response = await fetch("http://localhost:5000/produktet", {
         method: "POST",
