@@ -17,7 +17,7 @@ const saleItemsRoutes = require("./routes/saleItemsRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
-
+const customerAuthRoutes = require("./routes/customerAuthRoutes");
 
 
 
@@ -31,7 +31,7 @@ app.get("/", (req, res) => {
   res.send("Backend po funksionon");
 });
 
-app.use("/product", productRoutes);
+app.use("/products", productRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/suppliers", supplierRoutes);
 app.use("/users", userRoutes);
@@ -47,7 +47,8 @@ app.use("/sale-items", saleItemsRoutes);
 app.use("/customers", customerRoutes);
 app.use("/invoice", invoiceRoutes);
 app.use("/payments", paymentRoutes);
-
+app.use("/api/saleitems", saleItemsRoutes);
+app.use("/api/customer-auth", customerAuthRoutes);
 
 app.listen(5000, () => {
   console.log("Serveri po funksionon ne portin 5000");

@@ -348,10 +348,8 @@ const Sales = () => {
 
         <div
           style={{
-            display:
-              "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit,minmax(220px,1fr))",
+            display:"grid",
+            gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",
             gap: "12px",
             marginTop:
               "15px",
@@ -461,6 +459,215 @@ const Sales = () => {
             : "Add Sale"}
         </button>
       </div>
+
+        {/* SALES TABLE */}
+      <div
+        style={{
+          background: "white",
+          padding: "22px",
+          borderRadius: "20px",
+          boxShadow:
+            "0 8px 25px rgba(0,0,0,0.08)",
+        }}
+      >
+        <h2>
+          📋 Sales List
+          <p>{sales.length}</p>
+        </h2>
+
+        <table
+         style={{
+         width: "100%",
+         borderCollapse:"separate",
+         borderSpacing:"0 12px",
+  }}
+>
+<thead
+  style={{
+    background: "#f1f5f9",
+  }}
+>
+  <tr>
+    <th style={{
+    padding: "15px",
+    textAlign: "left",
+    paddingLeft: "25px",
+  }}
+>
+  ID
+</th>
+
+    <th style={{ 
+      padding: "15px",
+      textAlign: "left",
+      paddingLeft: "25px",
+     }}>
+      Customer ID
+    </th>
+
+    <th style={{ 
+      padding: "15px",
+      textAlign: "left",
+      paddingLeft: "25px",
+     }}>
+      Total
+    </th>
+
+    <th style={{ 
+      padding: "15px",
+      textAlign: "left",
+      paddingLeft: "25px",
+     }}>
+      Date
+    </th>
+
+    <th style={{ 
+      padding: "15px",
+      textAlign: "left",
+      paddingLeft: "25px",
+     }}>
+      Actions
+    </th>
+  </tr>
+</thead>
+
+          <tbody>
+  {filteredSales.map(
+    (sale) => (
+      <tr
+        key={sale.sale_id}
+        style={{
+          background:
+            "#f8fafc",
+          borderBottom:
+            "12px solid white",
+        }}
+      >
+        <td
+          style={{
+            padding:"18px",
+            fontWeight:"600",
+              textAlign: "left",
+             paddingLeft:"25px",
+          }}
+        >
+          {sale.sale_id}
+        </td>
+
+        <td
+          style={{
+            padding:"18px",
+            textAlign: "left",
+            paddingLeft: "25px",
+          }}
+        >
+          {sale.customer_id}
+        </td>
+
+        <td
+          style={{
+            padding:"18px",
+            color:"#7c3aed",
+            fontWeight:"bold",
+            textAlign: "left",
+            paddingLeft: "25px",
+          }}
+        >
+          €
+          {sale.total_amount}
+        </td>
+
+        <td
+          style={{
+            padding:"18px",
+            textAlign: "left",
+            paddingLeft: "25px",
+          }}
+        >
+          {new Date(
+            sale.sale_date
+          ).toLocaleDateString()}
+        </td>
+
+        <td
+          style={{
+            padding:"18px",
+            textAlign:"left",
+            paddingLeft:"25px",
+          }}
+        >
+          <button
+            onClick={() => {
+              setEditingId(
+                sale.sale_id
+              );
+
+              setNewSale({
+                customer_id:
+                  sale.customer_id,
+                total_amount:
+                  sale.total_amount,
+                sale_date:
+                  sale.sale_date?.split(
+                    "T"
+                  )[0],
+              });
+            }}
+            style={{
+              background:
+                "#3b82f6",
+              color:
+                "white",
+              border:
+                "none",
+              padding:
+                "8px 14px",
+              borderRadius:
+                "10px",
+              marginRight:
+                "8px",
+              cursor:
+                "pointer",
+              fontWeight:
+                "600",
+            }}
+          >
+            Edit
+          </button>
+
+          <button
+            onClick={() =>
+              deleteSale(
+                sale.sale_id
+              )
+            }
+            style={{
+              background:
+                "#ef4444",
+              color:
+                "white",
+              border:
+                "none",
+              padding:
+                "8px 14px",
+              borderRadius:
+                "10px",
+              cursor:
+                "pointer",
+              fontWeight:
+                "600",
+            }}
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    )
+  )}
+</tbody>
+        </table>
+      </div>
+
     </div>
   );
 };
