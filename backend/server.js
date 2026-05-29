@@ -13,6 +13,7 @@ const cashierRoutes = require("./routes/cashierRoutes");
 const userActivityRoutes = require("./routes/userActivityRoutes");
 const authRoutes = require("./routes/auth");
 const salesRoutes = require("./routes/salesRoutes");
+const saleItemsRoutes = require("./routes/saleItemsRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
@@ -31,7 +32,7 @@ app.get("/", (req, res) => {
   res.send("Backend po funksionon");
 });
 
-app.use("/produktet", productRoutes);
+app.use("/product", productRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/suppliers", supplierRoutes);
 app.use("/users", userRoutes);
@@ -43,6 +44,7 @@ app.use("/cashiers", cashierRoutes);
 app.use("/user-activity", userActivityRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/sales", salesRoutes);
+app.use("/sale-items", saleItemsRoutes);
 app.use("/customers", customerRoutes);
 app.use("/invoice", invoiceRoutes);
 app.use("/payments", paymentRoutes);

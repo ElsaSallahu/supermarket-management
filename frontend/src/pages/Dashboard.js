@@ -1,6 +1,93 @@
-﻿import React from 'react'
+﻿import React, {
+  useEffect, 
+  useState, 
+} from 'react'
 
 const Dashboard = () => {
+  const [stats, setStats] =
+    useState({
+      totalSales: 0,
+      products: 0,
+      customers: 0,
+      lowStock: 0,
+    })
+
+  //  kur hapet faqja i merr statistikat
+  useEffect(() => {
+    loadStats()
+  }, [])
+
+  // merr data prej backend
+  const loadStats =
+    async () => {
+      try {
+
+        // SALES
+        const salesRes =
+          await fetch(
+            'http://localhost:5000/sales'
+          )
+
+        const sales =
+          await salesRes.json()
+          console.log(sales)
+
+        // PRODUCTS
+        const productsRes =
+          await fetch(
+            'http://localhost:5000/product'
+          )
+
+        const products =
+          await productsRes.json()
+          console.log(products)
+
+        // CUSTOMERS
+        const customersRes =
+          await fetch(
+            'http://localhost:5000/customers'
+          )
+
+        const customers =
+          await customersRes.json()
+          console.log(customers)
+
+        // ✅ TOTAL SALES
+        const totalRevenue =
+          sales.reduce(
+            (sum, sale) =>
+              sum +
+              Number(
+                sale.total_amount
+              ),
+            0
+          )
+
+        //  LOW STOCK
+        const lowStock =
+          products.filter(
+            (p) =>
+              Number(
+                p.stock
+              ) < 10
+          ).length
+
+        // ruan statistikat
+        setStats({
+          totalSales:
+            totalRevenue,
+          products:
+            products.length,
+          customers:
+            customers.length,
+          lowStock,
+        })
+
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
   return (
     <div className="dashboard-page">
       <h1
@@ -18,7 +105,7 @@ const Dashboard = () => {
             💰 Total Sales
           </span>
           <strong>
-            $12,480
+            €{ stats.totalSales}
           </strong>
           <small>
             Today
@@ -30,7 +117,7 @@ const Dashboard = () => {
             📦 Products
           </span>
           <strong>
-            248
+             {stats.products}
           </strong>
           <small>
             In Stock
@@ -42,7 +129,9 @@ const Dashboard = () => {
             👥 Customers
           </span>
           <strong>
-            1,824
+             {
+    stats.customers
+  }
           </strong>
           <small>
             This Month
@@ -54,7 +143,7 @@ const Dashboard = () => {
             ⚠ Low Stock
           </span>
           <strong>
-            17
+            {stats.lowStock }
           </strong>
           <small>
             Need Attention

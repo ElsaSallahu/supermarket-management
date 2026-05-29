@@ -127,13 +127,90 @@ const SaleItems = () => {
     }
   };
 
-  return (
-    <div>
-      <h1>Sale Items</h1>
+return (
+  <div className="page-container">
+    <div
+      style={{
+        display: "flex",
+        justifyContent:
+          "space-between",
+        alignItems: "center",
+        marginBottom: "20px",
+      }}
+    >
+      <div>
+        <p
+          style={{
+            color: "#666",
+          }}
+        >
+          Sales Management
+        </p>
+
+        <h1
+          style={{
+            fontSize: "45px",
+            fontWeight: "bold",
+          }}
+        >
+          🛍 Sale Items
+        </h1>
+      </div>
+
+      <input
+        type="text"
+        placeholder="Search sale items..."
+        style={{
+          padding: "14px",
+          borderRadius: "14px",
+          border:
+            "1px solid #ddd",
+          width: "300px",
+        }}
+      />
+    </div>
+
+    {/* CARD */}
+    <div
+      style={{
+        background:
+          "linear-gradient(to right, #4f46e5, #9333ea)",
+        borderRadius: "25px",
+        padding: "30px",
+        color: "white",
+        marginBottom: "25px",
+      }}
+    >
+      <p>Total Sale Items</p>
+
+      <h1>
+        {saleItems.length}
+      </h1>
+    </div>
+
+    {/* FORM */}
+    <div
+      style={{
+        background: "white",
+        padding: "30px",
+        borderRadius: "25px",
+        marginBottom: "25px",
+      }}
+    >
+      <h2
+        style={{
+          marginBottom: "20px",
+        }}
+      >
+        ➕ Add Sale Item
+      </h2>
 
       <div
         style={{
-          marginBottom: "20px",
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(4, 1fr)",
+          gap: "15px",
         }}
       >
         <input
@@ -149,7 +226,7 @@ const SaleItems = () => {
         />
 
         <input
-          placeholder="Produkti ID"
+          placeholder="Product ID"
           value={
             newItem.produkti_id
           }
@@ -164,7 +241,9 @@ const SaleItems = () => {
 
         <input
           placeholder="Quantity"
-          value={newItem.quantity}
+          value={
+            newItem.quantity
+          }
           onChange={(e) =>
             setNewItem({
               ...newItem,
@@ -185,68 +264,209 @@ const SaleItems = () => {
             })
           }
         />
-
-        {editingId ? (
-          <button
-            onClick={() =>
-              updateSaleItem(
-                editingId
-              )
-            }
-          >
-            Update
-          </button>
-        ) : (
-          <button
-            onClick={addSaleItem}
-          >
-            Add
-          </button>
-        )}
       </div>
 
-      <table border="1">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Sale ID</th>
-            <th>Produkti ID</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Subtotal</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+      <button
+        onClick={
+          editingId
+            ? () =>
+                updateSaleItem(
+                  editingId
+                )
+            : addSaleItem
+        }
+        style={{
+          marginTop: "20px",
+          background:
+            "#7c3aed",
+          color: "white",
+          border: "none",
+          padding:
+            "12px 25px",
+          borderRadius: "12px",
+          cursor: "pointer",
+        }}
+      >
+        {editingId
+          ? "Update"
+          : "Add Sale Item"}
+      </button>
+    </div>
 
-        <tbody>
-          {saleItems.map((item) => (
-            <tr
-              key={item.sale_item_id}
+    {/* TABLE */}
+    {/* TABLE */}
+<div
+  style={{
+    background: "white",
+    padding: "30px",
+    borderRadius: "25px",
+    boxShadow:
+      "0 8px 20px rgba(0,0,0,0.08)",
+  }}
+>
+  <h2
+    style={{
+      marginBottom: "25px",
+      fontSize: "32px",
+      fontWeight: "bold",
+      color: "#111827",
+    }}
+  >
+  Sale Items List
+  </h2>
+
+  <div
+    style={{
+      overflowX: "auto",
+    }}
+  >
+    <table
+      style={{
+        width: "100%",
+        borderCollapse:
+          "separate",
+        borderSpacing: "0",
+      }}
+    >
+      <thead>
+        <tr
+          style={{
+            background:
+              "linear-gradient(to right, #da5dd8, #9333ea)",
+            color: "white",
+          }}
+        >
+          {[
+            "ID",
+            "Sale ID",
+            "Product ID",
+            "Quantity",
+            "Price",
+            "Subtotal",
+            "Actions",
+          ].map((header) => (
+            <th
+              key={header}
+              style={{
+                padding:
+                  "18px",
+                textAlign:
+                  "center",
+              }}
             >
-              <td>
+              {header}
+            </th>
+          ))}
+        </tr>
+      </thead>
+
+      <tbody>
+        {saleItems.map(
+          (item, index) => (
+            <tr
+              key={
+                item.sale_item_id
+              }
+              style={{
+                background:
+                  index % 2 === 0
+                    ? "#f9fafb"
+                    : "#ffffff",
+              }}
+            >
+              <td
+                style={{
+                  padding:
+                    "18px",
+                  textAlign:
+                    "center",
+                  borderBottom:
+                    "1px solid #eee",
+                }}
+              >
                 {
                   item.sale_item_id
                 }
               </td>
-              <td>
+
+              <td
+                style={{
+                  textAlign:
+                    "center",
+                  borderBottom:
+                    "1px solid #eee",
+                }}
+              >
                 {item.sale_id}
               </td>
-              <td>
+
+              <td
+                style={{
+                  textAlign:
+                    "center",
+                  borderBottom:
+                    "1px solid #eee",
+                }}
+              >
                 {
                   item.produkti_id
                 }
               </td>
-              <td>
+
+              <td
+                style={{
+                  textAlign:
+                    "center",
+                  borderBottom:
+                    "1px solid #eee",
+                }}
+              >
                 {item.quantity}
               </td>
-              <td>
+
+              <td
+                style={{
+                  textAlign:
+                    "center",
+                  borderBottom:
+                    "1px solid #eee",
+                }}
+              >
+                €
                 {item.price}
               </td>
-              <td>
-                {item.subtotal}
+
+              <td
+                style={{
+                  textAlign:
+                    "center",
+                  fontWeight:
+                    "bold",
+                  color:
+                    "#241e90",
+                  borderBottom:
+                    "1px solid #eee",
+                }}
+              >
+                €
+                {
+                  item.subtotal
+                }
               </td>
 
-              <td>
+              <td
+                style={{
+                  display:
+                    "flex",
+                  justifyContent:
+                    "center",
+                  gap: "10px",
+                  padding:
+                    "12px",
+                  borderBottom:
+                    "1px solid #eee",
+                }}
+              >
                 <button
                   onClick={() => {
                     setEditingId(
@@ -266,8 +486,22 @@ const SaleItems = () => {
                         item.subtotal,
                     });
                   }}
+                  style={{
+                    background:
+                      "#c0ade1",
+                    color:
+                      "white",
+                    border:
+                      "none",
+                    borderRadius:
+                      "10px",
+                    padding:
+                      "10px 15px",
+                    cursor:
+                      "pointer",
+                  }}
                 >
-                  Edit
+                  ✏️ Edit
                 </button>
 
                 <button
@@ -276,16 +510,33 @@ const SaleItems = () => {
                       item.sale_item_id
                     )
                   }
+                  style={{
+                    background:
+                      "#ef4444",
+                    color:
+                      "white",
+                    border:
+                      "none",
+                    borderRadius:
+                      "10px",
+                    padding:
+                      "10px 15px",
+                    cursor:
+                      "pointer",
+                  }}
                 >
-                  Delete
+                  🗑 Delete
                 </button>
               </td>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+          )
+        )}
+      </tbody>
+    </table>
+  </div>
+</div>
+  </div>
+);
 };
 
 export default SaleItems;

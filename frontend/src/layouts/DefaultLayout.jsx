@@ -1,5 +1,9 @@
 ﻿import { useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import {
+  NavLink,
+  useNavigate,
+} from "react-router-dom";
+
 import AppContent from "../components/AppContent";
 
 function DefaultLayout() {
@@ -77,6 +81,30 @@ function DefaultLayout() {
 
           <NavLink to="/cashiers">
             Cashiers
+          </NavLink>
+
+          <NavLink to="/users">
+            Users
+          </NavLink>
+
+          <NavLink to="/roles">
+            Roles
+          </NavLink>
+
+          <NavLink to="/employees">
+            Employees
+          </NavLink>
+
+          <NavLink to="/product-report">
+            Product Report
+          </NavLink>
+
+          <NavLink to="/sales-report">
+            Sales Report
+          </NavLink>
+
+          <NavLink to="/user-activity">
+            User Activity
           </NavLink>
         </nav>
       </aside>

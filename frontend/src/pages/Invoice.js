@@ -1,8 +1,14 @@
-import { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from "react";
 
-const Invoice = () => {
+function Invoice() {
   const [invoices, setInvoices] =
     useState([]);
+
+  const [search, setSearch] =
+    useState("");
 
   const [newInvoice, setNewInvoice] =
     useState({
@@ -19,51 +25,59 @@ const Invoice = () => {
     loadInvoices();
   }, []);
 
-  const loadInvoices = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:5000/invoice"
-      );
+  const loadInvoices =
+    async () => {
+      try {
+        const response =
+          await fetch(
+            "http://localhost:5000/invoice"
+          );
 
-      const data =
-        await response.json();
+        const data =
+          await response.json();
 
-      setInvoices(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        setInvoices(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
   // ADD
-  const addInvoice = async () => {
-    try {
-      await fetch(
-        "http://localhost:5000/invoice",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify(
-            newInvoice
-          ),
-        }
-      );
+  const addInvoice =
+    async () => {
+      try {
+        await fetch(
+          "http://localhost:5000/invoice",
+          {
+            method:
+              "POST",
 
-      loadInvoices();
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
 
-      setNewInvoice({
-        sale_id: "",
-        invoice_number: "",
-        total_amount: "",
-        invoice_date: "",
-      });
+            body: JSON.stringify(
+              newInvoice
+            ),
+          }
+        );
 
-    } catch (err) {
-      console.log(err);
-    }
-  };
+        loadInvoices();
+
+        setNewInvoice({
+          sale_id: "",
+          invoice_number:
+            "",
+          total_amount:
+            "",
+          invoice_date:
+            "",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
   // DELETE
   const deleteInvoice =
@@ -72,12 +86,12 @@ const Invoice = () => {
         await fetch(
           `http://localhost:5000/invoice/${id}`,
           {
-            method: "DELETE",
+            method:
+              "DELETE",
           }
         );
 
         loadInvoices();
-
       } catch (err) {
         console.log(err);
       }
@@ -85,184 +99,387 @@ const Invoice = () => {
 
   // UPDATE
   const updateInvoice =
-    async (id) => {
+    async () => {
       try {
         await fetch(
-          `http://localhost:5000/invoice/${id}`,
+          `http://localhost:5000/invoice/${editingId}`,
           {
-            method: "PUT",
+            method:
+              "PUT",
+
             headers: {
               "Content-Type":
                 "application/json",
             },
+
             body: JSON.stringify(
               newInvoice
             ),
           }
         );
 
-        setEditingId(null);
+        setEditingId(
+          null
+        );
 
         setNewInvoice({
           sale_id: "",
-          invoice_number: "",
-          total_amount: "",
-          invoice_date: "",
+          invoice_number:
+            "",
+          total_amount:
+            "",
+          invoice_date:
+            "",
         });
 
         loadInvoices();
-
       } catch (err) {
         console.log(err);
       }
     };
 
-  return (
-    <div>
-      <h1>Invoice</h1>
+  const editInvoice = (
+    invoice
+  ) => {
+    setEditingId(
+      invoice.invoice_id
+    );
 
+    setNewInvoice({
+      sale_id:
+        invoice.sale_id,
+
+      invoice_number:
+        invoice.invoice_number,
+
+      total_amount:
+        invoice.total_amount,
+
+      invoice_date:
+        invoice.invoice_date?.split(
+          "T"
+        )[0],
+    });
+  };
+
+  const filteredInvoices =
+    invoices.filter(
+      (invoice) =>
+        invoice.invoice_number
+          ?.toLowerCase()
+          .includes(
+            search.toLowerCase()
+          )
+    );
+
+  const inputStyle = {
+    width: "100%",
+    padding:
+      "12px 14px",
+    borderRadius:
+      "14px",
+    border:
+      "1px solid #d1d5db",
+    outline: "none",
+    fontSize: "14px",
+  };
+
+  return (
+    <div
+      style={{
+        padding: "10px",
+      }}
+    >
+      {/* HEADER */}
       <div
         style={{
-          marginBottom: "20px",
+          display: "flex",
+          justifyContent:
+            "space-between",
+
+          alignItems:
+            "center",
+
+          marginBottom:
+            "25px",
+
+          flexWrap:
+            "wrap",
+
+          gap: "14px",
         }}
       >
-        <input
-          placeholder="Sale ID"
-          value={
-            newInvoice.sale_id
-          }
-          onChange={(e) =>
-            setNewInvoice({
-              ...newInvoice,
-              sale_id:
-                e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="Invoice Number"
-          value={
-            newInvoice.invoice_number
-          }
-          onChange={(e) =>
-            setNewInvoice({
-              ...newInvoice,
-              invoice_number:
-                e.target.value,
-            })
-          }
-        />
-
-        <input
-          placeholder="Total Amount"
-          value={
-            newInvoice.total_amount
-          }
-          onChange={(e) =>
-            setNewInvoice({
-              ...newInvoice,
-              total_amount:
-                e.target.value,
-            })
-          }
-        />
-
-        <input
-          type="date"
-          value={
-            newInvoice.invoice_date
-          }
-          onChange={(e) =>
-            setNewInvoice({
-              ...newInvoice,
-              invoice_date:
-                e.target.value,
-            })
-          }
-        />
-
-        {editingId ? (
-          <button
-            onClick={() =>
-              updateInvoice(
-                editingId
-              )
-            }
+        <div>
+          <p
+            style={{
+              color:
+                "#64748b",
+              margin: 0,
+            }}
           >
-            Update
-          </button>
-        ) : (
-          <button
-            onClick={addInvoice}
-          >
-            Add
-          </button>
-        )}
+            Billing System
+          </p>
+
+          <h1>
+            🧾 Invoice
+          </h1>
+        </div>
+
+        <input
+          placeholder="🔍 Search invoice..."
+          value={search}
+          onChange={(e) =>
+            setSearch(
+              e.target.value
+            )
+          }
+          style={{
+            ...inputStyle,
+            width: "300px",
+          }}
+        />
       </div>
 
-      <table border="1">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Sale ID</th>
-            <th>Invoice No</th>
-            <th>Total</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+      {/* FORM */}
+      <div
+        style={{
+          background:
+            "white",
 
-        <tbody>
-          {invoices.map((i) => (
-            <tr
-              key={i.invoice_id}
+          borderRadius:
+            "28px",
+
+          padding:
+            "24px",
+
+          marginBottom:
+            "25px",
+
+          boxShadow:
+            "0 14px 35px rgba(15,23,42,0.06)",
+        }}
+      >
+        <h2>
+          {editingId
+            ? "✏ Update Invoice"
+            : "➕ Add Invoice"}
+        </h2>
+
+        <div
+          style={{
+            display: "grid",
+
+            gridTemplateColumns:
+              "repeat(auto-fit,minmax(220px,1fr))",
+
+            gap: "14px",
+
+            marginTop:
+              "20px",
+          }}
+        >
+          <input
+            placeholder="Sale ID"
+            value={
+              newInvoice.sale_id
+            }
+            onChange={(e) =>
+              setNewInvoice({
+                ...newInvoice,
+                sale_id:
+                  e.target
+                    .value,
+              })
+            }
+            style={
+              inputStyle
+            }
+          />
+
+          <input
+            placeholder="Invoice Number"
+            value={
+              newInvoice.invoice_number
+            }
+            onChange={(e) =>
+              setNewInvoice({
+                ...newInvoice,
+                invoice_number:
+                  e.target
+                    .value,
+              })
+            }
+            style={
+              inputStyle
+            }
+          />
+
+          <input
+            placeholder="Total Amount"
+            value={
+              newInvoice.total_amount
+            }
+            onChange={(e) =>
+              setNewInvoice({
+                ...newInvoice,
+                total_amount:
+                  e.target
+                    .value,
+              })
+            }
+            style={
+              inputStyle
+            }
+          />
+
+          <input
+            type="date"
+            value={
+              newInvoice.invoice_date
+            }
+            onChange={(e) =>
+              setNewInvoice({
+                ...newInvoice,
+                invoice_date:
+                  e.target
+                    .value,
+              })
+            }
+            style={
+              inputStyle
+            }
+          />
+        </div>
+
+        <button
+          onClick={
+            editingId
+              ? updateInvoice
+              : addInvoice
+          }
+          style={{
+            marginTop:
+              "18px",
+
+            background:
+              "#111827",
+
+            color:
+              "white",
+
+            border:
+              "none",
+
+            padding:
+              "12px 20px",
+
+            borderRadius:
+              "14px",
+
+            cursor:
+              "pointer",
+
+            fontWeight:
+              "600",
+          }}
+        >
+          {editingId
+            ? "Update Invoice"
+            : "Add Invoice"}
+        </button>
+      </div>
+
+      {/* CARDS */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(300px,1fr))",
+          gap: "18px",
+        }}
+      >
+        {filteredInvoices.map(
+          (invoice) => (
+            <div
+              key={
+                invoice.invoice_id
+              }
+              style={{
+                background:
+                  "white",
+
+                borderRadius:
+                  "28px",
+
+                padding:
+                  "22px",
+
+                boxShadow:
+                  "0 14px 35px rgba(15,23,42,0.06)",
+              }}
             >
-              <td>
-                {i.invoice_id}
-              </td>
-
-              <td>
-                {i.sale_id}
-              </td>
-
-              <td>
+              <h3>
+                #
                 {
-                  i.invoice_number
+                  invoice.invoice_number
                 }
-              </td>
+              </h3>
 
-              <td>
+              <h1
+                style={{
+                  margin:
+                    "12px 0",
+                }}
+              >
+                $
                 {
-                  i.total_amount
+                  invoice.total_amount
                 }
-              </td>
+              </h1>
 
-              <td>
-                {i.invoice_date?.split(
+              <p>
+                🛒 Sale ID:{" "}
+                {
+                  invoice.sale_id
+                }
+              </p>
+
+              <p>
+                📅{" "}
+                {invoice.invoice_date?.split(
                   "T"
                 )[0]}
-              </td>
+              </p>
 
-              <td>
+              <div
+                style={{
+                  display:
+                    "flex",
+                  gap: "10px",
+                  marginTop:
+                    "18px",
+                }}
+              >
                 <button
-                  onClick={() => {
-                    setEditingId(
-                      i.invoice_id
-                    );
-
-                    setNewInvoice({
-                      sale_id:
-                        i.sale_id,
-                      invoice_number:
-                        i.invoice_number,
-                      total_amount:
-                        i.total_amount,
-                      invoice_date:
-                        i.invoice_date?.split(
-                          "T"
-                        )[0],
-                    });
+                  onClick={() =>
+                    editInvoice(
+                      invoice
+                    )
+                  }
+                  style={{
+                    flex: 1,
+                    background:
+                      "#111827",
+                    color:
+                      "white",
+                    border:
+                      "none",
+                    borderRadius:
+                      "14px",
+                    padding:
+                      "12px",
+                    cursor:
+                      "pointer",
                   }}
                 >
                   Edit
@@ -271,19 +488,32 @@ const Invoice = () => {
                 <button
                   onClick={() =>
                     deleteInvoice(
-                      i.invoice_id
+                      invoice.invoice_id
                     )
                   }
+                  style={{
+                    flex: 1,
+                    background:
+                      "#f3f4f6",
+                    border:
+                      "none",
+                    borderRadius:
+                      "14px",
+                    padding:
+                      "12px",
+                    cursor:
+                      "pointer",
+                  }}
                 >
                   Delete
                 </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </div>
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
-};
+}
 
 export default Invoice;
