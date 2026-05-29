@@ -52,8 +52,17 @@ const Sales = () => {
     };
 
   // ADD SALE
-  const addSale =
-    async () => {
+  const addSale =async () => {
+   
+    if (!newSale.customer_id || !newSale.total_amount || !newSale.sale_date) {
+  alert("Please fill all fields");
+  return;
+}
+
+if (Number(newSale.total_amount ) <= 0) {
+  alert("Amount must be greater than 0");
+  return;
+}
       try {
         const response =
           await fetch(

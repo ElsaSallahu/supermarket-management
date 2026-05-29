@@ -48,8 +48,25 @@ const Customers = () => {
       }
     };
 
-  const addCustomer =
-    async () => {
+  const addCustomer =async () => {
+   
+if (!newCustomer.full_name || !newCustomer.phone || !newCustomer.email || !newCustomer.address) {
+  alert("Please fill all fields");
+  return;
+}
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (!emailRegex.test(newCustomer.email)
+) {
+  alert("Invalid email format");
+  return;
+}
+
+if ( newCustomer.phone.length < 8) {
+  alert("Phone number is too short");
+  return;
+}
       try {
         await fetch(
           "http://localhost:5000/customers",
