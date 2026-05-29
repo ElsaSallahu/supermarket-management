@@ -472,93 +472,199 @@ const Sales = () => {
       >
         <h2>
           📋 Sales List
+          <p>{sales.length}</p>
         </h2>
 
         <table
-          style={{
-            width: "100%",
-            marginTop: "20px",
-          }}
-        >
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Customer ID</th>
-              <th>Total</th>
-              <th>Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+         style={{
+         width: "100%",
+         borderCollapse:"separate",
+         borderSpacing:"0 12px",
+  }}
+>
+<thead
+  style={{
+    background: "#f1f5f9",
+  }}
+>
+  <tr>
+    <th style={{
+    padding: "15px",
+    textAlign: "left",
+    paddingLeft: "25px",
+  }}
+>
+  ID
+</th>
+
+    <th style={{ 
+      padding: "15px",
+      textAlign: "left",
+      paddingLeft: "25px",
+     }}>
+      Customer ID
+    </th>
+
+    <th style={{ 
+      padding: "15px",
+      textAlign: "left",
+      paddingLeft: "25px",
+     }}>
+      Total
+    </th>
+
+    <th style={{ 
+      padding: "15px",
+      textAlign: "left",
+      paddingLeft: "25px",
+     }}>
+      Date
+    </th>
+
+    <th style={{ 
+      padding: "15px",
+      textAlign: "left",
+      paddingLeft: "25px",
+     }}>
+      Actions
+    </th>
+  </tr>
+</thead>
 
           <tbody>
-            {filteredSales.map(
-              (sale) => (
-                <tr
-                  key={
-                    sale.sale_id
-                  }
-                >
-                  <td>
-                    {
-                      sale.sale_id
-                    }
-                  </td>
+  {filteredSales.map(
+    (sale) => (
+      <tr
+        key={sale.sale_id}
+        style={{
+          background:
+            "#f8fafc",
+          borderBottom:
+            "12px solid white",
+        }}
+      >
+        <td
+          style={{
+            padding:"18px",
+            fontWeight:"600",
+              textAlign: "left",
+             paddingLeft:"25px",
+          }}
+        >
+          {sale.sale_id}
+        </td>
 
-                  <td>
-                    {
-                      sale.customer_id
-                    }
-                  </td>
+        <td
+          style={{
+            padding:"18px",
+            textAlign: "left",
+            paddingLeft: "25px",
+          }}
+        >
+          {sale.customer_id}
+        </td>
 
-                  <td>
-                    €
-                    {
-                      sale.total_amount
-                    }
-                  </td>
+        <td
+          style={{
+            padding:"18px",
+            color:"#7c3aed",
+            fontWeight:"bold",
+            textAlign: "left",
+            paddingLeft: "25px",
+          }}
+        >
+          €
+          {sale.total_amount}
+        </td>
 
-                  <td>
-                    {new Date(
-                      sale.sale_date
-                    ).toLocaleDateString()}
-                  </td>
+        <td
+          style={{
+            padding:"18px",
+            textAlign: "left",
+            paddingLeft: "25px",
+          }}
+        >
+          {new Date(
+            sale.sale_date
+          ).toLocaleDateString()}
+        </td>
 
-                  <td>
-                    <button
-                      onClick={() => {
-                        setEditingId(
-                          sale.sale_id
-                        );
+        <td
+          style={{
+            padding:"18px",
+            textAlign:"left",
+            paddingLeft:"25px",
+          }}
+        >
+          <button
+            onClick={() => {
+              setEditingId(
+                sale.sale_id
+              );
 
-                        setNewSale({
-                          customer_id:
-                            sale.customer_id,
-                          total_amount:
-                            sale.total_amount,
-                          sale_date:
-                            sale.sale_date?.split(
-                              "T"
-                            )[0],
-                        });
-                      }}
-                    >
-                      Edit
-                    </button>
+              setNewSale({
+                customer_id:
+                  sale.customer_id,
+                total_amount:
+                  sale.total_amount,
+                sale_date:
+                  sale.sale_date?.split(
+                    "T"
+                  )[0],
+              });
+            }}
+            style={{
+              background:
+                "#3b82f6",
+              color:
+                "white",
+              border:
+                "none",
+              padding:
+                "8px 14px",
+              borderRadius:
+                "10px",
+              marginRight:
+                "8px",
+              cursor:
+                "pointer",
+              fontWeight:
+                "600",
+            }}
+          >
+            Edit
+          </button>
 
-                    <button
-                      onClick={() =>
-                        deleteSale(
-                          sale.sale_id
-                        )
-                      }
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
+          <button
+            onClick={() =>
+              deleteSale(
+                sale.sale_id
               )
-            )}
-          </tbody>
+            }
+            style={{
+              background:
+                "#ef4444",
+              color:
+                "white",
+              border:
+                "none",
+              padding:
+                "8px 14px",
+              borderRadius:
+                "10px",
+              cursor:
+                "pointer",
+              fontWeight:
+                "600",
+            }}
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    )
+  )}
+</tbody>
         </table>
       </div>
 
