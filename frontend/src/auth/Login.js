@@ -1,49 +1,107 @@
-import React, { useState } from "react";
+import React, {
+  useState,
+} from "react";
+
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
+import {
+  useNavigate,
+} from "react-router-dom";
+
 import "./auth.css";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] =
+  const [email, setEmail] =
     useState("");
 
-  const navigate = useNavigate();
+  const [
+    password,
+    setPassword,
+  ] = useState("");
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const navigate =
+    useNavigate();
 
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          email,
-          password,
+  const handleLogin =
+    async (e) => {
+      e.preventDefault();
+
+      try {
+        const res =
+          await axios.post(
+            "http://localhost:5000/api/auth/login",
+            {
+              email,
+              password,
+            }
+          );
+
+        if (
+          res.data.success
+        ) {
+          // SAVE USER
+          localStorage.setItem(
+            "user",
+            JSON.stringify(
+              res.data.user
+            )
+          );
+
+          const user =
+            res.data.user;
+
+          // ROLE REDIRECT
+          if (
+            user.role ===
+            "admin"
+          ) {
+            navigate(
+              "/dashboard"
+            );
+          } else if (
+            user.role ===
+            "manager"
+          ) {
+            navigate(
+              "/dashboard"
+            );
+          } else if (
+            user.role ===
+            "cashier"
+          ) {
+            navigate(
+              "/sales"
+            );
+          } else if (
+            user.role ===
+            "customer"
+          ) {
+            navigate(
+              "/customer-home"
+            );
+          } else {
+            navigate("/");
+          }
+        } else {
+          alert(
+            res.data.message
+          );
         }
-      );
-
-      if (res.data.success) {
-        // Save logged user
-        localStorage.setItem(
-          "user",
-          JSON.stringify(res.data.user)
+      } catch (err) {
+        alert(
+          "Login failed"
         );
 
-        // Redirect
-        navigate("/");
-      } else {
-        alert(res.data.message);
+        console.log(err);
       }
-    } catch (err) {
-      alert("Login failed");
-      console.log(err);
-    }
-  };
+    };
 
   return (
     <div className="auth-container">
       <form
-        onSubmit={handleLogin}
+        onSubmit={
+          handleLogin
+        }
         className="auth-form"
       >
         <h2>Login</h2>
@@ -53,8 +111,11 @@ const Login = () => {
           placeholder="Email"
           value={email}
           onChange={(e) =>
-            setEmail(e.target.value)
+            setEmail(
+              e.target.value
+            )
           }
+          required
         />
 
         <input
@@ -62,21 +123,32 @@ const Login = () => {
           placeholder="Password"
           value={password}
           onChange={(e) =>
-            setPassword(e.target.value)
+            setPassword(
+              e.target.value
+            )
           }
+          required
         />
 
-        <button type="submit">
+        <button
+          type="submit"
+        >
           Login
         </button>
 
         <p
           onClick={() =>
-            navigate("/register")
+            navigate(
+              "/register"
+            )
           }
-          style={{ cursor: "pointer" }}
+          style={{
+            cursor:
+              "pointer",
+          }}
         >
-          Don't have an account?
+          Don't have an
+          account?
           Register
         </p>
       </form>

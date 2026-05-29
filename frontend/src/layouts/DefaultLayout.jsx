@@ -1,4 +1,5 @@
 ﻿import { useEffect } from "react";
+
 import {
   NavLink,
   useNavigate,
@@ -10,27 +11,53 @@ function DefaultLayout() {
   const navigate =
     useNavigate();
 
-  useEffect(() => {
-    const user =
-      localStorage.getItem(
-        "user"
-      );
+  // USER SAFE PARSE
+  const userData =
+    localStorage.getItem(
+      "user"
+    );
 
-    if (!user) {
-      navigate("/login");
-    }
-  }, [navigate]);
+  let user = null;
 
-  const handleLogout = () => {
+  try {
+    user = userData
+      ? JSON.parse(
+          userData
+        )
+      : null;
+  } catch (error) {
+    console.log(
+      "User parse error:",
+      error
+    );
+
     localStorage.removeItem(
       "user"
     );
 
-    navigate("/login");
-  };
+    user = null;
+  }
+
+  // CHECK LOGIN
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [navigate, user]);
+
+  // LOGOUT
+  const handleLogout =
+    () => {
+      localStorage.removeItem(
+        "user"
+      );
+
+      navigate("/login");
+    };
 
   return (
     <div className="app-shell">
+      {/* SIDEBAR */}
       <aside className="sidebar">
         <div className="sidebar-top">
           <h2>
@@ -39,76 +66,125 @@ function DefaultLayout() {
         </div>
 
         <nav className="sidebar-nav">
-          <NavLink to="/dashboard">
-            Dashboard
-          </NavLink>
 
+          {/* ADMIN + MANAGER */}
+          {(user?.role ===
+            "admin" ||
+            user?.role ===
+              "manager") && (
+            <NavLink to="/dashboard">
+              Dashboard
+            </NavLink>
+          )}
+
+          {/* ALL */}
           <NavLink to="/products">
             Products
           </NavLink>
 
-          <NavLink to="/categories">
-            Categories
-          </NavLink>
+          {/* ADMIN + MANAGER + CUSTOMER */}
+          {(user?.role ===
+            "admin" ||
+            user?.role ===
+              "manager" ||
+            user?.role ===
+              "customer") && (
+            <NavLink to="/categories">
+              Categories
+            </NavLink>
+          )}
 
-          <NavLink to="/suppliers">
-            Suppliers
-          </NavLink>
+          {/* ADMIN + MANAGER */}
+          {(user?.role ===
+            "admin" ||
+            user?.role ===
+              "manager") && (
+            <>
+              <NavLink to="/suppliers">
+                Suppliers
+              </NavLink>
 
-          <NavLink to="/stock">
-            Stock
-          </NavLink>
+              <NavLink to="/stock">
+                Stock
+              </NavLink>
+            </>
+          )}
 
-          <NavLink to="/customers">
-            Customers
-          </NavLink>
+          {/* ADMIN + MANAGER + CASHIER */}
+          {(user?.role ===
+            "admin" ||
+            user?.role ===
+              "manager" ||
+            user?.role ===
+              "cashier") && (
+            <>
+              <NavLink to="/customers">
+                Customers
+              </NavLink>
 
-          <NavLink to="/sales">
-            Sales
-          </NavLink>
+              <NavLink to="/sales">
+                Sales
+              </NavLink>
 
-          <NavLink to="/sale-items">
-            Sale Items
-          </NavLink>
+              <NavLink to="/sale-items">
+                Sale Items
+              </NavLink>
 
-          <NavLink to="/payments">
-            Payments
-          </NavLink>
+              <NavLink to="/payments">
+                Payments
+              </NavLink>
 
-          <NavLink to="/invoice">
-            Invoice
-          </NavLink>
+              <NavLink to="/invoice">
+                Invoice
+              </NavLink>
+            </>
+          )}
 
-          <NavLink to="/cashiers">
-            Cashiers
-          </NavLink>
+          {/* ADMIN + MANAGER */}
+          {(user?.role ===
+            "admin" ||
+            user?.role ===
+              "manager") && (
+            <>
+              <NavLink to="/cashiers">
+                Cashiers
+              </NavLink>
 
-          <NavLink to="/users">
-            Users
-          </NavLink>
+              <NavLink to="/employees">
+                Employees
+              </NavLink>
 
-          <NavLink to="/roles">
-            Roles
-          </NavLink>
+              <NavLink to="/product-report">
+                Product Report
+              </NavLink>
 
-          <NavLink to="/employees">
-            Employees
-          </NavLink>
+              <NavLink to="/sales-report">
+                Sales Report
+              </NavLink>
+            </>
+          )}
 
-          <NavLink to="/product-report">
-            Product Report
-          </NavLink>
+          {/* ADMIN ONLY */}
+          {user?.role ===
+            "admin" && (
+            <>
+              <NavLink to="/users">
+                Users
+              </NavLink>
 
-          <NavLink to="/sales-report">
-            Sales Report
-          </NavLink>
+              <NavLink to="/roles">
+                Roles
+              </NavLink>
 
-          <NavLink to="/user-activity">
-            User Activity
-          </NavLink>
+              <NavLink to="/user-activity">
+                User Activity
+              </NavLink>
+            </>
+          )}
         </nav>
       </aside>
 
+      {/* MAIN */}
       <main className="main-panel">
         <header className="topbar">
           <h1 className="page-title">
@@ -116,8 +192,11 @@ function DefaultLayout() {
           </h1>
 
           <div className="topbar-right">
+
             <div className="user-pill">
-              Admin
+              {user?.role
+                ? user.role
+                : "Guest"}
             </div>
 
             <button
