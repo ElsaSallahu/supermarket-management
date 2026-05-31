@@ -15,6 +15,8 @@ import CustomerHome from "./pages/customer/CustomerHome";
 import CustomerProducts from "./pages/customer/CustomerProducts";
 import CustomerCategories from "./pages/customer/CustomerCategories";
 import CustomerOffers from "./pages/customer/CustomerOffers";
+import CustomerCart from "./pages/customer/CustomerCart";
+import CustomerLayout from "./pages/customer/CustomerLayout";
 
 function App() {
   return (
@@ -39,24 +41,13 @@ function App() {
   path="/customer-register"
   element={<CustomerRegister />}
 />
-<Route
-  path="/customer-offers"
-  element={<CustomerOffers />}
-/>
-
-<Route
-  path="/customer-home"
-  element={<CustomerHome />}
-/>
-<Route 
-path="/customer-categories" 
-element={<CustomerCategories />}
- />
-
-<Route
-  path="/customer-products"
-  element={<CustomerProducts />}
-/>
+<Route path="/customer" element={<CustomerLayout />}>
+  <Route path="home" element={<CustomerHome />} />
+  <Route path="products" element={<CustomerProducts />} />
+  <Route path="categories" element={<CustomerCategories />} />
+  <Route path="offers" element={<CustomerOffers />} />
+  <Route path="cart" element={<CustomerCart />} />
+</Route>
 
         <Route
           path="/*"
