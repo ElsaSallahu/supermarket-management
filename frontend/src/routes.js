@@ -128,11 +128,7 @@ const routes = [
     element: Customers,
   },
 
-  {
-    path: '/customer-home',
-    name: 'Customer Home',
-    element: CustomerHome,
-  },
+
 
   {
     path: '/stock',

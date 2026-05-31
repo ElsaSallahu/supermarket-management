@@ -52,16 +52,18 @@ function CustomerProducts() {
             <h2>€ {p.cmimi_shitjes}</h2>
            <button
   onClick={() => addToCart(p)}
+  disabled={Number(p.stoku) <= 0}
   style={{
     width: "100%",
     padding: "12px",
     border: "none",
     borderRadius: "12px",
-    background: "#16a34a",
+    background: Number(p.stoku) <= 0 ? "#94a3b8" : "#16a34a",
     color: "white",
+    cursor: Number(p.stoku) <= 0 ? "not-allowed" : "pointer",
   }}
 >
-  Add to Cart
+  {Number(p.stoku) <= 0 ? "Out of Stock" : "Add to Cart"}
 </button>
           </div>
         ))}
