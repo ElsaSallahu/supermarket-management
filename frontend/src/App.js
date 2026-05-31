@@ -13,6 +13,8 @@ import CustomerLogin from "./pages/customer/CustomerLogin";
 import CustomerRegister from "./pages/customer/CustomerRegister";
 import CustomerHome from "./pages/customer/CustomerHome";
 import CustomerProducts from "./pages/customer/CustomerProducts";
+import CustomerCategories from "./pages/customer/CustomerCategories";
+import CustomerOffers from "./pages/customer/CustomerOffers";
 
 function App() {
   return (
@@ -37,11 +39,19 @@ function App() {
   path="/customer-register"
   element={<CustomerRegister />}
 />
+<Route
+  path="/customer-offers"
+  element={<CustomerOffers />}
+/>
 
 <Route
   path="/customer-home"
   element={<CustomerHome />}
 />
+<Route 
+path="/customer-categories" 
+element={<CustomerCategories />}
+ />
 
 <Route
   path="/customer-products"
