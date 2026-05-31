@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 function CustomerCart() {
   const [cart, setCart] = useState([]);
@@ -19,16 +20,34 @@ function CustomerCart() {
     0
   );
 
-  const confirmOrder = () => {
-    if (cart.length === 0) {
-      alert("Shporta eshte e zbrazet");
-      return;
-    }
+ const confirmOrder = async () => {
+  if (cart.length === 0) {
+    alert("Shporta eshte e zbrazet");
+    return;
+  }
 
-    alert("Porosia u konfirmua me sukses");
+  const customer = JSON.parse(localStorage.getItem("customer"));
+
+  const orderData = {
+    customer_id: customer?.customer_id || null,
+    customer_name: customer?.full_name || "Guest Customer",
+    total_amount: total,
+    items: cart,
+  };
+
+  try {
+    const res = await axios.post("http://localhost:5000/orders", orderData);
+
+    alert(res.data.message);
+
     localStorage.removeItem("cart");
     setCart([]);
-  };
+  } catch (error) {
+    console.log(error);
+    alert("Gabim gjate konfirmimit te porosise");
+  }
+};
+
 
   return (
     <div style={{ padding: "40px", background: "#f8fafc", minHeight: "100vh" }}>

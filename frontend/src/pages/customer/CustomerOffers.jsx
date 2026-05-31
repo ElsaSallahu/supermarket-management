@@ -57,7 +57,9 @@ function CustomerOffers() {
               borderRadius: "20px",
               boxShadow: "0 10px 25px rgba(15,23,42,0.08)"
             }}
+          
           >
+           
             <div
               style={{
                 background: "#dcfce7",
@@ -69,6 +71,7 @@ function CustomerOffers() {
                 marginBottom: "15px"
               }}
             >
+             
               -{offer.discount}
             </div>
 
@@ -77,6 +80,21 @@ function CustomerOffers() {
             <p style={{ color: "#64748b" }}>
               {offer.description}
             </p>
+            <button
+  style={{
+    marginTop: "15px",
+    width: "100%",
+    padding: "12px",
+    border: "none",
+    borderRadius: "12px",
+    background: "#16a34a",
+    color: "white",
+    fontWeight: "bold",
+    cursor: "pointer"
+  }}
+>
+  View Products
+</button>
           </div>
         ))}
       </div>
