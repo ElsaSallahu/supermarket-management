@@ -40,6 +40,7 @@ function CustomerRegister() {
       alert("Gabim ne regjistrim");
     }
   };
+  
 
   return (
     <div style={{
