@@ -69,13 +69,10 @@ function SalesReport() {
     );
 
   return (
-    <div
-      style={{
-        padding: "10px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           display: "flex",
           justifyContent:
@@ -91,6 +88,7 @@ function SalesReport() {
       >
         <div>
           <p
+            className="page-kicker"
             style={{
               color:
                 "#64748b",
@@ -101,14 +99,14 @@ function SalesReport() {
             Dashboard
           </p>
 
-          <h1>
-            📊 Sales
-            Report
+          <h1 className="page-heading">
+            Sales Report
           </h1>
         </div>
 
         <input
-          placeholder="🔍 Search sale..."
+          className="ui-input"
+          placeholder="Search sale..."
           value={search}
           onChange={(e) =>
             setSearch(
@@ -145,6 +143,7 @@ function SalesReport() {
         }}
       >
         <div
+          className="ui-card"
           style={{
             background:
               "white",
@@ -173,6 +172,7 @@ function SalesReport() {
         </div>
 
         <div
+          className="ui-card"
           style={{
             background:
               "white",
@@ -204,6 +204,7 @@ function SalesReport() {
 
       {/* TABLE */}
       <div
+        className="ui-card"
         style={{
           background:
             "white",

@@ -52,7 +52,6 @@ function CustomerLogin() {
         boxShadow: "0 20px 40px rgba(15, 23, 42, 0.12)"
       }}>
         <div style={{ textAlign: "center", marginBottom: "25px" }}>
-          <div style={{ fontSize: "45px" }}>🛒</div>
           <h2 style={{ margin: "10px 0 5px", fontSize: "28px", color: "#0f172a" }}>
             Customer Login
           </h2>
@@ -63,6 +62,7 @@ function CustomerLogin() {
 
         <form onSubmit={handleSubmit}>
           <input
+            className="ui-input"
             type="email"
             name="email"
             placeholder="Email Address"
@@ -72,6 +72,7 @@ function CustomerLogin() {
           />
 
           <input
+            className="ui-input"
             type="password"
             name="password"
             placeholder="Password"
@@ -80,7 +81,7 @@ function CustomerLogin() {
             style={inputStyle}
           />
 
-          <button type="submit" style={buttonStyle}>
+          <button className="ui-button ui-button-primary" type="submit" style={buttonStyle}>
             Login
           </button>
         </form>

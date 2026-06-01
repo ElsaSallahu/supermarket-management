@@ -360,6 +360,43 @@ a {
   color: white;
 }
 
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.ui-table-wrap {
+  overflow-x: auto;
+}
+
+.ui-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.ui-table th {
+  padding: 14px;
+  text-align: left;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.ui-table td {
+  background: #f8fafc;
+  padding: 14px;
+  color: var(--text);
+}
+
+.ui-table td:first-child {
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+}
+
+.ui-table td:last-child {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
 /* DASHBOARD */
 
 .stats-grid {

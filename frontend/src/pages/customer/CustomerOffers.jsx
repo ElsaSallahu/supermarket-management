@@ -21,14 +21,11 @@ function CustomerOffers() {
   ];
 
   return (
-    <div style={{
-      padding: "40px",
+    <div className="page" style={{
       background: "#f8fafc",
       minHeight: "100vh"
     }}>
-      <h1 style={{
-        fontSize: "32px",
-        color: "#0f172a",
+      <h1 className="page-heading" style={{
         marginBottom: "8px"
       }}>
         Special Offers
@@ -51,6 +48,7 @@ function CustomerOffers() {
         {offers.map((offer) => (
           <div
             key={offer.id}
+            className="ui-card"
             style={{
               background: "white",
               padding: "25px",

@@ -189,13 +189,10 @@ function Employees() {
     );
 
   return (
-    <div
-      style={{
-        padding: "10px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           display: "flex",
           justifyContent:
@@ -211,6 +208,7 @@ function Employees() {
       >
         <div>
           <p
+            className="page-kicker"
             style={{
               color:
                 "#64748b",
@@ -220,13 +218,14 @@ function Employees() {
             Staff Management
           </p>
 
-          <h1>
-            👨‍💼 Employees
+          <h1 className="page-heading">
+            Employees
           </h1>
         </div>
 
         <input
-          placeholder="🔍 Search employee..."
+          className="ui-input"
+          placeholder="Search employee..."
           value={search}
           onChange={(e) =>
             setSearch(
@@ -242,6 +241,7 @@ function Employees() {
 
       {/* FORM */}
       <div
+        className="ui-card"
         style={{
           background:
             "white",
@@ -256,8 +256,8 @@ function Employees() {
       >
         <h2>
           {editingId
-            ? "✏ Update Employee"
-            : "➕ Add Employee"}
+            ? "Update Employee"
+            : "Add Employee"}
         </h2>
 
         <div
@@ -271,6 +271,7 @@ function Employees() {
           }}
         >
           <input
+            className="ui-input"
             type="text"
             placeholder="Full Name"
             value={
@@ -288,6 +289,7 @@ function Employees() {
           />
 
           <input
+            className="ui-input"
             type="text"
             placeholder="Phone"
             value={phone}
@@ -303,6 +305,7 @@ function Employees() {
           />
 
           <input
+            className="ui-input"
             type="text"
             placeholder="Position"
             value={
@@ -320,6 +323,7 @@ function Employees() {
           />
 
           <input
+            className="ui-input"
             type="number"
             placeholder="Salary"
             value={
@@ -338,6 +342,7 @@ function Employees() {
         </div>
 
         <button
+          className="ui-button ui-button-primary"
           onClick={
             editingId
               ? updateEmployee
@@ -453,7 +458,7 @@ function Employees() {
                     "10px",
                 }}
               >
-                📞{" "}
+                Phone:{" "}
                 {
                   employee.phone
                 }
@@ -467,7 +472,7 @@ function Employees() {
                     "6px",
                 }}
               >
-                💼{" "}
+                Position:{" "}
                 {
                   employee.position
                 }

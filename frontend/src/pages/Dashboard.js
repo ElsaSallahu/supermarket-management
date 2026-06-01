@@ -52,7 +52,7 @@ const Dashboard = () => {
           await customersRes.json()
           console.log(customers)
 
-        // ✅ TOTAL SALES
+        // TOTAL SALES
         const totalRevenue =
           sales.reduce(
             (sum, sale) =>
@@ -89,20 +89,19 @@ const Dashboard = () => {
     }
 
   return (
-    <div className="dashboard-page">
-      <h1
-        style={{
-          marginBottom: '20px',
-        }}
-      >
-        Dashboard Overview
-      </h1>
+    <div className="page dashboard-page">
+      <div className="page-header">
+        <div>
+          <p className="page-kicker">Operations</p>
+          <h1 className="page-heading">Dashboard Overview</h1>
+        </div>
+      </div>
 
       {/* Stats Cards */}
       <div className="stats-grid">
         <div className="stat-card">
           <span>
-            💰 Total Sales
+            Total Sales
           </span>
           <strong>
             €{ stats.totalSales}
@@ -114,7 +113,7 @@ const Dashboard = () => {
 
         <div className="stat-card">
           <span>
-            📦 Products
+            Products
           </span>
           <strong>
              {stats.products}
@@ -126,7 +125,7 @@ const Dashboard = () => {
 
         <div className="stat-card">
           <span>
-            👥 Customers
+            Customers
           </span>
           <strong>
              {
@@ -140,7 +139,7 @@ const Dashboard = () => {
 
         <div className="stat-card warning">
           <span>
-            ⚠ Low Stock
+            Low Stock
           </span>
           <strong>
             {stats.lowStock }
@@ -160,7 +159,7 @@ const Dashboard = () => {
 
           <div className="activity-row">
             <span>
-              🥛 Milk 1L
+              Milk 1L
               restocked
             </span>
 
@@ -171,7 +170,7 @@ const Dashboard = () => {
 
           <div className="activity-row">
             <span>
-              🍞 Bread
+              Bread
               sold
             </span>
 
@@ -182,7 +181,7 @@ const Dashboard = () => {
 
           <div className="activity-row">
             <span>
-              👤 Cashier
+              Cashier
               shift opened
             </span>
 
@@ -193,7 +192,7 @@ const Dashboard = () => {
 
           <div className="activity-row">
             <span>
-              🍎 Apples
+              Apples
               low stock
             </span>
 
@@ -270,7 +269,7 @@ const Dashboard = () => {
       >
         <div className="panel">
           <h3>
-            🛒 Orders
+            Orders
           </h3>
           <h1>
             320
@@ -279,7 +278,7 @@ const Dashboard = () => {
 
         <div className="panel">
           <h3>
-            👨‍💼 Employees
+            Employees
           </h3>
           <h1>
             28
@@ -288,7 +287,7 @@ const Dashboard = () => {
 
         <div className="panel">
           <h3>
-            💳 Payments
+            Payments
           </h3>
           <h1>
             180

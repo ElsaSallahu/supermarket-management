@@ -195,13 +195,10 @@ function Cashiers() {
     );
 
   return (
-    <div
-      style={{
-        padding: "10px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           display: "flex",
           justifyContent:
@@ -217,6 +214,7 @@ function Cashiers() {
       >
         <div>
           <p
+            className="page-kicker"
             style={{
               color:
                 "#64748b",
@@ -226,13 +224,14 @@ function Cashiers() {
             Register Staff
           </p>
 
-          <h1>
-            💵 Cashiers
+          <h1 className="page-heading">
+            Cashiers
           </h1>
         </div>
 
         <input
-          placeholder="🔍 Search cashier..."
+          className="ui-input"
+          placeholder="Search cashier..."
           value={search}
           onChange={(e) =>
             setSearch(
@@ -248,6 +247,7 @@ function Cashiers() {
 
       {/* FORM */}
       <div
+        className="ui-card"
         style={{
           background:
             "white",
@@ -262,8 +262,8 @@ function Cashiers() {
       >
         <h2>
           {editingId
-            ? "✏ Update Cashier"
-            : "➕ Add Cashier"}
+            ? "Update Cashier"
+            : "Add Cashier"}
         </h2>
 
         <div
@@ -278,6 +278,7 @@ function Cashiers() {
           }}
         >
           <input
+            className="ui-input"
             type="text"
             placeholder="Full Name"
             value={
@@ -295,6 +296,7 @@ function Cashiers() {
           />
 
           <input
+            className="ui-input"
             type="text"
             placeholder="Shift Time"
             value={
@@ -312,6 +314,7 @@ function Cashiers() {
           />
 
           <input
+            className="ui-input"
             type="text"
             placeholder="Phone"
             value={phone}
@@ -327,6 +330,7 @@ function Cashiers() {
           />
 
           <input
+            className="ui-input"
             type="number"
             placeholder="Salary"
             value={
@@ -345,6 +349,7 @@ function Cashiers() {
         </div>
 
         <button
+          className="ui-button ui-button-primary"
           onClick={
             editingId
               ? updateCashier
@@ -461,7 +466,7 @@ function Cashiers() {
                     "10px",
                 }}
               >
-                📞{" "}
+                Phone:{" "}
                 {
                   cashier.phone
                 }

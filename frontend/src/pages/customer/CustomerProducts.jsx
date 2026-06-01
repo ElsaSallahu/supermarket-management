@@ -39,18 +39,18 @@ function CustomerProducts() {
 };
 
   return (
-    <div style={{ padding: "40px", background: "#f8fafc", minHeight: "100vh" }}>
-      <h1>Products</h1>
+    <div className="page" style={{ background: "#f8fafc", minHeight: "100vh" }}>
+      <h1 className="page-heading">Products</h1>
       <p>Choose your favorite supermarket products.</p>
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "20px" }}>
         {products.map((p) => (
-          <div key={p.produkti_id} style={{ background: "white", padding: "20px", borderRadius: "18px" }}>
-            <div style={{ fontSize: "40px", textAlign: "center" }}>🛒</div>
+          <div key={p.produkti_id} className="ui-card">
             <h3>{p.emri}</h3>
             <p>Stock: {p.stoku}</p>
             <h2>€ {p.cmimi_shitjes}</h2>
            <button
+  className="ui-button ui-button-primary"
   onClick={() => addToCart(p)}
   disabled={Number(p.stoku) <= 0}
   style={{

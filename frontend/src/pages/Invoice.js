@@ -185,13 +185,10 @@ function Invoice() {
   };
 
   return (
-    <div
-      style={{
-        padding: "10px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           display: "flex",
           justifyContent:
@@ -211,6 +208,7 @@ function Invoice() {
       >
         <div>
           <p
+            className="page-kicker"
             style={{
               color:
                 "#64748b",
@@ -220,13 +218,14 @@ function Invoice() {
             Billing System
           </p>
 
-          <h1>
-            🧾 Invoice
+          <h1 className="page-heading">
+            Invoice
           </h1>
         </div>
 
         <input
-          placeholder="🔍 Search invoice..."
+          className="ui-input"
+          placeholder="Search invoice..."
           value={search}
           onChange={(e) =>
             setSearch(
@@ -242,6 +241,7 @@ function Invoice() {
 
       {/* FORM */}
       <div
+        className="ui-card"
         style={{
           background:
             "white",
@@ -261,8 +261,8 @@ function Invoice() {
       >
         <h2>
           {editingId
-            ? "✏ Update Invoice"
-            : "➕ Add Invoice"}
+            ? "Update Invoice"
+            : "Add Invoice"}
         </h2>
 
         <div
@@ -279,6 +279,7 @@ function Invoice() {
           }}
         >
           <input
+            className="ui-input"
             placeholder="Sale ID"
             value={
               newInvoice.sale_id
@@ -297,6 +298,7 @@ function Invoice() {
           />
 
           <input
+            className="ui-input"
             placeholder="Invoice Number"
             value={
               newInvoice.invoice_number
@@ -315,6 +317,7 @@ function Invoice() {
           />
 
           <input
+            className="ui-input"
             placeholder="Total Amount"
             value={
               newInvoice.total_amount
@@ -333,6 +336,7 @@ function Invoice() {
           />
 
           <input
+            className="ui-input"
             type="date"
             value={
               newInvoice.invoice_date
@@ -438,14 +442,14 @@ function Invoice() {
               </h1>
 
               <p>
-                🛒 Sale ID:{" "}
+            Sale ID:{" "}
                 {
                   invoice.sale_id
                 }
               </p>
 
               <p>
-                📅{" "}
+            Date:{" "}
                 {invoice.invoice_date?.split(
                   "T"
                 )[0]}

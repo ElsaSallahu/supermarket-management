@@ -26,7 +26,7 @@ function CustomerLayout() {
           <Link to="/customer/offers">Offers</Link>
           <Link to="/customer/cart">Cart</Link>
 
-          <button onClick={logout} style={{
+          <button className="ui-button ui-button-danger" onClick={logout} style={{
             background: "#ef4444",
             color: "white",
             border: "none",

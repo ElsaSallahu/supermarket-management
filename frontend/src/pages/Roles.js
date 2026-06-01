@@ -89,10 +89,18 @@ function Roles() {
   };
 
   return (
-    <div>
-      <h2>Roles Management</h2>
+    <div className="page">
+      <div className="page-header">
+        <div>
+          <p className="page-kicker">Administration</p>
+          <h1 className="page-heading">Roles</h1>
+        </div>
+      </div>
 
+      <div className="ui-card" style={{ marginBottom: "22px" }}>
+      <div className="form-grid">
       <input
+        className="ui-input"
         type="text"
         placeholder="Role Name"
         value={roleName}
@@ -102,19 +110,19 @@ function Roles() {
       />
 
       {editingId ? (
-        <button onClick={updateRole}>
+        <button className="ui-button ui-button-primary" onClick={updateRole}>
           Update Role
         </button>
       ) : (
-        <button onClick={addRole}>
+        <button className="ui-button ui-button-primary" onClick={addRole}>
           Add Role
         </button>
       )}
+      </div>
+      </div>
 
-      <br />
-      <br />
-
-      <table border="1">
+      <div className="ui-card ui-table-wrap">
+      <table className="ui-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -130,12 +138,14 @@ function Roles() {
               <td>{role.role_name}</td>
               <td>
                 <button
+                  className="ui-button ui-button-secondary"
                   onClick={() => editRole(role)}
                 >
                   Edit
                 </button>
 
                 <button
+                  className="ui-button ui-button-danger"
                   onClick={() =>
                     deleteRole(role.role_id)
                   }
@@ -147,6 +157,7 @@ function Roles() {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

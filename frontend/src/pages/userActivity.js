@@ -180,13 +180,10 @@ function UserActivity() {
   };
 
   return (
-    <div
-      style={{
-        padding: "10px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           display: "flex",
           justifyContent:
@@ -206,6 +203,7 @@ function UserActivity() {
       >
         <div>
           <p
+            className="page-kicker"
             style={{
               color:
                 "#64748b",
@@ -215,13 +213,14 @@ function UserActivity() {
             System Logs
           </p>
 
-          <h1>
-            🧑‍💻 User Activity
+          <h1 className="page-heading">
+            User Activity
           </h1>
         </div>
 
         <input
-          placeholder="🔍 Search activity..."
+          className="ui-input"
+          placeholder="Search activity..."
           value={search}
           onChange={(e) =>
             setSearch(
@@ -237,6 +236,7 @@ function UserActivity() {
 
       {/* FORM */}
       <div
+        className="ui-card"
         style={{
           background:
             "white",
@@ -256,8 +256,8 @@ function UserActivity() {
       >
         <h2>
           {editingId
-            ? "✏ Update Activity"
-            : "➕ Add Activity"}
+            ? "Update Activity"
+            : "Add Activity"}
         </h2>
 
         <div
@@ -274,6 +274,7 @@ function UserActivity() {
           }}
         >
           <input
+            className="ui-input"
             type="text"
             placeholder="User Name"
             value={
@@ -291,6 +292,7 @@ function UserActivity() {
           />
 
           <input
+            className="ui-input"
             type="text"
             placeholder="Activity Type"
             value={
@@ -309,6 +311,7 @@ function UserActivity() {
         </div>
 
         <button
+          className="ui-button ui-button-primary"
           onClick={
             editingId
               ? updateActivity
@@ -380,7 +383,6 @@ function UserActivity() {
               }}
             >
               <h3>
-                👤{" "}
                 {
                   activity.user_name
                 }
@@ -395,7 +397,7 @@ function UserActivity() {
                     "12px 0",
                 }}
               >
-                ⚡{" "}
+                Type:{" "}
                 {
                   activity.activity_type
                 }
@@ -407,7 +409,7 @@ function UserActivity() {
                     "#64748b",
                 }}
               >
-                📅{" "}
+                Date:{" "}
                 {activity.activity_date?.split(
                   "T"
                 )[0]}
@@ -425,6 +427,7 @@ function UserActivity() {
                 }}
               >
                 <button
+                  className="ui-button ui-button-secondary"
                   onClick={() =>
                     editActivity(
                       activity
@@ -450,6 +453,7 @@ function UserActivity() {
                 </button>
 
                 <button
+                  className="ui-button ui-button-danger"
                   onClick={() =>
                     deleteActivity(
                       activity.activity_id

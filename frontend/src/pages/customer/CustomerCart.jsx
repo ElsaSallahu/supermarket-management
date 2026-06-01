@@ -50,20 +50,21 @@ function CustomerCart() {
 
 
   return (
-    <div style={{ padding: "40px", background: "#f8fafc", minHeight: "100vh" }}>
-      <h1 style={{ fontSize: "32px", color: "#0f172a" }}>My Cart</h1>
+    <div className="page" style={{ background: "#f8fafc", minHeight: "100vh" }}>
+      <h1 className="page-heading">My Cart</h1>
       <p style={{ color: "#64748b", marginBottom: "25px" }}>
         Review your selected products before confirming the order.
       </p>
 
       {cart.length === 0 ? (
-        <div style={{ background: "white", padding: "25px", borderRadius: "18px" }}>
+        <div className="ui-card">
           Your cart is empty.
         </div>
       ) : (
         <>
           {cart.map((item) => (
             <div
+              className="ui-card"
               key={item.produkti_id}
               style={{
                 background: "white",
@@ -83,6 +84,7 @@ function CustomerCart() {
               </div>
 
               <button
+                className="ui-button ui-button-danger"
                 onClick={() => removeItem(item.produkti_id)}
                 style={{
                   background: "#ef4444",
@@ -99,6 +101,7 @@ function CustomerCart() {
           ))}
 
           <div
+            className="ui-card"
             style={{
               background: "white",
               padding: "25px",
@@ -110,6 +113,7 @@ function CustomerCart() {
             <h2>Total: €{total.toFixed(2)}</h2>
 
             <button
+              className="ui-button ui-button-primary"
               onClick={confirmOrder}
               style={{
                 background: "#16a34a",
