@@ -190,8 +190,9 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
   const totalStock = products.reduce((sum, p) => sum + Number(p.stoku || 0), 0);
 
   return (
-    <div style={{ padding: "24px" }}>
+    <div className="page">
       <div
+        className="page-header"
         style={{
           display: "flex",
           justifyContent: "space-between",
@@ -202,17 +203,18 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
         }}
       >
         <div>
-          <p style={{ margin: 0, color: "#6b7280", fontSize: "14px" }}>
+          <p className="page-kicker">
             Inventory Management
           </p>
-          <h1 style={{ margin: "4px 0 0", fontSize: "30px", color: "#0f172a" }}>
+          <h1 className="page-heading">
             Products
           </h1>
         </div>
 
         <div style={{ width: "320px", maxWidth: "100%" }}>
           <input
-            placeholder="🔍 Search product..."
+            className="ui-input"
+            placeholder="Search product..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={inputStyle}
@@ -282,6 +284,7 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
       </div>
 
       <div
+        className="ui-card"
         style={{
           background: "#ffffff",
           borderRadius: "22px",
@@ -302,7 +305,7 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
         >
           <div>
             <h2 style={{ margin: 0, fontSize: "22px", color: "#0f172a" }}>
-              {editingId ? "✏ Update Product" : "➕ Add Product"}
+              {editingId ? "Update Product" : "Add Product"}
             </h2>
             <p style={{ margin: "6px 0 0", color: "#64748b", fontSize: "14px" }}>
               Fill the product details below
@@ -312,6 +315,7 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
           <button
             type="button"
             onClick={editingId ? updateProduct : addProduct}
+            className="ui-button ui-button-primary"
             style={{
               ...buttonBase,
               background: editingId ? "#2563eb" : "#16a34a",
@@ -472,7 +476,7 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
                     color: isLow ? "#b45309" : "#15803d",
                   }}
                 >
-                  {isLow ? "⚠ Low Stock" : "In Stock"}
+                  {isLow ? "Low Stock" : "In Stock"}
                 </span>
               </div>
 
@@ -514,6 +518,7 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
               <div style={{ display: "flex", gap: "10px", marginTop: "16px" }}>
                 <button
                   onClick={() => editProduct(p)}
+                  className="ui-button ui-button-secondary"
                   style={{
                     ...buttonBase,
                     background: "#2563eb",
@@ -521,11 +526,12 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
                     flex: 1,
                   }}
                 >
-                  ✏ Edit
+                  Edit
                 </button>
 
                 <button
                   onClick={() => deleteProduct(p.produkti_id)}
+                  className="ui-button ui-button-danger"
                   style={{
                     ...buttonBase,
                     background: "#ef4444",
@@ -533,7 +539,7 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
                     flex: 1,
                   }}
                 >
-                  🗑 Delete
+                  Delete
                 </button>
               </div>
             </div>

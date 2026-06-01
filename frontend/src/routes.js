@@ -337,25 +337,6 @@ const routes = [
       </ProtectedRoute>
     ),
   },
-
-
-   {
-  path: "/products",
-  name: "Products",
-  element: () => (
-    <ProtectedRoute
-      allowedRoles={[
-        "admin",
-        "manager",
-        "cashier",
-        "customer",
-      ]}
-    >
-      <Products />
-    </ProtectedRoute>
-  ),
-},
-  
 ];
 
 export default routes;
