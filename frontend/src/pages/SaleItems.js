@@ -155,8 +155,9 @@ const SaleItems = () => {
   );
 
 return (
-  <div className="page-container">
+  <div className="page">
     <div
+      className="page-header"
       style={{
         display: "flex",
         justifyContent:
@@ -167,6 +168,7 @@ return (
     >
       <div>
         <p
+          className="page-kicker"
           style={{
             color: "#666",
           }}
@@ -175,16 +177,17 @@ return (
         </p>
 
         <h1
+          className="page-heading"
           style={{
             fontSize: "45px",
             fontWeight: "bold",
           }}
         >
-          🛍 Sale Items
+          Sale Items
         </h1>
       </div>
 
-      <input type="text" placeholder="Search sale items..." value={search} onChange={(e) => setSearch( e.target.value )  }
+      <input className="ui-input" type="text" placeholder="Search sale items..." value={search} onChange={(e) => setSearch( e.target.value )  }
         style={{
           padding: "14px",
           borderRadius: "14px",
@@ -197,6 +200,7 @@ return (
 
     {/* CARD */}
     <div
+      className="ui-card"
       style={{
         background:
           "linear-gradient(to right, #4f46e5, #9333ea)",
@@ -215,6 +219,7 @@ return (
 
     {/* FORM */}
     <div
+      className="ui-card"
       style={{
         background: "white",
         padding: "30px",
@@ -227,7 +232,7 @@ return (
           marginBottom: "20px",
         }}
       >
-        ➕ Add Sale Item
+        Add Sale Item
       </h2>
 
       <div
@@ -239,6 +244,7 @@ return (
         }}
       >
         <input
+          className="ui-input"
           placeholder="Sale ID"
           value={newItem.sale_id}
           onChange={(e) =>
@@ -251,6 +257,7 @@ return (
         />
 
         <input
+          className="ui-input"
           placeholder="Product ID"
           value={
             newItem.produkti_id
@@ -265,6 +272,7 @@ return (
         />
 
         <input
+          className="ui-input"
           placeholder="Quantity"
           value={
             newItem.quantity
@@ -279,6 +287,7 @@ return (
         />
 
         <input
+          className="ui-input"
           placeholder="Price"
           value={newItem.price}
           onChange={(e) =>
@@ -292,6 +301,7 @@ return (
       </div>
 
       <button
+        className="ui-button ui-button-primary"
         onClick={
           editingId
             ? () =>
@@ -484,6 +494,7 @@ return (
                 }}
               >
                 <button
+                  className="ui-button ui-button-secondary"
                   onClick={() => {
                     setEditingId(
                       item.sale_item_id
@@ -517,10 +528,11 @@ return (
                       "pointer",
                   }}
                 >
-                  ✏️ Edit
+                  Edit
                 </button>
 
                 <button
+                  className="ui-button ui-button-danger"
                   onClick={() =>
                     deleteSaleItem(
                       item.sale_item_id
@@ -541,7 +553,7 @@ return (
                       "pointer",
                   }}
                 >
-                  🗑 Delete
+                  Delete
                 </button>
               </td>
             </tr>

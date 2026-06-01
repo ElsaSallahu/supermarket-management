@@ -24,20 +24,17 @@ const CustomerHome = () => {
   };
 
   return (
-    <div
-      style={{
-        padding: "20px",
-      }}
-    >
-      <h1>
-        Welcome Customer 🛒
+    <div className="page">
+      <h1 className="page-heading">
+        Welcome Customer
       </h1>
 
       <p>
         Available Products
       </p>
 
-      <table border="1">
+      <div className="ui-card ui-table-wrap">
+      <table className="ui-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -74,6 +71,7 @@ const CustomerHome = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

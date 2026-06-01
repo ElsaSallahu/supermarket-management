@@ -49,7 +49,7 @@ function ProductReport() {
         "Total Products",
       value:
         report.total_products,
-      icon: "📦",
+      accent: "#2563eb",
     },
 
     {
@@ -57,21 +57,21 @@ function ProductReport() {
         "Total Stock",
       value:
         report.total_stock,
-      icon: "🏬",
+      accent: "#059669",
     },
 
     {
       title:
         "Purchase Value",
       value: `${report.total_purchase_value} €`,
-      icon: "💰",
+      accent: "#7c3aed",
     },
 
     {
       title:
         "Sale Value",
       value: `${report.total_sale_value} €`,
-      icon: "💸",
+      accent: "#0f172a",
     },
 
     {
@@ -79,24 +79,22 @@ function ProductReport() {
         "Low Stock Products",
       value:
         report.low_stock_products,
-      icon: "⚠️",
+      accent: "#f59e0b",
     },
   ];
 
   return (
-    <div
-      style={{
-        padding: "10px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           marginBottom:
             "30px",
         }}
       >
         <p
+          className="page-kicker"
           style={{
             color:
               "#64748b",
@@ -107,8 +105,8 @@ function ProductReport() {
           Statistics
         </p>
 
-        <h1>
-          📊 Product Report
+        <h1 className="page-heading">
+          Product Report
         </h1>
       </div>
 
@@ -129,6 +127,7 @@ function ProductReport() {
             index
           ) => (
             <div
+              className="ui-card"
               key={
                 index
               }
@@ -151,17 +150,13 @@ function ProductReport() {
             >
               <div
                 style={{
-                  fontSize:
-                    "32px",
-
-                  marginBottom:
-                    "12px",
+                  width: "36px",
+                  height: "4px",
+                  borderRadius: "999px",
+                  background: card.accent,
+                  marginBottom: "16px",
                 }}
-              >
-                {
-                  card.icon
-                }
-              </div>
+              />
 
               <p
                 style={{

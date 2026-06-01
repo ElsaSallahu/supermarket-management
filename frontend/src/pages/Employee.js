@@ -130,13 +130,10 @@ const filteredEmployees =
   );
 
   return (
-    <div
-      style={{
-        padding: "10px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           display: "flex",
           justifyContent:
@@ -152,6 +149,7 @@ const filteredEmployees =
       >
         <div>
           <p
+            className="page-kicker"
             style={{
               color:
                 "#64748b",
@@ -161,13 +159,14 @@ const filteredEmployees =
             Staff Management
           </p>
 
-          <h1>
-            👨‍💼 Employees
+          <h1 className="page-heading">
+            Employees
           </h1>
         </div>
 
         <input
-          placeholder="🔍 Search employee..."
+          className="ui-input"
+          placeholder="Search employee..."
           value={search}
           onChange={(e) =>
             setSearch(
@@ -183,6 +182,7 @@ const filteredEmployees =
 
       {/* FORM */}
       <div
+        className="ui-card"
         style={{
           background:
             "white",
@@ -197,8 +197,8 @@ const filteredEmployees =
       >
         <h2>
           {editingId
-            ? "✏ Update Employee"
-            : "➕ Add Employee"}
+            ? "Update Employee"
+            : "Add Employee"}
         </h2>
 
         <div
@@ -212,6 +212,7 @@ const filteredEmployees =
           }}
         >
           <input
+            className="ui-input"
             type="text"
             placeholder="Full Name"
             value={
@@ -229,6 +230,7 @@ const filteredEmployees =
           />
 
           <input
+            className="ui-input"
             type="text"
             placeholder="Phone"
             value={phone}
@@ -244,6 +246,7 @@ const filteredEmployees =
           />
 
           <input
+            className="ui-input"
             type="text"
             placeholder="Position"
             value={
@@ -261,6 +264,7 @@ const filteredEmployees =
           />
 
           <input
+            className="ui-input"
             type="number"
             placeholder="Salary"
             value={
@@ -279,6 +283,7 @@ const filteredEmployees =
         </div>
 
         <button
+          className="ui-button ui-button-primary"
           onClick={
             editingId
               ? updateEmployee
@@ -394,7 +399,7 @@ const filteredEmployees =
                     "10px",
                 }}
               >
-                📞{" "}
+                Phone:{" "}
                 {
                   employee.phone
                 }
@@ -408,7 +413,7 @@ const filteredEmployees =
                     "6px",
                 }}
               >
-                💼{" "}
+                Position:{" "}
                 {
                   employee.position
                 }

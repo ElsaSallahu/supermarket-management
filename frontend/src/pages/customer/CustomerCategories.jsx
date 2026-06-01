@@ -12,8 +12,8 @@ function CustomerCategories() {
   }, []);
 
   return (
-    <div style={{ padding: "40px", background: "#f8fafc", minHeight: "100vh" }}>
-      <h1 style={{ fontSize: "32px", color: "#0f172a", marginBottom: "8px" }}>
+    <div className="page" style={{ background: "#f8fafc", minHeight: "100vh" }}>
+      <h1 className="page-heading" style={{ marginBottom: "8px" }}>
         Product Categories
       </h1>
 
@@ -31,6 +31,7 @@ function CustomerCategories() {
         {categories.map((c) => (
           <div
             key={c.category_id}
+            className="ui-card"
             style={{
               background: "white",
               padding: "26px",

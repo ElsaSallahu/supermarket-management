@@ -21,6 +21,29 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    // Empty fields
+if (!fullName || !email || !password) {
+  alert("Please fill all fields");
+  return;
+}
+
+// Email
+const emailRegex =
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (!emailRegex.test(email)) {
+  alert("Please enter a valid email");
+  return;
+}
+
+// Password
+if (password.length < 6) {
+  alert(
+    "Password must be at least 6 characters"
+  );
+  return;
+}
+
     try {
       await axios.post(
         "http://localhost:5000/api/auth/register",
@@ -92,6 +115,10 @@ const Register = () => {
 
           <option value="cashier">
             Cashier
+          </option>
+
+          <option value="customer">
+            Customer
           </option>
         </select>
 

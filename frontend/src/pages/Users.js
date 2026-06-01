@@ -89,11 +89,18 @@ const updateUser = async () => {
 };
 
   return (
-    <div>
-      <h2>Users Management</h2>
+    <div className="page">
+      <div className="page-header">
+        <div>
+          <p className="page-kicker">Administration</p>
+          <h1 className="page-heading">Users</h1>
+        </div>
+      </div>
 
-      <div>
+      <div className="ui-card" style={{ marginBottom: "22px" }}>
+        <div className="form-grid">
         <input
+          className="ui-input"
           type="text"
           placeholder="Full Name"
           value={fullName}
@@ -101,6 +108,7 @@ const updateUser = async () => {
         />
 
         <input
+          className="ui-input"
           type="email"
           placeholder="Email"
           value={email}
@@ -108,6 +116,7 @@ const updateUser = async () => {
         />
 
         <input
+          className="ui-input"
           type="password"
           placeholder="Password"
           value={password}
@@ -115,6 +124,7 @@ const updateUser = async () => {
         />
 
         <select
+          className="ui-input"
           value={role}
           onChange={(e) => setRole(e.target.value)}
         >
@@ -124,19 +134,19 @@ const updateUser = async () => {
         </select>
 
         {editingId ? (
-          <button onClick={updateUser}>
+          <button className="ui-button ui-button-primary" onClick={updateUser}>
             Update User
           </button>
         ) : (
-          <button onClick={addUser}>
+          <button className="ui-button ui-button-primary" onClick={addUser}>
             Add User
           </button>
         )}
+        </div>
       </div>
 
-      <br />
-
-      <table border="1">
+      <div className="ui-card ui-table-wrap">
+      <table className="ui-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -156,12 +166,14 @@ const updateUser = async () => {
               <td>{user.role}</td>
               <td>
                 <button
+                  className="ui-button ui-button-secondary"
                   onClick={() => editUser(user)}
                 >
                   Edit
                 </button>
 
                 <button
+                  className="ui-button ui-button-danger"
                   onClick={() =>
                     deleteUser(user.user_id)
                   }
@@ -173,6 +185,7 @@ const updateUser = async () => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }

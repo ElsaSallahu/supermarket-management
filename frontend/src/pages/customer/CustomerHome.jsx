@@ -1,7 +1,7 @@
 function CustomerHome() {
   return (
-    <div style={{ padding: "40px", background: "#f8fafc", minHeight: "100vh" }}>
-      <h1 style={{ fontSize: "36px", color: "#0f172a" }}>
+    <div className="page" style={{ background: "#f8fafc", minHeight: "100vh" }}>
+      <h1 className="page-heading" style={{ fontSize: "36px" }}>
         Welcome to Supermarket
       </h1>
 
@@ -10,17 +10,17 @@ function CustomerHome() {
       </p>
 
       <div style={{ display: "flex", gap: "20px", marginTop: "30px" }}>
-        <div style={{ background: "white", padding: "25px", borderRadius: "18px" }}>
+        <div className="ui-card">
           <h2>Products</h2>
           <p>View all available products.</p>
         </div>
 
-        <div style={{ background: "white", padding: "25px", borderRadius: "18px" }}>
+        <div className="ui-card">
           <h2>Offers</h2>
           <p>Check supermarket discounts.</p>
         </div>
 
-        <div style={{ background: "white", padding: "25px", borderRadius: "18px" }}>
+        <div className="ui-card">
           <h2>Orders</h2>
           <p>Track your orders.</p>
         </div>
