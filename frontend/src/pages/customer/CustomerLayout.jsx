@@ -4,7 +4,7 @@ function CustomerLayout() {
   const logout = () => {
     localStorage.removeItem("customerToken");
     localStorage.removeItem("customer");
-    window.location.href = "/customer-register";
+    window.location.href = "/register";
   };
 
   return (
