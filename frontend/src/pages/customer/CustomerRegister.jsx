@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function CustomerRegister() {
   const [formData, setFormData] = useState({
@@ -134,14 +135,24 @@ function CustomerRegister() {
           </button>
         </form>
 
-        <p style={{
-          textAlign: "center",
-          marginTop: "18px",
-          color: "#64748b",
-          fontSize: "14px"
-        }}>
-          Already have an account? Login
-        </p>
+        <p
+  style={{
+    textAlign: "center",
+    marginTop: "20px",
+  }}
+>
+  Already have an account?{" "}
+  <Link
+    to="/customer-login"
+    style={{
+      color: "#2563eb",
+      textDecoration: "none",
+      fontWeight: "600",
+    }}
+  >
+    Login
+  </Link>
+</p>
       </div>
     </div>
   );

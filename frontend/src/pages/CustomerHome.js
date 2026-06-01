@@ -11,7 +11,7 @@ const CustomerHome = () => {
   const loadProducts = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/produktet"
+        "http://localhost:5000/product"
       );
 
       const data =
