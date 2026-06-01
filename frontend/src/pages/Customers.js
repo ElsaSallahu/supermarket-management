@@ -276,11 +276,9 @@ if ( newCustomer.phone.length < 8) {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit,minmax(220px,1fr))",
+            gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
             gap: "12px",
-            marginTop:
-              "15px",
+            marginTop: "15px",
           }}
         >
           <input
@@ -373,24 +371,17 @@ if ( newCustomer.phone.length < 8) {
               : addCustomer()
           }
           style={{
-            marginTop:
-              "18px",
+            marginTop: "18px",
             background:
               editingId
                 ? "#4f46e5"
                 : "#7c3aed",
-            color:
-              "white",
-            border:
-              "none",
-            padding:
-              "12px 18px",
-            borderRadius:
-              "12px",
-            cursor:
-              "pointer",
-            fontWeight:
-              "700",
+            color: "white",
+            border: "none",
+            padding: "12px 18px",
+            borderRadius: "12px",
+            cursor: "pointer",
+            fontWeight: "700",
           }}
         >
           {editingId
@@ -411,57 +402,40 @@ if ( newCustomer.phone.length < 8) {
         {filteredCustomers.map(
           (c) => (
             <div
-              key={
-                c.customer_id
-              }
+              key={ c.customer_id }
               style={{
-                background:
-                  "white",
-                borderRadius:
-                  "20px",
-                padding:
-                  "20px",
-                boxShadow:
-                  "0 8px 25px rgba(0,0,0,0.08)",
-                borderTop:
-                  "6px solid #7c3aed",
+                background: "white",
+                borderRadius: "20px",
+                padding: "20px",
+                boxShadow: "0 8px 25px rgba(0,0,0,0.08)",
+                borderTop: "6px solid #7c3aed",
               }}
             >
               <h3>
                 👤{" "}
-                {
-                  c.full_name
-                }
+                { c.full_name }
               </h3>
 
               <p>
                 📞{" "}
-                {
-                  c.phone
-                }
+                { c.phone }
               </p>
 
               <p>
                 📧{" "}
-                {
-                  c.email
-                }
+                { c.email }
               </p>
 
               <p>
                 📍{" "}
-                {
-                  c.address
-                }
+                { c.address }
               </p>
 
               <div
                 style={{
-                  display:
-                    "flex",
+                  display: "flex",
                   gap: "10px",
-                  marginTop:
-                    "15px",
+                  marginTop: "15px",
                 }}
               >
                 <button
@@ -484,19 +458,13 @@ if ( newCustomer.phone.length < 8) {
                     );
                   }}
                   style={{
-                    background:
-                      "#4f46e5",
-                    color:
-                      "white",
-                    border:
-                      "none",
-                    padding:
-                      "10px",
-                    borderRadius:
-                      "10px",
+                    background: "#4f46e5",
+                    color: "white",
+                    border: "none",
+                    padding: "10px",
+                    borderRadius: "10px",
                     flex: 1,
-                    cursor:
-                      "pointer",
+                    cursor: "pointer",
                   }}
                 >
                   ✏ Edit

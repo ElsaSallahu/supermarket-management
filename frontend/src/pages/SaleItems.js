@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 const SaleItems = () => {
   const [saleItems, setSaleItems] = useState([]);
 
+  const [search, setSearch] = useState("");
+
   const [newItem, setNewItem] = useState({
     sale_id: "",
     produkti_id: "",
@@ -127,6 +129,21 @@ const SaleItems = () => {
     }
   };
 
+  const filteredSaleItems =
+  saleItems.filter(
+    (item) =>
+      String(
+        item.sale_id
+      ).includes(
+        search
+      ) ||
+      String(
+        item.produkti_id
+      ).includes(
+        search
+      )
+  );
+
 return (
   <div className="page-container">
     <div
@@ -157,9 +174,7 @@ return (
         </h1>
       </div>
 
-      <input
-        type="text"
-        placeholder="Search sale items..."
+      <input type="text" placeholder="Search sale items..." value={search} onChange={(e) => setSearch( e.target.value )  }
         style={{
           padding: "14px",
           borderRadius: "14px",
@@ -323,9 +338,8 @@ return (
     <table
       style={{
         width: "100%",
-        borderCollapse:
-          "separate",
-        borderSpacing: "0",
+        borderCollapse: "separate",
+        borderSpacing: "0 ",
       }}
     >
       <thead>
@@ -361,7 +375,7 @@ return (
       </thead>
 
       <tbody>
-        {saleItems.map(
+        {filteredSaleItems.map(
           (item, index) => (
             <tr
               key={
@@ -402,15 +416,11 @@ return (
 
               <td
                 style={{
-                  textAlign:
-                    "center",
-                  borderBottom:
-                    "1px solid #eee",
+                  textAlign: "center",
+                  borderBottom: "1px solid #eee",
                 }}
               >
-                {
-                  item.produkti_id
-                }
+                { item.produkti_id }
               </td>
 
               <td
@@ -456,15 +466,11 @@ return (
 
               <td
                 style={{
-                  display:
-                    "flex",
-                  justifyContent:
-                    "center",
+                  display: "flex",
+                  justifyContent: "center",
                   gap: "10px",
-                  padding:
-                    "12px",
-                  borderBottom:
-                    "1px solid #eee",
+                  padding: "12px",
+                  borderBottom: "1px solid #eee",
                 }}
               >
                 <button

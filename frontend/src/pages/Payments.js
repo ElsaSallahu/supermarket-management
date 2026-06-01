@@ -145,13 +145,56 @@ if ( Number(amount)<= 0) {
       }
     };
 
+    const filteredPayments = payments.filter(
+    (p) =>
+      String(
+        p.sale_id
+      ).includes(search) ||
+      p.payment_method
+        ?.toLowerCase()
+        .includes(
+          search.toLowerCase()
+        )
+  );
+
     return (
   <div className="customers-page">
     <p className="page-label"> Payment Management</p>
 
-    <div className="page-header">
-      <h1>💳 Payments</h1>
-    </div>
+    <div
+  className="page-header"
+  style={{
+    display: "flex",
+    justifyContent:
+      "space-between",
+    alignItems:
+      "center",
+    marginBottom:
+      "20px",
+  }}
+>
+  <h1>
+    💳 Payments
+  </h1>
+
+  <input
+    type="text"
+    placeholder="🔍 Search..."
+    value={search}
+    onChange={(e) =>
+      setSearch(
+        e.target.value
+      )
+    }
+    style={{
+      padding: "10px",
+      borderRadius:
+        "10px",
+      border:
+        "1px solid #ddd",
+    }}
+  />
+</div>
 
     {/* Card */}
     <div
@@ -258,7 +301,8 @@ if ( Number(amount)<= 0) {
     </thead>
 
     <tbody>
-  {payments.map((payment) => (
+
+  {filteredPayments.map((payment) => (
     <tr
       key={payment.payment_id}
       style={{
