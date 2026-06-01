@@ -147,13 +147,10 @@ const Suppliers = () => {
     );
 
   return (
-    <div
-      style={{
-        padding: "24px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           display: "flex",
           justifyContent:
@@ -168,6 +165,7 @@ const Suppliers = () => {
       >
         <div>
           <p
+            className="page-kicker"
             style={{
               margin: 0,
               color:
@@ -178,16 +176,18 @@ const Suppliers = () => {
           </p>
 
           <h1
+            className="page-heading"
             style={{
               margin: 0,
             }}
           >
-            🚚 Suppliers
+            Suppliers
           </h1>
         </div>
 
         <input
-          placeholder="🔍 Search supplier..."
+          className="ui-input"
+          placeholder="Search supplier..."
           value={search}
           onChange={(e) =>
             setSearch(
@@ -203,6 +203,7 @@ const Suppliers = () => {
 
       {/* STATS */}
       <div
+        className="ui-card"
         style={{
           background:
             "linear-gradient(135deg,#0f172a,#1e293b)",
@@ -250,8 +251,8 @@ const Suppliers = () => {
       >
         <h2>
           {editingId
-            ? "✏ Update Supplier"
-            : "➕ Add Supplier"}
+            ? "Update Supplier"
+            : "Add Supplier"}
         </h2>
 
         <div
@@ -366,6 +367,7 @@ const Suppliers = () => {
         </div>
 
         <button
+          className="ui-button ui-button-primary"
           onClick={
             editingId
               ? updateSupplier
@@ -441,7 +443,6 @@ const Suppliers = () => {
                         "0 0 5px",
                     }}
                   >
-                    🏢{" "}
                     {
                       s.emri_kompanise
                     }
@@ -455,7 +456,7 @@ const Suppliers = () => {
                         0,
                     }}
                   >
-                    👤{" "}
+                    Contact:{" "}
                     {
                       s.personi_kontaktues
                     }
@@ -491,19 +492,19 @@ const Suppliers = () => {
                 }}
               >
                 <p>
-                  📧{" "}
+                  Email:{" "}
                   {s.email}
                 </p>
 
                 <p>
-                  📞{" "}
+                  Phone:{" "}
                   {
                     s.telefoni
                   }
                 </p>
 
                 <p>
-                  📍{" "}
+                  Address:{" "}
                   {s.adresa}
                 </p>
               </div>
@@ -518,6 +519,7 @@ const Suppliers = () => {
                 }}
               >
                 <button
+                  className="ui-button ui-button-secondary"
                   onClick={() =>
                     editSupplier(
                       s
@@ -539,10 +541,11 @@ const Suppliers = () => {
                       "pointer",
                   }}
                 >
-                  ✏ Edit
+                  Edit
                 </button>
 
                 <button
+                  className="ui-button ui-button-danger"
                   onClick={() =>
                     deleteSupplier(
                       s.supplier_id
@@ -564,7 +567,7 @@ const Suppliers = () => {
                       "pointer",
                   }}
                 >
-                  🗑 Delete
+                  Delete
                 </button>
               </div>
             </div>

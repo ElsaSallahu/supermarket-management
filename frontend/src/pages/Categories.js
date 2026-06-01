@@ -139,13 +139,10 @@ const Categories = () => {
     );
 
   return (
-    <div
-      style={{
-        padding: "24px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           display: "flex",
           justifyContent:
@@ -160,6 +157,7 @@ const Categories = () => {
       >
         <div>
           <p
+            className="page-kicker"
             style={{
               margin: 0,
               color:
@@ -170,16 +168,18 @@ const Categories = () => {
           </p>
 
           <h1
+            className="page-heading"
             style={{
               margin: 0,
             }}
           >
-            🏷 Categories
+            Categories
           </h1>
         </div>
 
         <input
-          placeholder="🔍 Search category..."
+          className="ui-input"
+          placeholder="Search category..."
           value={search}
           onChange={(e) =>
             setSearch(
@@ -195,6 +195,7 @@ const Categories = () => {
 
       {/* STATS */}
       <div
+        className="ui-card"
         style={{
           background:
             "linear-gradient(135deg, #2563eb, #60a5fa)",
@@ -244,8 +245,8 @@ const Categories = () => {
       >
         <h2>
           {editingId
-            ? "✏ Update Category"
-            : "➕ Add Category"}
+            ? "Update Category"
+            : "Add Category"}
         </h2>
 
         <div
@@ -259,6 +260,7 @@ const Categories = () => {
           }}
         >
           <input
+            className="ui-input"
             placeholder="Category Name"
             value={
               newCategory.emri
@@ -279,6 +281,7 @@ const Categories = () => {
           />
 
           <input
+            className="ui-input"
             placeholder="Description"
             value={
               newCategory.pershkrimi
@@ -364,7 +367,6 @@ const Categories = () => {
                     margin: 0,
                   }}
                 >
-                  🏷{" "}
                   {c.emri}
                 </h3>
 
@@ -411,6 +413,7 @@ const Categories = () => {
                 }}
               >
                 <button
+                  className="ui-button ui-button-secondary"
                   onClick={() =>
                     editCategory(
                       c
@@ -425,10 +428,11 @@ const Categories = () => {
                     flex: 1,
                   }}
                 >
-                  ✏ Edit
+                  Edit
                 </button>
 
                 <button
+                  className="ui-button ui-button-danger"
                   onClick={() =>
                     deleteCategory(
                       c.category_id
@@ -443,7 +447,7 @@ const Categories = () => {
                     flex: 1,
                   }}
                 >
-                  🗑 Delete
+                  Delete
                 </button>
               </div>
             </div>

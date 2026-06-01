@@ -227,14 +227,10 @@ if (Number(newSale.total_amount ) <= 0) {
     );
 
   return (
-    <div
-      style={{
-        padding:
-          "24px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           display:
             "flex",
@@ -263,17 +259,19 @@ if (Number(newSale.total_amount ) <= 0) {
           </p>
 
           <h1
+            className="page-heading"
             style={{
               margin:
                 0,
             }}
           >
-            💰 Sales
+            Sales
           </h1>
         </div>
 
         <input
-          placeholder="🔍 Search customer ID..."
+          className="ui-input"
+          placeholder="Search customer ID..."
           value={
             search
           }
@@ -295,6 +293,7 @@ if (Number(newSale.total_amount ) <= 0) {
 
       {/* REVENUE */}
       <div
+        className="ui-card"
         style={{
           background:
             "linear-gradient(135deg,#0f172a,#1e293b)",
@@ -336,6 +335,7 @@ if (Number(newSale.total_amount ) <= 0) {
 
       {/* FORM */}
       <div
+        className="ui-card"
         style={{
           background:
             "white",
@@ -351,8 +351,8 @@ if (Number(newSale.total_amount ) <= 0) {
       >
         <h2>
           {editingId
-            ? "✏ Update Sale"
-            : "➕ Add Sale"}
+            ? "Update Sale"
+            : "Add Sale"}
         </h2>
 
         <div
@@ -442,6 +442,7 @@ if (Number(newSale.total_amount ) <= 0) {
                 )
               : addSale()
           }
+          className="ui-button ui-button-primary"
           style={{
             marginTop:
               "18px",
@@ -480,7 +481,7 @@ if (Number(newSale.total_amount ) <= 0) {
         }}
       >
         <h2>
-          📋 Sales List
+          Sales List
           <p>{sales.length}</p>
         </h2>
 

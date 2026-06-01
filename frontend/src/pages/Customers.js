@@ -161,13 +161,10 @@ if ( newCustomer.phone.length < 8) {
     );
 
   return (
-    <div
-      style={{
-        padding: "24px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           display: "flex",
           justifyContent:
@@ -182,6 +179,7 @@ if ( newCustomer.phone.length < 8) {
       >
         <div>
           <p
+            className="page-kicker"
             style={{
               margin: 0,
               color:
@@ -193,16 +191,18 @@ if ( newCustomer.phone.length < 8) {
           </p>
 
           <h1
+            className="page-heading"
             style={{
               margin: 0,
             }}
           >
-            👥 Customers
+            Customers
           </h1>
         </div>
 
         <input
-          placeholder="🔍 Search customer..."
+          className="ui-input"
+          placeholder="Search customer..."
           value={search}
           onChange={(e) =>
             setSearch(
@@ -218,6 +218,7 @@ if ( newCustomer.phone.length < 8) {
 
       {/* TOP CARD */}
       <div
+        className="ui-card"
         style={{
           background:
             "linear-gradient(135deg,#4f46e5,#7c3aed)",
@@ -269,8 +270,8 @@ if ( newCustomer.phone.length < 8) {
       >
         <h2>
           {editingId
-            ? "✏ Update Customer"
-            : "➕ Add Customer"}
+            ? "Update Customer"
+            : "Add Customer"}
         </h2>
 
         <div
@@ -363,6 +364,7 @@ if ( newCustomer.phone.length < 8) {
         </div>
 
         <button
+          className="ui-button ui-button-primary"
           onClick={() =>
             editingId
               ? updateCustomer(
@@ -412,22 +414,21 @@ if ( newCustomer.phone.length < 8) {
               }}
             >
               <h3>
-                👤{" "}
                 { c.full_name }
               </h3>
 
               <p>
-                📞{" "}
+                Phone:{" "}
                 { c.phone }
               </p>
 
               <p>
-                📧{" "}
+                Email:{" "}
                 { c.email }
               </p>
 
               <p>
-                📍{" "}
+                Address:{" "}
                 { c.address }
               </p>
 
@@ -439,6 +440,7 @@ if ( newCustomer.phone.length < 8) {
                 }}
               >
                 <button
+                  className="ui-button ui-button-secondary"
                   onClick={() => {
                     setEditingId(
                       c.customer_id
@@ -467,10 +469,11 @@ if ( newCustomer.phone.length < 8) {
                     cursor: "pointer",
                   }}
                 >
-                  ✏ Edit
+                  Edit
                 </button>
 
                 <button
+                  className="ui-button ui-button-danger"
                   onClick={() =>
                     deleteCustomer(
                       c.customer_id
@@ -492,7 +495,7 @@ if ( newCustomer.phone.length < 8) {
                       "pointer",
                   }}
                 >
-                  🗑 Delete
+                  Delete
                 </button>
               </div>
             </div>

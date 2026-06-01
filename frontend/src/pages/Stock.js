@@ -47,13 +47,10 @@ const Stock = () => {
     ).length;
 
   return (
-    <div
-      style={{
-        padding: "24px",
-      }}
-    >
+    <div className="page">
       {/* HEADER */}
       <div
+        className="page-header"
         style={{
           display: "flex",
           justifyContent:
@@ -68,6 +65,7 @@ const Stock = () => {
       >
         <div>
           <p
+            className="page-kicker"
             style={{
               margin: 0,
               color:
@@ -79,17 +77,18 @@ const Stock = () => {
           </p>
 
           <h1
+            className="page-heading"
             style={{
               margin: 0,
             }}
           >
-            📦 Stock
-            Overview
+            Stock Overview
           </h1>
         </div>
 
         <input
-          placeholder="🔍 Search product..."
+          className="ui-input"
+          placeholder="Search product..."
           value={search}
           onChange={(e) =>
             setSearch(
@@ -164,7 +163,7 @@ const Stock = () => {
               "16px",
           }}
         >
-          ⚠ Low Stock
+          Low Stock
           Alerts
         </div>
       </div>
@@ -218,7 +217,6 @@ const Stock = () => {
                         "0 0 5px",
                     }}
                   >
-                    📦{" "}
                     {
                       s.emri
                     }
@@ -268,8 +266,8 @@ const Stock = () => {
                 >
                   {s.statusi ===
                   "LOW STOCK"
-                    ? "⚠ LOW"
-                    : "✅ OK"}
+                    ? "LOW"
+                    : "OK"}
                 </span>
               </div>
 
@@ -282,7 +280,7 @@ const Stock = () => {
                 }}
               >
                 <p>
-                  📦 Stock:
+                  Stock:
                   <b>
                     {" "}
                     {
@@ -292,7 +290,7 @@ const Stock = () => {
                 </p>
 
                 <p>
-                  ⚠ Minimum:
+                  Minimum:
                   <b>
                     {" "}
                     {
@@ -302,7 +300,7 @@ const Stock = () => {
                 </p>
 
                 <p>
-                  📏 Unit:
+                  Unit:
                   <b>
                     {" "}
                     {

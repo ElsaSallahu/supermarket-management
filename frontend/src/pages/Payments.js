@@ -158,8 +158,7 @@ if ( Number(amount)<= 0) {
   );
 
     return (
-  <div className="customers-page">
-    <p className="page-label"> Payment Management</p>
+  <div className="page">
 
     <div
   className="page-header"
@@ -172,14 +171,18 @@ if ( Number(amount)<= 0) {
     marginBottom:
       "20px",
   }}
->
-  <h1>
-    💳 Payments
-  </h1>
+>   
+  <div>
+    <p className="page-kicker">Payment Management</p>
+    <h1 className="page-heading">
+      Payments
+    </h1>
+  </div>
 
   <input
+    className="ui-input"
     type="text"
-    placeholder="🔍 Search..."
+    placeholder="Search..."
     value={search}
     onChange={(e) =>
       setSearch(
@@ -198,6 +201,7 @@ if ( Number(amount)<= 0) {
 
     {/* Card */}
     <div
+      className="ui-card"
       style={{
         background:
           "linear-gradient(135deg,#4f46e5,#9333ea)",
@@ -226,6 +230,7 @@ if ( Number(amount)<= 0) {
 
     {/* Add Payment */}
     <div
+      className="ui-card"
       style={{
         background: "white",
         borderRadius: "25px",
@@ -243,7 +248,7 @@ if ( Number(amount)<= 0) {
           gap:"14px",
         }}
       >
-        ➕ Add Payment
+        Add Payment
       </h2>
 
       <div
@@ -253,13 +258,14 @@ if ( Number(amount)<= 0) {
           gap: "15px",
         }}
       >
-       <input type="number" placeholder="Sale ID" value={sale_id} onChange={(e) => setSaleId(e.target.value)} />
-       <input type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
-       <input type="text" placeholder="Payment Method" value={payment_method} onChange={(e) => setPaymentMethod(e.target.value)} />
-       <input type="date" value={payment_date} onChange={(e) => setPaymentDate(e.target.value)} />
+       <input className="ui-input" type="number" placeholder="Sale ID" value={sale_id} onChange={(e) => setSaleId(e.target.value)} />
+       <input className="ui-input" type="number" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
+       <input className="ui-input" type="text" placeholder="Payment Method" value={payment_method} onChange={(e) => setPaymentMethod(e.target.value)} />
+       <input className="ui-input" type="date" value={payment_date} onChange={(e) => setPaymentDate(e.target.value)} />
       </div>
 
       <button
+        className="ui-button ui-button-primary"
         onClick={addPayment}
         style={{
           marginTop: "20px",
@@ -352,6 +358,7 @@ if ( Number(amount)<= 0) {
 
       <td style={{ textAlign: "center", padding: "15px" }}>
         <button
+          className="ui-button ui-button-secondary"
           style={{
             background: "#3b82f6",
             color: "white",
@@ -365,6 +372,7 @@ if ( Number(amount)<= 0) {
         </button>
 
         <button
+          className="ui-button ui-button-danger"
           onClick={() =>
             deletePayment(
               payment.payment_id
