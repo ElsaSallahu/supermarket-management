@@ -87,7 +87,7 @@ router.post("/login", (req, res) => {
               role:
                 user.role,
             },
-            "supermarket_secret",
+            process.env.JWT_SECRET,
             {
               expiresIn:
                 "1h",
