@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const db = require("../db");
+const verifyToken = require("./middleware/verifyToken");
 
 // GET ALL EMPLOYEES
-router.get("/", (req, res) => {
+router.get("/", verifyToken, (req, res) => {
   db.query(
     "SELECT * FROM employees",
     (err, results) => {

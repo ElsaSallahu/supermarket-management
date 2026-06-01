@@ -36,18 +36,14 @@ function Employees() {
 
   // GET EMPLOYEES
   const fetchEmployees = () => {
-    fetch(
-      "http://localhost:5000/employees"
-    )
-      .then((res) =>
-        res.json()
-      )
-      .then((data) =>
-        setEmployees(data)
-      )
-      .catch((err) =>
-        console.log(err)
-      );
+    fetch("http://localhost:5000/employees", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => setEmployees(data))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
