@@ -16,9 +16,9 @@ const SaleItems = () => {
   const [editingId, setEditingId] =
     useState(null);
 
-  useEffect(() => {
-    loadSaleItems();
-  }, []);
+  useEffect(() => {loadSaleItems();
+   }, 
+   []);
 
   const loadSaleItems = async () => {
     try {
@@ -26,8 +26,7 @@ const SaleItems = () => {
         "http://localhost:5000/sale-items"
       );
 
-      const data =
-        await response.json();
+      const data = await response.json();
 
       setSaleItems(data);
     } catch (err) {
@@ -37,6 +36,17 @@ const SaleItems = () => {
 
   // ADD
   const addSaleItem = async () => {
+    //empty fields
+    if(!newItem.sale_id || !newItem.produkti_id || !newItem.quantity || !newItem.price){
+      alert("Please fill all fields");
+      return;
+    }
+    //
+    if(Number(newItem.quantity)<=0 || Number(newItem.price)<=0){
+      alert("Quantity and price must be greater than 0");
+      return;
+    }
+
     try {
 
         const subtotal =
