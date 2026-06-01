@@ -93,6 +93,10 @@ const Register = () => {
           <option value="cashier">
             Cashier
           </option>
+
+          <option value="customer">
+            Customer
+          </option>
         </select>
 
         <button type="submit">
