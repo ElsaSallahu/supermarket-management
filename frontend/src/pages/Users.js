@@ -12,7 +12,11 @@ function Users() {
 
   // GET USERS
   const fetchUsers = () => {
-    fetch("http://localhost:5000/users")
+    fetch("http://localhost:5000/users", {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
+})
       .then((res) => res.json())
       .then((data) => setUsers(data))
       .catch((err) => console.log(err));

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const db = require("../db");
+const jwt = require("jsonwebtoken");
 
 // REGISTER
 router.post("/register", (req, res) => {
@@ -48,8 +49,10 @@ router.post("/register", (req, res) => {
 
 // LOGIN
 router.post("/login", (req, res) => {
-  const { email, password } =
-    req.body;
+  const {
+    email,
+    password,
+  } = req.body;
 
   const sql =
     "SELECT * FROM users WHERE email = ? AND password = ?";
@@ -63,13 +66,38 @@ router.post("/login", (req, res) => {
 
         return res
           .status(500)
-          .send("Gabim serveri");
+          .send(
+            "Gabim serveri"
+          );
       }
 
-      if (results.length > 0) {
+      if (
+        results.length > 0
+      ) {
+        const user =
+          results[0];
+
+        const token =
+          jwt.sign(
+            {
+              user_id:
+                user.user_id,
+              email:
+                user.email,
+              role:
+                user.role,
+            },
+            "supermarket_secret",
+            {
+              expiresIn:
+                "1h",
+            }
+          );
+
         res.json({
           success: true,
-          user: results[0],
+          user,
+          token,
         });
       } else {
         res.json({

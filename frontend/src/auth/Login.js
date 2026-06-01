@@ -46,7 +46,10 @@ const Login = () => {
               res.data.user
             )
           );
-
+localStorage.setItem(
+  "token",
+  res.data.token
+);
           const user =
             res.data.user;
 
