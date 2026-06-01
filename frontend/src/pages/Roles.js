@@ -7,7 +7,11 @@ function Roles() {
 
   // GET ROLES
   const fetchRoles = () => {
-    fetch("http://localhost:5000/roles")
+  fetch("http://localhost:5000/roles", {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
+})
       .then((res) => res.json())
       .then((data) => setRoles(data))
       .catch((err) => console.log(err));
