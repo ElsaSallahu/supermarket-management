@@ -52,7 +52,7 @@ async () => {
 
     const response =
       await fetch(
-        "http://localhost:5000/product"
+        "http://localhost:5000/products"
       );
 
     const data =
@@ -105,7 +105,7 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
   return;
 }
     try {
-      const response = await fetch("http://localhost:5000/product", {
+      const response = await fetch("http://localhost:5000/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +129,7 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
   const updateProduct = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/product/${editingId}`,
+        `http://localhost:5000/products/${editingId}`,
         {
           method: "PUT",
           headers: {
@@ -154,7 +154,7 @@ if (Number(newProduct.cmimi_blerjes) < 0 ||
 
   const deleteProduct = async (id) => {
     try {
-      await fetch(`http://localhost:5000/product/${id}`, {
+      await fetch(`http://localhost:5000/products/${id}`, {
         method: "DELETE",
       });
       await loadData();

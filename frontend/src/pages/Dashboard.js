@@ -35,7 +35,7 @@ const Dashboard = () => {
         // PRODUCTS
         const productsRes =
           await fetch(
-            'http://localhost:5000/product'
+            'http://localhost:5000/products'
           )
 
         const products =

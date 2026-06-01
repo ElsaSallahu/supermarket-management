@@ -24,11 +24,10 @@ const verifyToken = (
 
   try {
     const verified =
-      jwt.verify(
-        token,
-        "supermarket_secret"
-      );
-
+    jwt.verify(
+  token,
+  process.env.JWT_SECRET
+);
     req.user =
       verified;
 

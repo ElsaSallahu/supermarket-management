@@ -2,6 +2,8 @@ const router = require("express").Router();
 const db = require("../db");
 const jwt = require("jsonwebtoken");
 
+const refreshTokens = [];
+
 // REGISTER
 router.post("/register", (req, res) => {
   const {
@@ -25,7 +27,7 @@ router.post("/register", (req, res) => {
       password,
       role,
     ],
-    (err, result) => {
+    (err) => {
       if (err) {
         console.log(
           "REGISTER ERROR:",
@@ -77,7 +79,108 @@ router.post("/login", (req, res) => {
         const user =
           results[0];
 
-        const token =
+        const accessToken =
+          jwt.sign(
+            {
+              user_id:
+                user.user_id,
+              email:
+                user.email,
+              role:
+                user.role,
+            },
+            process.env.JWT_SECRET,
+            {
+              expiresIn:
+                "1h",
+            }
+          );
+
+        const refreshToken =
+          jwt.sign(
+            {
+              user_id:
+                user.user_id,
+              email:
+                user.email,
+              role:
+                user.role,
+            },
+            process.env.REFRESH_SECRET,
+            {
+              expiresIn:
+                "7d",
+            }
+          );
+
+        refreshTokens.push(
+          refreshToken
+        );
+
+        res.json({
+          success: true,
+          user,
+          accessToken,
+          refreshToken,
+        });
+      } else {
+        res.json({
+          success: false,
+          message:
+            "Email ose password gabim",
+        });
+      }
+    }
+  );
+});
+
+// REFRESH TOKEN
+router.post(
+  "/refresh",
+  (req, res) => {
+    const {
+      refreshToken,
+    } = req.body;
+
+    if (
+      !refreshToken
+    ) {
+      return res
+        .status(401)
+        .json({
+          message:
+            "Refresh token missing",
+        });
+    }
+
+    if (
+      !refreshTokens.includes(
+        refreshToken
+      )
+    ) {
+      return res
+        .status(403)
+        .json({
+          message:
+            "Invalid refresh token",
+        });
+    }
+
+    jwt.verify(
+      refreshToken,
+      process.env
+        .REFRESH_SECRET,
+      (err, user) => {
+        if (err) {
+          return res
+            .status(403)
+            .json({
+              message:
+                "Token expired",
+            });
+        }
+
+        const accessToken =
           jwt.sign(
             {
               user_id:
@@ -95,19 +198,11 @@ router.post("/login", (req, res) => {
           );
 
         res.json({
-          success: true,
-          user,
-          token,
-        });
-      } else {
-        res.json({
-          success: false,
-          message:
-            "Email ose password gabim",
+          accessToken,
         });
       }
-    }
-  );
-});
+    );
+  }
+);
 
 module.exports = router;

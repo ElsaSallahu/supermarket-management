@@ -40,15 +40,21 @@ const Login = () => {
           res.data.success
         ) {
           // SAVE USER
-          localStorage.setItem(
-            "user",
-            JSON.stringify(
-              res.data.user
-            )
-          );
+         localStorage.setItem(
+  "user",
+  JSON.stringify(
+    res.data.user
+  )
+);
+
 localStorage.setItem(
   "token",
-  res.data.token
+  res.data.accessToken
+);
+
+localStorage.setItem(
+  "refreshToken",
+  res.data.refreshToken
 );
           const user =
             res.data.user;

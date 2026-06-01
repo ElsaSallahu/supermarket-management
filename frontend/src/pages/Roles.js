@@ -1,92 +1,70 @@
 import React, { useEffect, useState } from "react";
+import api from "../api/axiosConfig";
 
 function Roles() {
   const [roles, setRoles] = useState([]);
   const [roleName, setRoleName] = useState("");
   const [editingId, setEditingId] = useState(null);
 
-  // GET ROLES
-  const fetchRoles = () => {
-  fetch("http://localhost:5000/roles", {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
-})
-      .then((res) => res.json())
-      .then((data) => setRoles(data))
-      .catch((err) => console.log(err));
-  };
+ // GET ROLES
+const fetchRoles = async () => {
+  try {
+    const res = await api.get("/roles");
+    setRoles(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-  useEffect(() => {
+useEffect(() => {
+  fetchRoles();
+}, []);
+
+// ADD ROLE
+const addRole = async () => {
+  try {
+    await api.post("/roles", {
+      role_name: roleName,
+    });
+
     fetchRoles();
-  }, []);
+    setRoleName("");
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-  // ADD ROLE
-  const addRole = async () => {
-    try {
-      await fetch("http://localhost:5000/roles", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          role_name: roleName,
-        }),
-      });
+// DELETE ROLE
+const deleteRole = async (id) => {
+  try {
+    await api.delete(`/roles/${id}`);
+    fetchRoles();
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-      fetchRoles();
-      setRoleName("");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+// EDIT ROLE
+const editRole = (role) => {
+  setEditingId(role.role_id);
+  setRoleName(role.role_name);
+};
 
-  // DELETE ROLE
-  const deleteRole = async (id) => {
-    try {
-      await fetch(
-        `http://localhost:5000/roles/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+// UPDATE ROLE
+const updateRole = async () => {
+  try {
+    await api.put(`/roles/${editingId}`, {
+      role_name: roleName,
+    });
 
-      fetchRoles();
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    fetchRoles();
 
-  // EDIT ROLE
-  const editRole = (role) => {
-    setEditingId(role.role_id);
-    setRoleName(role.role_name);
-  };
-
-  // UPDATE ROLE
-  const updateRole = async () => {
-    try {
-      await fetch(
-        `http://localhost:5000/roles/${editingId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            role_name: roleName,
-          }),
-        }
-      );
-
-      fetchRoles();
-
-      setEditingId(null);
-      setRoleName("");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    setEditingId(null);
+    setRoleName("");
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   return (
     <div>

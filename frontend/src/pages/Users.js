@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import api from "../api/axiosConfig";
 
 function Users() {
+
   const [users, setUsers] = useState([]);
 
   const [fullName, setFullName] = useState("");
@@ -10,101 +12,81 @@ function Users() {
 
   const [editingId, setEditingId] = useState(null);
 
-  // GET USERS
-  const fetchUsers = () => {
-    fetch("http://localhost:5000/users", {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
-})
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.log(err));
-  };
+ // GET USERS
+const fetchUsers = async () => {
+  try {
+    const res = await api.get("/users");
+    setUsers(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-  useEffect(() => {
+useEffect(() => {
+  fetchUsers();
+}, []);
+
+// ADD USER
+const addUser = async () => {
+  try {
+    await api.post("/users", {
+      full_name: fullName,
+      email,
+      password,
+      role,
+    });
+
     fetchUsers();
-  }, []);
 
-  // ADD USER
-  const addUser = async () => {
-    try {
-      await fetch("http://localhost:5000/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          full_name: fullName,
-          email,
-          password,
-          role,
-        }),
-      });
+    setFullName("");
+    setEmail("");
+    setPassword("");
+    setRole("cashier");
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-      fetchUsers();
+// DELETE USER
+const deleteUser = async (id) => {
+  try {
+    await api.delete(`/users/${id}`);
+    fetchUsers();
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-      setFullName("");
-      setEmail("");
-      setPassword("");
-      setRole("cashier");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+// EDIT USER
+const editUser = (user) => {
+  setEditingId(user.user_id);
+  setFullName(user.full_name);
+  setEmail(user.email);
+  setPassword(user.password);
+  setRole(user.role);
+};
 
-  // DELETE USER
-  const deleteUser = async (id) => {
-    try {
-      await fetch(`http://localhost:5000/users/${id}`, {
-        method: "DELETE",
-      });
+// UPDATE USER
+const updateUser = async () => {
+  try {
+    await api.put(`/users/${editingId}`, {
+      full_name: fullName,
+      email,
+      password,
+      role,
+    });
 
-      fetchUsers();
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    fetchUsers();
 
-  // EDIT USER
-  const editUser = (user) => {
-    setEditingId(user.user_id);
-    setFullName(user.full_name);
-    setEmail(user.email);
-    setPassword(user.password);
-    setRole(user.role);
-  };
-
-  // UPDATE USER
-  const updateUser = async () => {
-    try {
-      await fetch(
-        `http://localhost:5000/users/${editingId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            full_name: fullName,
-            email,
-            password,
-            role,
-          }),
-        }
-      );
-
-      fetchUsers();
-
-      setEditingId(null);
-      setFullName("");
-      setEmail("");
-      setPassword("");
-      setRole("cashier");
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    setEditingId(null);
+    setFullName("");
+    setEmail("");
+    setPassword("");
+    setRole("cashier");
+  } catch (err) {
+    console.log(err);
+  }
+};
 
   return (
     <div>

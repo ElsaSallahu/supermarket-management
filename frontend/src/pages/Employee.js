@@ -2,7 +2,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-
+import api from "../api/axiosConfig";
 const inputStyle = {
   width: "100%",
   padding: "12px 14px",
@@ -35,158 +35,99 @@ function Employees() {
     useState(null);
 
   // GET EMPLOYEES
-  const fetchEmployees = () => {
-    fetch("http://localhost:5000/employees", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setEmployees(data))
-      .catch((err) => console.log(err));
-  };
+const fetchEmployees = async () => {
+  try {
+    const res = await api.get("/employees");
+    setEmployees(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-  useEffect(() => {
+useEffect(() => {
+  fetchEmployees();
+}, []);
+
+// ADD EMPLOYEE
+const addEmployee = async () => {
+  try {
+    await api.post("/employees", {
+      full_name: fullName,
+      phone,
+      position,
+      salary,
+    });
+
     fetchEmployees();
-  }, []);
 
-  // ADD EMPLOYEE
-  const addEmployee =
-    async () => {
-      try {
-        await fetch(
-          "http://localhost:5000/employees",
-          {
-            method:
-              "POST",
+    setFullName("");
+    setPhone("");
+    setPosition("");
+    setSalary("");
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
+// DELETE EMPLOYEE
+const deleteEmployee = async (id) => {
+  try {
+    await api.delete(`/employees/${id}`);
+    fetchEmployees();
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-            body: JSON.stringify(
-              {
-                full_name:
-                  fullName,
-                phone,
-                position,
-                salary,
-              }
-            ),
-          }
-        );
+// EDIT EMPLOYEE
+const editEmployee = (employee) => {
+  setEditingId(employee.employee_id);
 
-        fetchEmployees();
+  setFullName(employee.full_name);
 
-        setFullName("");
-        setPhone("");
-        setPosition("");
-        setSalary("");
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  setPhone(employee.phone);
 
-  // DELETE
-  const deleteEmployee =
-    async (id) => {
-      try {
-        await fetch(
-          `http://localhost:5000/employees/${id}`,
-          {
-            method:
-              "DELETE",
-          }
-        );
+  setPosition(employee.position);
 
-        fetchEmployees();
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  setSalary(employee.salary);
+};
 
-  // EDIT
-  const editEmployee = (
-    employee
-  ) => {
-    setEditingId(
-      employee.employee_id
-    );
+// UPDATE EMPLOYEE
+const updateEmployee = async () => {
+  try {
+    await api.put(`/employees/${editingId}`, {
+      full_name: fullName,
+      phone,
+      position,
+      salary,
+    });
 
-    setFullName(
+    fetchEmployees();
+
+    setEditingId(null);
+
+    setFullName("");
+    setPhone("");
+    setPosition("");
+    setSalary("");
+  } catch (err) {
+    console.log(err);
+  }
+};
+const filteredEmployees =
+  employees.filter(
+    (employee) =>
       employee.full_name
-    );
-
-    setPhone(
-      employee.phone
-    );
-
-    setPosition(
+        ?.toLowerCase()
+        .includes(
+          search.toLowerCase()
+        ) ||
       employee.position
-    );
-
-    setSalary(
-      employee.salary
-    );
-  };
-
-  // UPDATE
-  const updateEmployee =
-    async () => {
-      try {
-        await fetch(
-          `http://localhost:5000/employees/${editingId}`,
-          {
-            method:
-              "PUT",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify(
-              {
-                full_name:
-                  fullName,
-                phone,
-                position,
-                salary,
-              }
-            ),
-          }
-        );
-
-        fetchEmployees();
-
-        setEditingId(
-          null
-        );
-
-        setFullName("");
-        setPhone("");
-        setPosition("");
-        setSalary("");
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  const filteredEmployees =
-    employees.filter(
-      (employee) =>
-        employee.full_name
-          ?.toLowerCase()
-          .includes(
-            search.toLowerCase()
-          ) ||
-        employee.position
-          ?.toLowerCase()
-          .includes(
-            search.toLowerCase()
-          )
-    );
+        ?.toLowerCase()
+        .includes(
+          search.toLowerCase()
+        )
+  );
 
   return (
     <div

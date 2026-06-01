@@ -1,8 +1,28 @@
-﻿import axios from "axios";
+﻿import api from "./axiosConfig";
 
-const API = "http://localhost:5000";
+export const getProducts = () =>
+  api.get("/products");
 
-export const getProducts = () => axios.get(`${API}/products`);
-export const addProduct = (product) => axios.post(`${API}/products`, product);
-export const updateProduct = (id, product) => axios.put(`${API}/products/${id}`, product);
-export const deleteProduct = (id) => axios.delete(`${API}/products/${id}`);
+export const addProduct = (
+  product
+) =>
+  api.post(
+    "/products",
+    product
+  );
+
+export const updateProduct = (
+  id,
+  product
+) =>
+  api.put(
+    `/products/${id}`,
+    product
+  );
+
+export const deleteProduct = (
+  id
+) =>
+  api.delete(
+    `/products/${id}`
+  );

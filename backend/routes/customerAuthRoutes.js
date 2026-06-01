@@ -69,7 +69,7 @@ router.post("/login", (req, res) => {
         role: "customer"
       },
       JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "1h" }
     );
 
     res.json({
