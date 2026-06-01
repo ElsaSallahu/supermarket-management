@@ -200,6 +200,7 @@ const routes = [
     ),
   },
 
+<<<<<<< HEAD
   {
     path: "/customer-home",
     name: "Customer Home",
@@ -213,6 +214,9 @@ const routes = [
       </ProtectedRoute>
     ),
   },
+=======
+
+>>>>>>> 355a9b361878ba3ebff6e122ef94cfd2ec7543ae
 
   {
     path: "/stock",

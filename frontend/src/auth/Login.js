@@ -77,7 +77,7 @@ const Login = () => {
             "customer"
           ) {
             navigate(
-              "/customer-home"
+              "/customer/home"
             );
           } else {
             navigate("/");

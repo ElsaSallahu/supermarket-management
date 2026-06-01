@@ -27,7 +27,7 @@ function CustomerLogin() {
       localStorage.setItem("customer", JSON.stringify(res.data.customer));
 
       alert("Login me sukses");
-      window.location.href = "/customer-home";
+      window.location.href = "/customer/home";
     } catch (error) {
       console.log(error);
       alert("Email ose password gabim");
