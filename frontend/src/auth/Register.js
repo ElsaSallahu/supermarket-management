@@ -117,9 +117,6 @@ if (password.length < 6) {
             Cashier
           </option>
 
-          <option value="customer">
-            Customer
-          </option>
         </select>
 
         <button type="submit">
