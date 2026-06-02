@@ -3,6 +3,7 @@ import React, {
   useState,
 } from "react";
 
+import api from "../api/axiosConfig";
 const inputStyle = {
   width: "100%",
   padding: "12px 14px",
@@ -32,115 +33,71 @@ const Sales = () => {
   useEffect(() => {
     loadSales();
   }, []);
+const loadSales = async () => {
+  try {
+    const res = await api.get("/sales");
+    setSales(res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-  // LOAD SALES
-  const loadSales =
-    async () => {
-      try {
-        const response =
-          await fetch(
-            "http://localhost:5000/sales"
-          );
+const addSale = async () => {
+  if (
+    !newSale.customer_id ||
+    !newSale.total_amount ||
+    !newSale.sale_date
+  ) {
+    alert("Please fill all fields");
+    return;
+  }
 
-        const data =
-          await response.json();
+  if (
+    Number(newSale.total_amount) <= 0
+  ) {
+    alert("Amount must be greater than 0");
+    return;
+  }
 
-        setSales(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  try {
+    await api.post("/sales", {
+      customer_id: Number(
+        newSale.customer_id
+      ),
+      total_amount: Number(
+        newSale.total_amount
+      ),
+      sale_date: newSale.sale_date,
+    });
 
-  // ADD SALE
-  const addSale =async () => {
-   
-    if (!newSale.customer_id || !newSale.total_amount || !newSale.sale_date) {
-  alert("Please fill all fields");
-  return;
-}
+    loadSales();
 
-if (Number(newSale.total_amount ) <= 0) {
-  alert("Amount must be greater than 0");
-  return;
-}
-      try {
-        const response =
-          await fetch(
-            "http://localhost:5000/sales",
-            {
-              method:
-                "POST",
+    setNewSale({
+      customer_id: "",
+      total_amount: "",
+      sale_date: "",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-              headers: {
-                "Content-Type":
-                  "application/json",
-              },
+const deleteSale = async (id) => {
+  try {
+    await api.delete(`/sales/${id}`);
+    loadSales();
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-              body:
-                JSON.stringify(
-                  {
-                    customer_id:
-                      Number(
-                        newSale.customer_id
-                      ),
-
-                    total_amount:
-                      Number(
-                        newSale.total_amount
-                      ),
-
-                    sale_date:
-                      newSale.sale_date,
-                  }
-                ),
-            }
-          );
-
-        const data =
-          await response.text();
-
-        console.log(data);
-
-        if (
-          response.ok
-        ) {
-          loadSales();
-
-          setNewSale({
-            customer_id:
-              "",
-            total_amount:
-              "",
-            sale_date:
-              "",
-          });
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  // DELETE SALE
-  const deleteSale =
-    async (id) => {
-      try {
-        await fetch(
-          `http://localhost:5000/sales/${id}`,
-          {
-            method:
-              "DELETE",
-          }
-        );
-
-        loadSales();
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  // UPDATE SALE
-  const updateSale =
-    async (
+const totalRevenue = sales.reduce(
+  (sum, sale) =>
+    sum + Number(sale.total_amount || 0),
+  0
+);
+  
+  const updateSale = async (
       id
     ) => {
       try {
@@ -211,20 +168,6 @@ if (Number(newSale.total_amount ) <= 0) {
         )
     );
 
-  // TOTAL
-  const totalRevenue =
-    sales.reduce(
-      (
-        sum,
-        sale
-      ) =>
-        sum +
-        Number(
-          sale.total_amount ||
-            0
-        ),
-      0
-    );
 
   return (
     <div className="page">
