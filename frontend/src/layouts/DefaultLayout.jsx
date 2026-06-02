@@ -46,14 +46,18 @@ function DefaultLayout() {
   }, [navigate, user]);
 
   // LOGOUT
-  const handleLogout =
-    () => {
-      localStorage.removeItem(
-        "user"
-      );
+ const handleLogout =
+  () => {
+    localStorage.removeItem(
+      "user"
+    );
 
-      navigate("/login");
-    };
+    localStorage.removeItem(
+      "token"
+    );
+
+    navigate("/login");
+  };
 
   return (
     <div className="app-shell">
@@ -77,10 +81,15 @@ function DefaultLayout() {
             </NavLink>
           )}
 
-          {/* ALL */}
-          <NavLink to="/products">
-            Products
-          </NavLink>
+{/* ADMIN + MANAGER */}
+{
+  (user?.role === "admin" ||
+   user?.role === "manager") && (
+    <NavLink to="/products">
+      Products
+    </NavLink>
+  )
+}
 
           {/* ADMIN + MANAGER + CUSTOMER */}
           {(user?.role ===
@@ -140,29 +149,32 @@ function DefaultLayout() {
             </>
           )}
 
-          {/* ADMIN + MANAGER */}
-          {(user?.role ===
-            "admin" ||
-            user?.role ===
-              "manager") && (
-            <>
-              <NavLink to="/cashiers">
-                Cashiers
-              </NavLink>
+{/* ADMIN ONLY */}
+{user?.role === "admin" && (
+  <>
+    <NavLink to="/cashiers">
+      Cashiers
+    </NavLink>
 
-              <NavLink to="/employees">
-                Employees
-              </NavLink>
+    <NavLink to="/employees">
+      Employees
+    </NavLink>
+  </>
+)}
 
-              <NavLink to="/product-report">
-                Product Report
-              </NavLink>
+{/* ADMIN + MANAGER */}
+{(user?.role === "admin" ||
+  user?.role === "manager") && (
+  <>
+    <NavLink to="/product-report">
+      Product Report
+    </NavLink>
 
-              <NavLink to="/sales-report">
-                Sales Report
-              </NavLink>
-            </>
-          )}
+    <NavLink to="/sales-report">
+      Sales Report
+    </NavLink>
+  </>
+)}
 
           {/* ADMIN ONLY */}
           {user?.role ===
