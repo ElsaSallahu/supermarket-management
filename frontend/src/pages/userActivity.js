@@ -20,26 +20,7 @@ function UserActivity() {
   const [editingId, setEditingId] =
     useState(null);
 
-  // GET
-  const fetchActivities = () => {
-    fetch(
-      "http://localhost:5000/user-activity"
-    )
-      .then((res) =>
-        res.json()
-      )
-      .then((data) =>
-        setActivities(data)
-      )
-      .catch((err) =>
-        console.log(err)
-      );
-  };
-
-  useEffect(() => {
-    fetchActivities();
-  }, []);
-
+ 
   // GET
 const fetchActivities =
   async () => {
@@ -56,7 +37,6 @@ const fetchActivities =
       console.log(err);
     }
   };
-
 // ADD
 const addActivity =
   async () => {
