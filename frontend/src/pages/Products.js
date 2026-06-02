@@ -1,4 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
+import api from "../api/axiosConfig";
 
 const inputStyle = {
   width: "100%",
@@ -40,154 +41,203 @@ const Products = () => {
   useEffect(() => {
     loadData();
   }, []);
-
-  const loadData =
-async () => {
+const loadData = async () => {
   try {
-    setLoading(
-      true
-    );
-
+    setLoading(true);
     setError("");
 
     const response =
-      await fetch(
-        "http://localhost:5000/products"
+      await api.get(
+        "/products"
       );
 
-    const data =
-      await response.json();
-
     setProducts(
-      data
+      response.data
     );
   } catch (err) {
-    console.log(
-      err
-    );
+    console.log(err);
 
     setError(
       "Cannot load products"
     );
   } finally {
-    setLoading(
-      false
+    setLoading(false);
+  }
+};
+
+const clearForm = () => {
+  setNewProduct({
+    emri: "",
+    barkodi: "",
+    cmimi_blerjes: "",
+    cmimi_shitjes: "",
+    njesia_matese: "",
+    stoku: "",
+    pragu_minimumi: "",
+    data_skadences: "",
+  });
+
+  setEditingId(null);
+};
+
+const addProduct = async () => {
+  if (
+    !newProduct.emri ||
+    !newProduct.barkodi ||
+    !newProduct.cmimi_blerjes ||
+    !newProduct.cmimi_shitjes ||
+    !newProduct.njesia_matese ||
+    !newProduct.stoku
+  ) {
+    alert(
+      "Please fill all fields"
+    );
+    return;
+  }
+
+  if (
+    Number(
+      newProduct.cmimi_blerjes
+    ) < 0 ||
+    Number(
+      newProduct.cmimi_shitjes
+    ) < 0 ||
+    Number(
+      newProduct.stoku
+    ) < 0
+  ) {
+    alert(
+      "Negative values are not allowed"
+    );
+    return;
+  }
+
+  try {
+    await api.post(
+      "/products",
+      newProduct
+    );
+
+    await loadData();
+    clearForm();
+  } catch (err) {
+    console.log(err);
+
+    setError(
+      err.response?.data
+        ?.message ||
+        "Produkti nuk u shtua."
     );
   }
 };
 
-  const clearForm = () => {
-    setNewProduct({
-      emri: "",
-      barkodi: "",
-      cmimi_blerjes: "",
-      cmimi_shitjes: "",
-      njesia_matese: "",
-      stoku: "",
-      pragu_minimumi: "",
-      data_skadences: "",
-    });
-    setEditingId(null);
-  };
+const updateProduct = async () => {
+  try {
+    await api.put(
+      `/products/${editingId}`,
+      newProduct
+    );
 
-  const addProduct = async () => {
-    // VALIDATION - EMPTY FIELDS
-if (!newProduct.emri || !newProduct.barkodi || !newProduct.cmimi_blerjes || !newProduct.cmimi_shitjes || !newProduct.njesia_matese || !newProduct.stoku) {
-  alert("Please fill all fields");
-  return;
-}
+    await loadData();
+    clearForm();
+  } catch (err) {
+    console.log(err);
 
-// VALIDATION - NEGATIVE VALUES
-if (Number(newProduct.cmimi_blerjes) < 0 ||
-    Number(newProduct.cmimi_shitjes) < 0 ||
-    Number(newProduct.stoku) < 0) {
-  alert("Negative values are not allowed");
-  return;
-}
-    try {
-      const response = await fetch("http://localhost:5000/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newProduct),
-      });
+    setError(
+      err.response?.data
+        ?.message ||
+        "Produkti nuk u perditesua."
+    );
+  }
+};
 
-      if (!response.ok) {
-        const message = await response.text();
-        throw new Error(message || "Produkti nuk u shtua");
+const deleteProduct = async (
+  id
+) => {
+  try {
+    await api.delete(
+      `/products/${id}`
+    );
+
+    await loadData();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const editProduct = (p) => {
+  setEditingId(
+    p.produkti_id
+  );
+
+  setNewProduct({
+    emri: p.emri || "",
+    barkodi:
+      p.barkodi || "",
+    cmimi_blerjes:
+      p.cmimi_blerjes || "",
+    cmimi_shitjes:
+      p.cmimi_shitjes || "",
+    njesia_matese:
+      p.njesia_matese || "",
+    stoku:
+      p.stoku || "",
+    pragu_minimumi:
+      p.pragu_minimumi ||
+      "",
+    data_skadences:
+      p.data_skadences?.split(
+        "T"
+      )[0] || "",
+  });
+};
+
+const filteredProducts =
+  useMemo(() => {
+    const q = search
+      .toLowerCase()
+      .trim();
+
+    return products.filter(
+      (p) => {
+        const name =
+          String(
+            p.emri || ""
+          ).toLowerCase();
+
+        const barcode =
+          String(
+            p.barkodi || ""
+          ).toLowerCase();
+
+        return (
+          name.includes(q) ||
+          barcode.includes(
+            q
+          )
+        );
       }
-
-      await loadData();
-      clearForm();
-    } catch (err) {
-      console.log("ERROR:", err);
-      setError(err.message || "Produkti nuk u shtua.");
-    }
-  };
-
-  const updateProduct = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/products/${editingId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newProduct),
-        }
-      );
-
-      if (!response.ok) {
-        const message = await response.text();
-        throw new Error(message || "Produkti nuk u perditesua");
-      }
-
-      await loadData();
-      clearForm();
-    } catch (err) {
-      console.log("ERROR:", err);
-      setError(err.message || "Produkti nuk u perditesua.");
-    }
-  };
-
-  const deleteProduct = async (id) => {
-    try {
-      await fetch(`http://localhost:5000/products/${id}`, {
-        method: "DELETE",
-      });
-      await loadData();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const editProduct = (p) => {
-    setEditingId(p.produkti_id);
-    setNewProduct({
-      emri: p.emri || "",
-      barkodi: p.barkodi || "",
-      cmimi_blerjes: p.cmimi_blerjes || "",
-      cmimi_shitjes: p.cmimi_shitjes || "",
-      njesia_matese: p.njesia_matese || "",
-      stoku: p.stoku || "",
-      pragu_minimumi: p.pragu_minimumi || "",
-      data_skadences: p.data_skadences?.split("T")[0] || "",
-    });
-  };
-
-  const filteredProducts = useMemo(() => {
-    const q = search.toLowerCase().trim();
-    return products.filter((p) => {
-      const name = String(p.emri || "").toLowerCase();
-      const barcode = String(p.barkodi || "").toLowerCase();
-      return name.includes(q) || barcode.includes(q);
-    });
+    );
   }, [products, search]);
 
-  const lowStockCount = products.filter((p) => Number(p.stoku) < 10).length;
-  const totalStock = products.reduce((sum, p) => sum + Number(p.stoku || 0), 0);
+const lowStockCount =
+  products.filter(
+    (p) =>
+      Number(p.stoku) < 10
+  ).length;
+
+const totalStock =
+  products.reduce(
+    (sum, p) =>
+      sum +
+      Number(
+        p.stoku || 0
+      ),
+    0
+  );
+
+
+
 
   return (
     <div className="page">
