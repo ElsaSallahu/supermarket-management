@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../api/axiosConfig";
 
 const SaleItems = () => {
   const [saleItems, setSaleItems] = useState([]);
@@ -20,56 +21,107 @@ const SaleItems = () => {
    }, 
    []);
 
-  const loadSaleItems = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:5000/sale-items"
+ const loadSaleItems = async () => {
+  try {
+    const response =
+      await api.get(
+        "/sale-items"
       );
 
-      const data = await response.json();
+    setSaleItems(
+      response.data
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-      setSaleItems(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // ADD
-  const addSaleItem = async () => {
-    //empty fields
-    if(!newItem.sale_id || !newItem.produkti_id || !newItem.quantity || !newItem.price){
-      alert("Please fill all fields");
+// ADD
+const addSaleItem =
+  async () => {
+    if (
+      !newItem.sale_id ||
+      !newItem.produkti_id ||
+      !newItem.quantity ||
+      !newItem.price
+    ) {
+      alert(
+        "Please fill all fields"
+      );
       return;
     }
-    //
-    if(Number(newItem.quantity)<=0 || Number(newItem.price)<=0){
-      alert("Quantity and price must be greater than 0");
+
+    if (
+      Number(
+        newItem.quantity
+      ) <= 0 ||
+      Number(
+        newItem.price
+      ) <= 0
+    ) {
+      alert(
+        "Quantity and price must be greater than 0"
+      );
       return;
     }
 
     try {
+      const subtotal =
+        Number(
+          newItem.quantity
+        ) *
+        Number(
+          newItem.price
+        );
 
-        const subtotal =
-         Number(newItem.quantity) *
-         Number(newItem.price);
-
-      await fetch(
-        "http://localhost:5000/sale-items",
+      await api.post(
+        "/sale-items",
         {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          //llogaritet totali automatikisht
-          body: JSON.stringify({
           ...newItem,
           subtotal,
-        }),
         }
       );
 
-      loadSaleItems();
+      await loadSaleItems();
+
+      setNewItem({
+        sale_id: "",
+        produkti_id: "",
+        quantity: "",
+        price: "",
+        subtotal: "",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+// DELETE
+const deleteSaleItem =
+  async (id) => {
+    try {
+      await api.delete(
+        `/sale-items/${id}`
+      );
+
+      await loadSaleItems();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+// UPDATE
+const updateSaleItem =
+  async (id) => {
+    try {
+      await api.put(
+        `/sale-items/${id}`,
+        newItem
+      );
+
+      setEditingId(
+        null
+      );
 
       setNewItem({
         sale_id: "",
@@ -79,66 +131,11 @@ const SaleItems = () => {
         subtotal: "",
       });
 
+      await loadSaleItems();
     } catch (err) {
       console.log(err);
     }
   };
-
-  // DELETE
-  const deleteSaleItem = async (
-    id
-  ) => {
-    try {
-      await fetch(
-        `http://localhost:5000/sale-items/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      loadSaleItems();
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // UPDATE
-  const updateSaleItem = async (
-    id
-  ) => {
-    try {
-      await fetch(
-        `http://localhost:5000/sale-items/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify(
-            newItem
-          ),
-        }
-      );
-
-      setEditingId(null);
-
-      setNewItem({
-        sale_id: "",
-        produkti_id: "",
-        quantity: "",
-        price: "",
-        subtotal: "",
-      });
-
-      loadSaleItems();
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const filteredSaleItems =
   saleItems.filter(
     (item) =>

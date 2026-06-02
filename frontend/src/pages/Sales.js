@@ -143,12 +143,9 @@ const totalRevenue = sales.reduce(
         );
 
         setNewSale({
-          customer_id:
-            "",
-          total_amount:
-            "",
-          sale_date:
-            "",
+          customer_id: "",
+          total_amount: "",
+          sale_date: "",
         });
 
         loadSales();
@@ -175,26 +172,19 @@ const totalRevenue = sales.reduce(
       <div
         className="page-header"
         style={{
-          display:
-            "flex",
-          justifyContent:
-            "space-between",
-          alignItems:
-            "center",
-          flexWrap:
-            "wrap",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
           gap: "15px",
-          marginBottom:
-            "25px",
+          marginBottom: "25px",
         }}
       >
         <div>
           <p
             style={{
-              margin:
-                0,
-              color:
-                "#64748b",
+              margin: 0,
+              color: "#64748b",
             }}
           >
             Financial
@@ -204,16 +194,14 @@ const totalRevenue = sales.reduce(
           <h1
             className="page-heading"
             style={{
-              margin:
-                0,
+              margin: 0,
             }}
           >
             Sales
           </h1>
         </div>
 
-        <input
-          className="ui-input"
+        <input className="ui-input"
           placeholder="Search customer ID..."
           value={
             search
@@ -228,8 +216,7 @@ const totalRevenue = sales.reduce(
           }
           style={{
             ...inputStyle,
-            width:
-              "300px",
+            width: "300px",
           }}
         />
       </div>
@@ -238,24 +225,17 @@ const totalRevenue = sales.reduce(
       <div
         className="ui-card"
         style={{
-          background:
-            "linear-gradient(135deg,#0f172a,#1e293b)",
-          color:
-            "white",
-          borderRadius:
-            "22px",
-          padding:
-            "24px",
-          marginBottom:
-            "25px",
+          background: "linear-gradient(135deg,#0f172a,#1e293b)",
+          color: "white",
+          borderRadius: "22px",
+          padding: "24px",
+          marginBottom: "25px",
         }}
       >
         <p
           style={{
-            margin:
-              0,
-            opacity:
-              0.8,
+            margin: 0,
+            opacity: 0.8,
           }}
         >
           Total Revenue
@@ -263,10 +243,8 @@ const totalRevenue = sales.reduce(
 
         <h1
           style={{
-            margin:
-              "10px 0 0",
-            fontSize:
-              "42px",
+            margin: "10px 0 0",
+            fontSize: "42px",
           }}
         >
           €
@@ -280,16 +258,11 @@ const totalRevenue = sales.reduce(
       <div
         className="ui-card"
         style={{
-          background:
-            "white",
-          padding:
-            "22px",
-          borderRadius:
-            "20px",
-          boxShadow:
-            "0 8px 25px rgba(0,0,0,0.08)",
-          marginBottom:
-            "25px",
+          background: "white",
+          padding: "22px",
+          borderRadius: "20px",
+          boxShadow: "0 8px 25px rgba(0,0,0,0.08)",
+          marginBottom: "25px",
         }}
       >
         <h2>
@@ -301,10 +274,9 @@ const totalRevenue = sales.reduce(
         <div
           style={{
             display:"grid",
-            gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",
+            gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
             gap: "12px",
-            marginTop:
-              "15px",
+            marginTop: "15px",
           }}
         >
           <input
@@ -387,24 +359,17 @@ const totalRevenue = sales.reduce(
           }
           className="ui-button ui-button-primary"
           style={{
-            marginTop:
-              "18px",
+            marginTop: "18px",
             background:
               editingId
                 ? "#0f172a"
                 : "#059669",
-            color:
-              "white",
-            border:
-              "none",
-            padding:
-              "12px 18px",
-            borderRadius:
-              "12px",
-            cursor:
-              "pointer",
-            fontWeight:
-              "700",
+            color: "white",
+            border: "none",
+            padding: "12px 18px",
+            borderRadius: "12px",
+            cursor: "pointer",
+            fontWeight: "700",
           }}
         >
           {editingId
@@ -428,6 +393,7 @@ const totalRevenue = sales.reduce(
           <p>{sales.length}</p>
         </h2>
 
+<div style={{ overflowX: "auto" }}>
         <table
          style={{
          width: "100%",
@@ -619,9 +585,9 @@ const totalRevenue = sales.reduce(
   )}
 </tbody>
         </table>
+        </div>
+        </div>
       </div>
-
-    </div>
   );
 };
 

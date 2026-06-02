@@ -46,10 +46,10 @@ const Login = () => {
     res.data.user
   )
 );
-
+console.log(res.data);
 localStorage.setItem(
   "token",
-  res.data.accessToken
+  res.data.accesstoken
 );
 
 localStorage.setItem(

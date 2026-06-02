@@ -204,5 +204,26 @@ router.post(
     );
   }
 );
+router.post("/logout", (req, res) => {
+  const { refreshToken } = req.body;
+
+  const index =
+    refreshTokens.indexOf(
+      refreshToken
+    );
+
+  if (index > -1) {
+    refreshTokens.splice(
+      index,
+      1
+    );
+  }
+
+  res.json({
+    success: true,
+    message:
+      "Logged out successfully",
+  });
+});
 
 module.exports = router;

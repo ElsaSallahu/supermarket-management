@@ -2,6 +2,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import api from "../api/axiosConfig";
 
 const Payments = () => {
     const [sale_id, setSaleId] =
@@ -38,112 +39,104 @@ const Payments = () => {
     loadPayments();
   }, []);
 
-  const loadPayments = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:5000/payment"
+ const loadPayments = async () => {
+  try {
+    const response =
+      await api.get(
+        "/payment"
       );
 
-        const data =
-          await response.json();
+    setPayments(
+      response.data
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-        setPayments(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+// ADD
+const addPayment =
+  async () => {
+    if (
+      !sale_id ||
+      !amount ||
+      !payment_method ||
+      !payment_date
+    ) {
+      alert(
+        "Please fill all fields"
+      );
+      return;
+    }
 
-  // ADD
-  const addPayment = async () => {
-    if (!sale_id || !amount || !payment_method || !payment_date) {
-  alert("Please fill all fields");
-  return;
-}
+    if (
+      Number(amount) <= 0
+    ) {
+      alert(
+        "Amount must be greater than 0"
+      );
+      return;
+    }
 
-if ( Number(amount)<= 0) {
-  alert("Amount must be greater than 0");
-  return;
-}
     try {
-      await fetch(
-        "http://localhost:5000/payment",
+      await api.post(
+        "/payment",
         {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify({sale_id,amount,payment_method,payment_date,}),
+          sale_id,
+          amount,
+          payment_method,
+          payment_date,
         }
       );
 
-      loadPayments();
+      await loadPayments();
 
-        setSaleId("");
-        setAmount("");
-        setPaymentMethod("");
-        setPaymentDate("");
-    
-
+      setSaleId("");
+      setAmount("");
+      setPaymentMethod("");
+      setPaymentDate("");
     } catch (err) {
       console.log(err);
     }
   };
 
-  // DELETE
-  const deletePayment = async (
-    id
-  ) => {
+// DELETE
+const deletePayment =
+  async (id) => {
     try {
-      await fetch(
-        `http://localhost:5000/payment/${id}`,
-        {
-          method: "DELETE",
-        }
+      await api.delete(
+        `/payment/${id}`
       );
 
-      loadPayments();
-
+      await loadPayments();
     } catch (err) {
       console.log(err);
     }
   };
 
-  // UPDATE
-  const updatePayment =
-    async (id) => {
-      try {
-        await fetch(
-          `http://localhost:5000/payment/${id}`,
-          {
-            method:
-              "POST",
+// UPDATE
+const updatePayment =
+  async (id) => {
+    try {
+      await api.put(
+        `/payment/${id}`,
+        newPayment
+      );
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
+      await loadPayments();
 
-            body: JSON.stringify(
-              newPayment
-            ),
-          }
-        );
-
-        loadPayments();
-
-        setNewPayment({
-          sale_id: "",
-          amount: "",
-          payment_method:
-            "",
-          payment_date:
-            "",
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    };
+      setNewPayment({
+        sale_id: "",
+        amount: "",
+        payment_method:
+          "",
+        payment_date:
+          "",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
     const filteredPayments = payments.filter(
     (p) =>

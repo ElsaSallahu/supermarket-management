@@ -2,6 +2,7 @@
   useEffect, 
   useState, 
 } from 'react'
+import api from "../api/axiosConfig";
 
 const Dashboard = () => {
   const [stats, setStats] =
@@ -19,89 +20,81 @@ const Dashboard = () => {
 
   // merr data prej backend
   const loadStats =
-    async () => {
-      try {
+  async () => {
+    try {
 
-        // SALES
-        const salesRes =
-          await fetch(
-            'http://localhost:5000/sales'
-          )
+      const salesRes =
+        await api.get(
+          "/sales"
+        );
 
-        const sales =
-          await salesRes.json()
-          console.log(sales)
+      const productsRes =
+        await api.get(
+          "/products"
+        );
 
-        // PRODUCTS
-        const productsRes =
-          await fetch(
-            'http://localhost:5000/products'
-          )
+      const customersRes =
+        await api.get(
+          "/customers"
+        );
 
-        const products =
-          await productsRes.json()
-          console.log(products)
+      const sales =
+        salesRes.data;
 
-        // CUSTOMERS
-        const customersRes =
-          await fetch(
-            'http://localhost:5000/customers'
-          )
+      const products =
+        productsRes.data;
 
-        const customers =
-          await customersRes.json()
-          console.log(customers)
+      const customers =
+        customersRes.data;
 
-        // TOTAL SALES
-        const totalRevenue =
-          sales.reduce(
-            (sum, sale) =>
-              sum +
-              Number(
-                sale.total_amount
-              ),
-            0
-          )
+      const totalRevenue =
+        sales.reduce(
+          (sum, sale) =>
+            sum +
+            Number(
+              sale.total_amount || 0
+            ),
+          0
+        );
 
-        //  LOW STOCK
-        const lowStock =
-          products.filter(
-            (p) =>
-              Number(
-                p.stock
-              ) < 10
-          ).length
+      const lowStock =
+        products.filter(
+          (p) =>
+            Number(
+              p.stoku || 0
+            ) < 10
+        ).length;
 
-        // ruan statistikat
-        setStats({
-          totalSales:
-            totalRevenue,
-          products:
-            products.length,
-          customers:
-            customers.length,
-          lowStock,
-        })
+      setStats({
+        totalSales:
+          totalRevenue,
+        products:
+          products.length,
+        customers:
+          customers.length,
+        lowStock,
+      });
 
-      } catch (err) {
-        console.log(err)
-      }
+    } catch (err) {
+      console.log(err);
     }
+  };
 
   return (
-    <div className="page dashboard-page">
-      <div className="page-header">
-        <div>
-          <p className="page-kicker">Operations</p>
-          <h1 className="page-heading">Dashboard Overview</h1>
-        </div>
-      </div>
+    <div className="dashboard-page">
+      <h1
+        style={{
+          marginBottom: '20px',
+        }}
+      >
+        Dashboard Overview
+      </h1>
 
       {/* Stats Cards */}
       <div className="stats-grid">
         <div className="stat-card">
           <span>
-            Total Sales
+            💰 Total Sales
           </span>
           <strong>
             €{ stats.totalSales}
@@ -113,7 +106,7 @@ const Dashboard = () => {
 
         <div className="stat-card">
           <span>
-            Products
+            📦 Products
           </span>
           <strong>
              {stats.products}
@@ -125,7 +118,7 @@ const Dashboard = () => {
 
         <div className="stat-card">
           <span>
-            Customers
+            👥 Customers
           </span>
           <strong>
              {
@@ -139,7 +132,7 @@ const Dashboard = () => {
 
         <div className="stat-card warning">
           <span>
-            Low Stock
+            ⚠ Low Stock
           </span>
           <strong>
             {stats.lowStock }
@@ -159,7 +152,7 @@ const Dashboard = () => {
 
           <div className="activity-row">
             <span>
-              Milk 1L
+              🥛 Milk 1L
               restocked
             </span>
 
@@ -170,7 +163,7 @@ const Dashboard = () => {
 
           <div className="activity-row">
             <span>
-              Bread
+              🍞 Bread
               sold
             </span>
 
@@ -181,7 +174,7 @@ const Dashboard = () => {
 
           <div className="activity-row">
             <span>
-              Cashier
+              👤 Cashier
               shift opened
             </span>
 
@@ -192,7 +185,7 @@ const Dashboard = () => {
 
           <div className="activity-row">
             <span>
-              Apples
+              🍎 Apples
               low stock
             </span>
 
@@ -269,7 +262,7 @@ const Dashboard = () => {
       >
         <div className="panel">
           <h3>
-            Orders
+            🛒 Orders
           </h3>
           <h1>
             320
@@ -278,7 +271,7 @@ const Dashboard = () => {
 
         <div className="panel">
           <h3>
-            Employees
+            👨‍💼 Employees
           </h3>
           <h1>
             28
@@ -287,7 +280,7 @@ const Dashboard = () => {
 
         <div className="panel">
           <h3>
-            Payments
+            💳 Payments
           </h3>
           <h1>
             180

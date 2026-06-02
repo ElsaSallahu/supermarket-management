@@ -2,6 +2,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import api from "../api/axiosConfig";
 
 function SalesReport() {
   const [sales, setSales] =
@@ -17,42 +18,41 @@ function SalesReport() {
     loadSales();
   }, []);
 
-  const loadSales =
-    async () => {
-      try {
-        const response =
-          await fetch(
-            "http://localhost:5000/sales"
-          );
-
-        const data =
-          await response.json();
-
-        setSales(data);
-
-        const total =
-          data.reduce(
-            (
-              sum,
-              sale
-            ) =>
-              sum +
-              Number(
-                sale.total_amount ||
-                  sale.total ||
-                  0
-              ),
-            0
-          );
-
-        setTotalRevenue(
-          total
+const loadSales =
+  async () => {
+    try {
+      const response =
+        await api.get(
+          "/sales"
         );
-      } catch (err) {
-        console.log(err);
-      }
-    };
 
+      const data =
+        response.data;
+
+      setSales(data);
+
+      const total =
+        data.reduce(
+          (
+            sum,
+            sale
+          ) =>
+            sum +
+            Number(
+              sale.total_amount ||
+                sale.total ||
+                0
+            ),
+          0
+        );
+
+      setTotalRevenue(
+        total
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const filteredSales =
     sales.filter(
       (sale) =>

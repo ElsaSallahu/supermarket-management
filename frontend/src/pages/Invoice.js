@@ -2,7 +2,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-
+import api from "../api/axiosConfig";
 function Invoice() {
   const [invoices, setInvoices] =
     useState([]);
@@ -25,142 +25,113 @@ function Invoice() {
     loadInvoices();
   }, []);
 
-  const loadInvoices =
-    async () => {
-      try {
-        const response =
-          await fetch(
-            "http://localhost:5000/invoice"
-          );
-
-        const data =
-          await response.json();
-
-        setInvoices(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  // ADD
-  const addInvoice =
-    async () => {
-      try {
-        await fetch(
-          "http://localhost:5000/invoice",
-          {
-            method:
-              "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify(
-              newInvoice
-            ),
-          }
+ const loadInvoices =
+  async () => {
+    try {
+      const response =
+        await api.get(
+          "/invoice"
         );
 
-        loadInvoices();
-
-        setNewInvoice({
-          sale_id: "",
-          invoice_number:
-            "",
-          total_amount:
-            "",
-          invoice_date:
-            "",
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  // DELETE
-  const deleteInvoice =
-    async (id) => {
-      try {
-        await fetch(
-          `http://localhost:5000/invoice/${id}`,
-          {
-            method:
-              "DELETE",
-          }
-        );
-
-        loadInvoices();
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  // UPDATE
-  const updateInvoice =
-    async () => {
-      try {
-        await fetch(
-          `http://localhost:5000/invoice/${editingId}`,
-          {
-            method:
-              "PUT",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify(
-              newInvoice
-            ),
-          }
-        );
-
-        setEditingId(
-          null
-        );
-
-        setNewInvoice({
-          sale_id: "",
-          invoice_number:
-            "",
-          total_amount:
-            "",
-          invoice_date:
-            "",
-        });
-
-        loadInvoices();
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  const editInvoice = (
-    invoice
-  ) => {
-    setEditingId(
-      invoice.invoice_id
-    );
-
-    setNewInvoice({
-      sale_id:
-        invoice.sale_id,
-
-      invoice_number:
-        invoice.invoice_number,
-
-      total_amount:
-        invoice.total_amount,
-
-      invoice_date:
-        invoice.invoice_date?.split(
-          "T"
-        )[0],
-    });
+      setInvoices(
+        response.data
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+// ADD
+const addInvoice =
+  async () => {
+    try {
+      await api.post(
+        "/invoice",
+        newInvoice
+      );
+
+      await loadInvoices();
+
+      setNewInvoice({
+        sale_id: "",
+        invoice_number:
+          "",
+        total_amount:
+          "",
+        invoice_date:
+          "",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+// DELETE
+const deleteInvoice =
+  async (id) => {
+    try {
+      await api.delete(
+        `/invoice/${id}`
+      );
+
+      await loadInvoices();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+// UPDATE
+const updateInvoice =
+  async () => {
+    try {
+      await api.put(
+        `/invoice/${editingId}`,
+        newInvoice
+      );
+
+      setEditingId(
+        null
+      );
+
+      setNewInvoice({
+        sale_id: "",
+        invoice_number:
+          "",
+        total_amount:
+          "",
+        invoice_date:
+          "",
+      });
+
+      await loadInvoices();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+const editInvoice = (
+  invoice
+) => {
+  setEditingId(
+    invoice.invoice_id
+  );
+
+  setNewInvoice({
+    sale_id:
+      invoice.sale_id,
+
+    invoice_number:
+      invoice.invoice_number,
+
+    total_amount:
+      invoice.total_amount,
+
+    invoice_date:
+      invoice.invoice_date?.split(
+        "T"
+      )[0],
+  });
+};
 
   const filteredInvoices =
     invoices.filter(
