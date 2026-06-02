@@ -12,6 +12,9 @@ const Dashboard = () => {
       lowStock: 0,
     })
 
+const [activities, setActivities] =
+  useState([]);
+
   //  kur hapet faqja i merr statistikat
   useEffect(() => {
     loadStats()
@@ -21,6 +24,13 @@ const Dashboard = () => {
   const loadStats =
     async () => {
       try {
+
+  const activityRes =
+       await fetch("http://localhost:5000/user-activity");
+
+const activityData = await activityRes.json();
+
+setActivities(activityData);
 
         // SALES
         const salesRes =
@@ -153,53 +163,31 @@ const Dashboard = () => {
       {/* Bottom Section */}
       <div className="dashboard-grid">
         <section className="panel">
-          <h2>
-            Recent Activity
-          </h2>
+<h2>
+  Recent Activity
+</h2>
 
-          <div className="activity-row">
-            <span>
-              Milk 1L
-              restocked
-            </span>
+{
+  activities.length > 0 ? (
+    activities.map((activity) => (
+      <div
+        key={activity.activity_id}
+        className="activity-row"
+      >
+        <span>
+          {activity.user_name}
+        </span>
 
-            <b>
-              +40
-            </b>
-          </div>
-
-          <div className="activity-row">
-            <span>
-              Bread
-              sold
-            </span>
-
-            <b>
-              -18
-            </b>
-          </div>
-
-          <div className="activity-row">
-            <span>
-              Cashier
-              shift opened
-            </span>
-
-            <b>
-              09:00
-            </b>
-          </div>
-
-          <div className="activity-row">
-            <span>
-              Apples
-              low stock
-            </span>
-
-            <b>
-              5 left
-            </b>
-          </div>
+        <b>
+          {activity.activity_type}
+        </b>
+      </div>
+    ))
+  ) : (
+    <p>No recent activity</p>
+  )
+}
+          
         </section>
 
         <section className="panel">
