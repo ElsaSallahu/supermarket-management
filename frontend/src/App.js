@@ -19,40 +19,22 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/login"
-          element={<Login />}
-        />
-
-        <Route
-          path="/register"
-          element={<Register />}
-        />
-
-        <Route
-  path="/customer-login"
-  element={<CustomerLogin />}
-/>
-
-<Route
-  path="/customer-register"
-  element={<CustomerRegister />}
-/>
+<Route path="/login" element={<Login />}/>
+<Route path="/register" element={<Register />}/>
+<Route path="/customer-login" element={<CustomerLogin />}/>
+<Route path="/customer-register" element={<CustomerRegister />}/>
 <Route path="/customer" element={<CustomerLayout />}>
-  <Route path="home" element={<CustomerHome />} />
-  <Route path="products" element={<CustomerProducts />} />
-  <Route path="categories" element={<CustomerCategories />} />
-  <Route path="offers" element={<CustomerOffers />} />
-  <Route path="cart" element={<CustomerCart />} />
-  <Route path="/customer-login" element={<CustomerLogin />}
+<Route path="home" element={<CustomerHome />} />
+<Route path="products" element={<CustomerProducts />} />
+<Route path="categories" element={<CustomerCategories />} />
+<Route path="offers" element={<CustomerOffers />} />
+<Route path="cart" element={<CustomerCart />} />
+<Route path="/customer-login" element={<CustomerLogin />}
 />
 </Route>
 
-        <Route
-          path="/*"
-          element={<DefaultLayout />}
-        />
-      </Routes>
+<Route path="/*" element={<DefaultLayout />}/>
+</Routes>
     </BrowserRouter>
   );
 }
