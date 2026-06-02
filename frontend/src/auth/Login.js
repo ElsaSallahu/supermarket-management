@@ -49,7 +49,7 @@ const Login = () => {
 console.log(res.data);
 localStorage.setItem(
   "token",
-  res.data.token
+  res.data.accesstoken
 );
 
 localStorage.setItem(
