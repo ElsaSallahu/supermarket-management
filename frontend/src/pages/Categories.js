@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../api/axiosConfig";
 
 const inputStyle = {
   width: "100%",
@@ -39,90 +40,83 @@ const Categories = () => {
   }, []);
 
   const loadData = async () => {
+  try {
     const response =
-      await fetch(
-        "http://localhost:5000/categories"
+      await api.get(
+        "/categories"
       );
 
-    const data =
-      await response.json();
-
-    setCategories(data);
-  };
-
-  const clearForm = () => {
-    setNewCategory({
-      emri: "",
-      pershkrimi: "",
-    });
-
-    setEditingId(null);
-  };
-
-  const addCategory =
-    async () => {
-      await fetch(
-        "http://localhost:5000/categories",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify(
-            newCategory
-          ),
-        }
-      );
-
-      loadData();
-      clearForm();
-    };
-
-  const updateCategory =
-    async () => {
-      await fetch(
-        `http://localhost:5000/categories/${editingId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify(
-            newCategory
-          ),
-        }
-      );
-
-      loadData();
-      clearForm();
-    };
-
-  const deleteCategory =
-    async (id) => {
-      await fetch(
-        `http://localhost:5000/categories/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      loadData();
-    };
-
-  const editCategory = (c) => {
-    setEditingId(
-      c.category_id
+    setCategories(
+      response.data
     );
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-    setNewCategory({
-      emri: c.emri,
-      pershkrimi:
-        c.pershkrimi,
-    });
+const clearForm = () => {
+  setNewCategory({
+    emri: "",
+    pershkrimi: "",
+  });
+
+  setEditingId(null);
+};
+
+const addCategory =
+  async () => {
+    try {
+      await api.post(
+        "/categories",
+        newCategory
+      );
+
+      await loadData();
+      clearForm();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
+const updateCategory =
+  async () => {
+    try {
+      await api.put(
+        `/categories/${editingId}`,
+        newCategory
+      );
+
+      await loadData();
+      clearForm();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+const deleteCategory =
+  async (id) => {
+    try {
+      await api.delete(
+        `/categories/${id}`
+      );
+
+      await loadData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+const editCategory = (c) => {
+  setEditingId(
+    c.category_id
+  );
+
+  setNewCategory({
+    emri: c.emri,
+    pershkrimi:
+      c.pershkrimi,
+  });
+};
   const filteredCategories =
     categories.filter(
       (c) =>
