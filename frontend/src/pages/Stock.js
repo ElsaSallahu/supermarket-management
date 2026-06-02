@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import api from "../api/axiosConfig";
 const Stock = () => {
   const [stock, setStock] =
     useState([]);
@@ -10,19 +10,21 @@ const Stock = () => {
   useEffect(() => {
     loadStock();
   }, []);
-
-  const loadStock =
-    async () => {
+const loadStock =
+  async () => {
+    try {
       const response =
-        await fetch(
-          "http://localhost:5000/stock"
+        await api.get(
+          "/stock"
         );
 
-      const data =
-        await response.json();
-
-      setStock(data);
-    };
+      setStock(
+        response.data
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const filteredStock =
     stock.filter(
