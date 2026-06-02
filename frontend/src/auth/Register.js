@@ -13,9 +13,6 @@ const Register = () => {
   const [password, setPassword] =
     useState("");
 
-  const [role, setRole] =
-    useState("cashier");
-
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -51,7 +48,7 @@ if (password.length < 6) {
           full_name: fullName,
           email,
           password,
-          role,
+          role: "customer",
         }
       );
 
@@ -81,14 +78,7 @@ if (password.length < 6) {
           }
         />
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) =>
-            setEmail(e.target.value)
-          }
-        />
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
         <input
           type="password"
@@ -98,26 +88,6 @@ if (password.length < 6) {
             setPassword(e.target.value)
           }
         />
-
-        <select
-          value={role}
-          onChange={(e) =>
-            setRole(e.target.value)
-          }
-        >
-          <option value="admin">
-            Admin
-          </option>
-
-          <option value="manager">
-            Manager
-          </option>
-
-          <option value="cashier">
-            Cashier
-          </option>
-
-        </select>
 
         <button type="submit">
           Register
