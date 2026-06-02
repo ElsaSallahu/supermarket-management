@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../api/axiosConfig";
 
 const inputStyle = {
   width: "100%",
@@ -31,119 +32,113 @@ const Customers = () => {
     loadCustomers();
   }, []);
 
-  const loadCustomers =
-    async () => {
-      try {
-        const response =
-          await fetch(
-            "http://localhost:5000/customers"
-          );
-
-        const data =
-          await response.json();
-
-        setCustomers(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  const addCustomer =async () => {
-   
-if (!newCustomer.full_name || !newCustomer.phone || !newCustomer.email || !newCustomer.address) {
-  alert("Please fill all fields");
-  return;
-}
-
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-if (!emailRegex.test(newCustomer.email)
-) {
-  alert("Invalid email format");
-  return;
-}
-
-if ( newCustomer.phone.length < 8) {
-  alert("Phone number is too short");
-  return;
-}
-      try {
-        await fetch(
-          "http://localhost:5000/customers",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-            body: JSON.stringify(
-              newCustomer
-            ),
-          }
+ const loadCustomers =
+  async () => {
+    try {
+      const response =
+        await api.get(
+          "/customers"
         );
 
-        loadCustomers();
+      setCustomers(
+        response.data
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const addCustomer =
+  async () => {
+    if (
+      !newCustomer.full_name ||
+      !newCustomer.phone ||
+      !newCustomer.email ||
+      !newCustomer.address
+    ) {
+      alert(
+        "Please fill all fields"
+      );
+      return;
+    }
 
-        setNewCustomer({
-          full_name: "",
-          phone: "",
-          email: "",
-          address: "",
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    };
+    const emailRegex =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    if (
+      !emailRegex.test(
+        newCustomer.email
+      )
+    ) {
+      alert(
+        "Invalid email format"
+      );
+      return;
+    }
+
+    if (
+      newCustomer.phone
+        .length < 8
+    ) {
+      alert(
+        "Phone number is too short"
+      );
+      return;
+    }
+
+    try {
+      await api.post(
+        "/customers",
+        newCustomer
+      );
+
+      await loadCustomers();
+
+      setNewCustomer({
+        full_name: "",
+        phone: "",
+        email: "",
+        address: "",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const deleteCustomer =
-    async (id) => {
-      try {
-        await fetch(
-          `http://localhost:5000/customers/${id}`,
-          {
-            method: "DELETE",
-          }
-        );
+  async (id) => {
+    try {
+      await api.delete(
+        `/customers/${id}`
+      );
 
-        loadCustomers();
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
+      await loadCustomers();
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const updateCustomer =
-    async (id) => {
-      try {
-        await fetch(
-          `http://localhost:5000/customers/${id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-            body: JSON.stringify(
-              newCustomer
-            ),
-          }
-        );
+  async (id) => {
+    try {
+      await api.put(
+        `/customers/${id}`,
+        newCustomer
+      );
 
-        setEditingId(
-          null
-        );
+      setEditingId(
+        null
+      );
 
-        setNewCustomer({
-          full_name: "",
-          phone: "",
-          email: "",
-          address: "",
-        });
+      setNewCustomer({
+        full_name: "",
+        phone: "",
+        email: "",
+        address: "",
+      });
 
-        loadCustomers();
-      } catch (err) {
-        console.log(err);
-      }
-    };
+      await loadCustomers();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const filteredCustomers =
     customers.filter(

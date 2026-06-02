@@ -2,6 +2,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import api from "../api/axiosConfig";
 
 const inputStyle = {
   width: "100%",
@@ -35,149 +36,119 @@ function Cashiers() {
     useState(null);
 
   // GET CASHIERS
-  const fetchCashiers = () => {
-    fetch(
-      "http://localhost:5000/cashiers"
-    )
-      .then((res) =>
-        res.json()
-      )
-      .then((data) =>
-        setCashiers(data)
-      )
-      .catch((err) =>
-        console.log(err)
+  // GET CASHIERS
+const fetchCashiers =
+  async () => {
+    try {
+      const response =
+        await api.get(
+          "/cashiers"
+        );
+
+      setCashiers(
+        response.data
       );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  useEffect(() => {
-    fetchCashiers();
-  }, []);
+// ADD
+const addCashier =
+  async () => {
+    try {
+      await api.post(
+        "/cashiers",
+        {
+          full_name:
+            fullName,
+          shift_time:
+            shiftTime,
+          phone,
+          salary,
+        }
+      );
 
-  // ADD
-  const addCashier =
-    async () => {
-      try {
-        await fetch(
-          "http://localhost:5000/cashiers",
-          {
-            method:
-              "POST",
+      await fetchCashiers();
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify(
-              {
-                full_name:
-                  fullName,
-                shift_time:
-                  shiftTime,
-                phone,
-                salary,
-              }
-            ),
-          }
-        );
-
-        fetchCashiers();
-
-        setFullName("");
-        setShiftTime("");
-        setPhone("");
-        setSalary("");
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  // DELETE
-  const deleteCashier =
-    async (id) => {
-      try {
-        await fetch(
-          `http://localhost:5000/cashiers/${id}`,
-          {
-            method:
-              "DELETE",
-          }
-        );
-
-        fetchCashiers();
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  // EDIT
-  const editCashier = (
-    cashier
-  ) => {
-    setEditingId(
-      cashier.cashier_id
-    );
-
-    setFullName(
-      cashier.full_name
-    );
-
-    setShiftTime(
-      cashier.shift_time
-    );
-
-    setPhone(
-      cashier.phone
-    );
-
-    setSalary(
-      cashier.salary
-    );
+      setFullName("");
+      setShiftTime("");
+      setPhone("");
+      setSalary("");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  // UPDATE
-  const updateCashier =
-    async () => {
-      try {
-        await fetch(
-          `http://localhost:5000/cashiers/${editingId}`,
-          {
-            method:
-              "PUT",
+// DELETE
+const deleteCashier =
+  async (id) => {
+    try {
+      await api.delete(
+        `/cashiers/${id}`
+      );
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
+      await fetchCashiers();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-            body: JSON.stringify(
-              {
-                full_name:
-                  fullName,
-                shift_time:
-                  shiftTime,
-                phone,
-                salary,
-              }
-            ),
-          }
-        );
+// EDIT
+const editCashier = (
+  cashier
+) => {
+  setEditingId(
+    cashier.cashier_id
+  );
 
-        fetchCashiers();
+  setFullName(
+    cashier.full_name
+  );
 
-        setEditingId(
-          null
-        );
+  setShiftTime(
+    cashier.shift_time
+  );
 
-        setFullName("");
-        setShiftTime("");
-        setPhone("");
-        setSalary("");
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  setPhone(
+    cashier.phone
+  );
+
+  setSalary(
+    cashier.salary
+  );
+};
+
+// UPDATE
+const updateCashier =
+  async () => {
+    try {
+      await api.put(
+        `/cashiers/${editingId}`,
+        {
+          full_name:
+            fullName,
+          shift_time:
+            shiftTime,
+          phone,
+          salary,
+        }
+      );
+
+      await fetchCashiers();
+
+      setEditingId(
+        null
+      );
+
+      setFullName("");
+      setShiftTime("");
+      setPhone("");
+      setSalary("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const filteredCashiers =
     cashiers.filter(

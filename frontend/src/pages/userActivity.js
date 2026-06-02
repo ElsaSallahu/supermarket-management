@@ -2,6 +2,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import api from "../api/axiosConfig";
 
 function UserActivity() {
   const [activities, setActivities] =
@@ -19,138 +20,107 @@ function UserActivity() {
   const [editingId, setEditingId] =
     useState(null);
 
+ 
   // GET
-  const fetchActivities = () => {
-    fetch(
-      "http://localhost:5000/user-activity"
-    )
-      .then((res) =>
-        res.json()
-      )
-      .then((data) =>
-        setActivities(data)
-      )
-      .catch((err) =>
-        console.log(err)
+const fetchActivities =
+  async () => {
+    try {
+      const response =
+        await api.get(
+          "/user-activity"
+        );
+
+      setActivities(
+        response.data
       );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+// ADD
+const addActivity =
+  async () => {
+    try {
+      await api.post(
+        "/user-activity",
+        {
+          user_name:
+            userName,
+          activity_type:
+            activityType,
+        }
+      );
+
+      await fetchActivities();
+
+      setUserName("");
+      setActivityType(
+        ""
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  useEffect(() => {
-    fetchActivities();
-  }, []);
+// DELETE
+const deleteActivity =
+  async (id) => {
+    try {
+      await api.delete(
+        `/user-activity/${id}`
+      );
 
-  // ADD
-  const addActivity =
-    async () => {
-      try {
-        await fetch(
-          "http://localhost:5000/user-activity",
-          {
-            method:
-              "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
-
-            body: JSON.stringify(
-              {
-                user_name:
-                  userName,
-                activity_type:
-                  activityType,
-              }
-            ),
-          }
-        );
-
-        fetchActivities();
-
-        setUserName("");
-        setActivityType(
-          ""
-        );
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  // DELETE
-  const deleteActivity =
-    async (id) => {
-      try {
-        await fetch(
-          `http://localhost:5000/user-activity/${id}`,
-          {
-            method:
-              "DELETE",
-          }
-        );
-
-        fetchActivities();
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-  // EDIT
-  const editActivity = (
-    activity
-  ) => {
-    setEditingId(
-      activity.activity_id
-    );
-
-    setUserName(
-      activity.user_name
-    );
-
-    setActivityType(
-      activity.activity_type
-    );
+      await fetchActivities();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  // UPDATE
-  const updateActivity =
-    async () => {
-      try {
-        await fetch(
-          `http://localhost:5000/user-activity/${editingId}`,
-          {
-            method:
-              "PUT",
+// EDIT
+const editActivity = (
+  activity
+) => {
+  setEditingId(
+    activity.activity_id
+  );
 
-            headers: {
-              "Content-Type":
-                "application/json",
-            },
+  setUserName(
+    activity.user_name
+  );
 
-            body: JSON.stringify(
-              {
-                user_name:
-                  userName,
-                activity_type:
-                  activityType,
-              }
-            ),
-          }
-        );
+  setActivityType(
+    activity.activity_type
+  );
+};
 
-        fetchActivities();
+// UPDATE
+const updateActivity =
+  async () => {
+    try {
+      await api.put(
+        `/user-activity/${editingId}`,
+        {
+          user_name:
+            userName,
+          activity_type:
+            activityType,
+        }
+      );
 
-        setEditingId(
-          null
-        );
+      await fetchActivities();
 
-        setUserName("");
-        setActivityType(
-          ""
-        );
-      } catch (err) {
-        console.log(err);
-      }
-    };
+      setEditingId(
+        null
+      );
+
+      setUserName("");
+      setActivityType(
+        ""
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const filteredActivities =
     activities.filter(

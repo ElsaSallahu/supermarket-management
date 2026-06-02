@@ -2,7 +2,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-
+import api from "../api/axiosConfig";
 function ProductReport() {
   const [report, setReport] =
     useState(null);
@@ -11,22 +11,21 @@ function ProductReport() {
     loadReport();
   }, []);
 
-  const loadReport =
-    async () => {
-      try {
-        const response =
-          await fetch(
-            "http://localhost:5000/product-report"
-          );
+ const loadReport =
+  async () => {
+    try {
+      const response =
+        await api.get(
+          "/product-report"
+        );
 
-        const data =
-          await response.json();
-
-        setReport(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+      setReport(
+        response.data
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (!report) {
     return (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import api from "../api/axiosConfig";
 
 const inputStyle = {
   width: "100%",
@@ -31,105 +32,98 @@ const Suppliers = () => {
   useEffect(() => {
     loadSuppliers();
   }, []);
-
-  const loadSuppliers =
-    async () => {
+const loadSuppliers =
+  async () => {
+    try {
       const response =
-        await fetch(
-          "http://localhost:5000/suppliers"
+        await api.get(
+          "/suppliers"
         );
 
-      const data =
-        await response.json();
-
-      setSuppliers(data);
-    };
-
-  const clearForm = () => {
-    setNewSupplier({
-      emri_kompanise: "",
-      personi_kontaktues: "",
-      email: "",
-      telefoni: "",
-      adresa: "",
-    });
-
-    setEditingId(null);
+      setSuppliers(
+        response.data
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const addSupplier =
-    async () => {
-      await fetch(
-        "http://localhost:5000/suppliers",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify(
-            newSupplier
-          ),
-        }
+const clearForm = () => {
+  setNewSupplier({
+    emri_kompanise: "",
+    personi_kontaktues: "",
+    email: "",
+    telefoni: "",
+    adresa: "",
+  });
+
+  setEditingId(null);
+};
+
+const addSupplier =
+  async () => {
+    try {
+      await api.post(
+        "/suppliers",
+        newSupplier
       );
 
-      loadSuppliers();
+      await loadSuppliers();
       clearForm();
-    };
-
-  const updateSupplier =
-    async () => {
-      await fetch(
-        `http://localhost:5000/suppliers/${editingId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify(
-            newSupplier
-          ),
-        }
-      );
-
-      loadSuppliers();
-      clearForm();
-    };
-
-  const deleteSupplier =
-    async (id) => {
-      await fetch(
-        `http://localhost:5000/suppliers/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      loadSuppliers();
-    };
-
-  const editSupplier = (s) => {
-    setEditingId(
-      s.supplier_id
-    );
-
-    setNewSupplier({
-      emri_kompanise:
-        s.emri_kompanise ||
-        "",
-      personi_kontaktues:
-        s.personi_kontaktues ||
-        "",
-      email:
-        s.email || "",
-      telefoni:
-        s.telefoni ||
-        "",
-      adresa:
-        s.adresa || "",
-    });
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+const updateSupplier =
+  async () => {
+    try {
+      await api.put(
+        `/suppliers/${editingId}`,
+        newSupplier
+      );
+
+      await loadSuppliers();
+      clearForm();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+const deleteSupplier =
+  async (id) => {
+    try {
+      await api.delete(
+        `/suppliers/${id}`
+      );
+
+      await loadSuppliers();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+const editSupplier = (s) => {
+  setEditingId(
+    s.supplier_id
+  );
+
+  setNewSupplier({
+    emri_kompanise:
+      s.emri_kompanise ||
+      "",
+    personi_kontaktues:
+      s.personi_kontaktues ||
+      "",
+    email:
+      s.email || "",
+    telefoni:
+      s.telefoni || "",
+    adresa:
+      s.adresa || "",
+  });
+};
+
 
   const filteredSuppliers =
     suppliers.filter(

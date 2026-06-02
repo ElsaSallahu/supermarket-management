@@ -2,6 +2,7 @@
   useEffect, 
   useState, 
 } from 'react'
+import api from "../api/axiosConfig";
 
 const Dashboard = () => {
   const [stats, setStats] =
@@ -12,9 +13,6 @@ const Dashboard = () => {
       lowStock: 0,
     })
 
-const [activities, setActivities] =
-  useState([]);
-
   //  kur hapet faqja i merr statistikat
   useEffect(() => {
     loadStats()
@@ -22,96 +20,81 @@ const [activities, setActivities] =
 
   // merr data prej backend
   const loadStats =
-    async () => {
-      try {
+  async () => {
+    try {
 
-  const activityRes =
-       await fetch("http://localhost:5000/user-activity");
+      const salesRes =
+        await api.get(
+          "/sales"
+        );
 
-const activityData = await activityRes.json();
+      const productsRes =
+        await api.get(
+          "/products"
+        );
 
-setActivities(activityData);
+      const customersRes =
+        await api.get(
+          "/customers"
+        );
 
-        // SALES
-        const salesRes =
-          await fetch(
-            'http://localhost:5000/sales'
-          )
+      const sales =
+        salesRes.data;
 
-        const sales =
-          await salesRes.json()
-          console.log(sales)
+      const products =
+        productsRes.data;
 
-        // PRODUCTS
-        const productsRes =
-          await fetch(
-            'http://localhost:5000/products'
-          )
+      const customers =
+        customersRes.data;
 
-        const products =
-          await productsRes.json()
-          console.log(products)
+      const totalRevenue =
+        sales.reduce(
+          (sum, sale) =>
+            sum +
+            Number(
+              sale.total_amount || 0
+            ),
+          0
+        );
 
-        // CUSTOMERS
-        const customersRes =
-          await fetch(
-            'http://localhost:5000/customers'
-          )
+      const lowStock =
+        products.filter(
+          (p) =>
+            Number(
+              p.stoku || 0
+            ) < 10
+        ).length;
 
-        const customers =
-          await customersRes.json()
-          console.log(customers)
+      setStats({
+        totalSales:
+          totalRevenue,
+        products:
+          products.length,
+        customers:
+          customers.length,
+        lowStock,
+      });
 
-        // TOTAL SALES
-        const totalRevenue =
-          sales.reduce(
-            (sum, sale) =>
-              sum +
-              Number(
-                sale.total_amount
-              ),
-            0
-          )
-
-        //  LOW STOCK
-        const lowStock =
-          products.filter(
-            (p) =>
-              Number(
-                p.stock
-              ) < 10
-          ).length
-
-        // ruan statistikat
-        setStats({
-          totalSales:
-            totalRevenue,
-          products:
-            products.length,
-          customers:
-            customers.length,
-          lowStock,
-        })
-
-      } catch (err) {
-        console.log(err)
-      }
+    } catch (err) {
+      console.log(err);
     }
+  };
 
   return (
-    <div className="page dashboard-page">
-      <div className="page-header">
-        <div>
-          <p className="page-kicker">Operations</p>
-          <h1 className="page-heading">Dashboard Overview</h1>
-        </div>
-      </div>
+    <div className="dashboard-page">
+      <h1
+        style={{
+          marginBottom: '20px',
+        }}
+      >
+        Dashboard Overview
+      </h1>
 
       {/* Stats Cards */}
       <div className="stats-grid">
         <div className="stat-card">
           <span>
-            Total Sales
+            💰 Total Sales
           </span>
           <strong>
             €{ stats.totalSales}
@@ -123,7 +106,7 @@ setActivities(activityData);
 
         <div className="stat-card">
           <span>
-            Products
+            📦 Products
           </span>
           <strong>
              {stats.products}
@@ -135,7 +118,7 @@ setActivities(activityData);
 
         <div className="stat-card">
           <span>
-            Customers
+            👥 Customers
           </span>
           <strong>
              {
@@ -149,7 +132,7 @@ setActivities(activityData);
 
         <div className="stat-card warning">
           <span>
-            Low Stock
+            ⚠ Low Stock
           </span>
           <strong>
             {stats.lowStock }
@@ -163,31 +146,53 @@ setActivities(activityData);
       {/* Bottom Section */}
       <div className="dashboard-grid">
         <section className="panel">
-<h2>
-  Recent Activity
-</h2>
+          <h2>
+            Recent Activity
+          </h2>
 
-{
-  activities.length > 0 ? (
-    activities.map((activity) => (
-      <div
-        key={activity.activity_id}
-        className="activity-row"
-      >
-        <span>
-          {activity.user_name}
-        </span>
+          <div className="activity-row">
+            <span>
+              🥛 Milk 1L
+              restocked
+            </span>
 
-        <b>
-          {activity.activity_type}
-        </b>
-      </div>
-    ))
-  ) : (
-    <p>No recent activity</p>
-  )
-}
-          
+            <b>
+              +40
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              🍞 Bread
+              sold
+            </span>
+
+            <b>
+              -18
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              👤 Cashier
+              shift opened
+            </span>
+
+            <b>
+              09:00
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              🍎 Apples
+              low stock
+            </span>
+
+            <b>
+              5 left
+            </b>
+          </div>
         </section>
 
         <section className="panel">
@@ -257,7 +262,7 @@ setActivities(activityData);
       >
         <div className="panel">
           <h3>
-            Orders
+            🛒 Orders
           </h3>
           <h1>
             320
@@ -266,7 +271,7 @@ setActivities(activityData);
 
         <div className="panel">
           <h3>
-            Employees
+            👨‍💼 Employees
           </h3>
           <h1>
             28
@@ -275,7 +280,7 @@ setActivities(activityData);
 
         <div className="panel">
           <h3>
-            Payments
+            💳 Payments
           </h3>
           <h1>
             180
