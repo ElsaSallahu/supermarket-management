@@ -119,6 +119,20 @@ const routes = [
     name: "Products",
     element: Products,
   },
+  {
+  path: "/product-report",
+  name: "Product Report",
+  element: () => (
+    <ProtectedRoute
+      allowedRoles={[
+        "admin",
+        "manager",
+      ]}
+    >
+      <ProductReport />
+    </ProtectedRoute>
+  ),
+},
 
   {
     path: "/users",
@@ -337,6 +351,25 @@ const routes = [
       </ProtectedRoute>
     ),
   },
+
+
+   {
+  path: "/products",
+  name: "Products",
+  element: () => (
+    <ProtectedRoute
+      allowedRoles={[
+        "admin",
+        "manager",
+        "cashier",
+        "customer",
+      ]}
+    >
+      <Products />
+    </ProtectedRoute>
+  ),
+},
+  
 ];
 
 export default routes;

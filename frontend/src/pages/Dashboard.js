@@ -12,6 +12,12 @@ const Dashboard = () => {
       products: 0,
       customers: 0,
       lowStock: 0,
+      categories: 0,
+      suppliers: 0,
+      employees: 0,
+      cashiers: 0,
+      payments: 0,
+      invoices: 0,
     });
 
   useEffect(() => {
@@ -25,10 +31,22 @@ const Dashboard = () => {
           salesRes,
           productsRes,
           customersRes,
+          categoriesRes,
+          suppliersRes,
+          employeesRes,
+          cashiersRes,
+          paymentsRes,
+          invoicesRes,
         ] = await Promise.all([
           api.get("/sales"),
           api.get("/products"),
           api.get("/customers"),
+          api.get("/categories"),
+          api.get("/suppliers"),
+          api.get("/employees"),
+          api.get("/cashiers"),
+          api.get("/payments"),
+          api.get("/invoice"),
         ]);
 
         const sales =
@@ -39,21 +57,6 @@ const Dashboard = () => {
 
         const customers =
           customersRes.data || [];
-
-        console.log(
-          "SALES:",
-          sales
-        );
-
-        console.log(
-          "PRODUCTS:",
-          products
-        );
-
-        console.log(
-          "CUSTOMERS:",
-          customers
-        );
 
         const revenue =
           sales.reduce(
@@ -84,6 +87,24 @@ const Dashboard = () => {
           customers:
             customers.length,
           lowStock,
+          categories:
+            categoriesRes.data
+              ?.length || 0,
+          suppliers:
+            suppliersRes.data
+              ?.length || 0,
+          employees:
+            employeesRes.data
+              ?.length || 0,
+          cashiers:
+            cashiersRes.data
+              ?.length || 0,
+          payments:
+            paymentsRes.data
+              ?.length || 0,
+          invoices:
+            invoicesRes.data
+              ?.length || 0,
         });
       } catch (err) {
         console.log(
@@ -93,268 +114,420 @@ const Dashboard = () => {
       }
     };
 
- return (
-  <div className="dashboard-page">
-    <div
-      className="panel"
-      style={{
-        marginBottom: "25px",
-        padding: "30px",
-        background:
-          "linear-gradient(135deg,#0f172a,#1e293b)",
-        color: "white",
-        borderRadius: "20px",
-      }}
-    >
-      <h1
+  return (
+    <div className="dashboard-page">
+      {/* HERO */}
+
+      <div
+        className="panel"
         style={{
-          margin: 0,
-          fontSize: "34px",
+          marginBottom: "25px",
+          padding: "35px",
+          background:
+            "linear-gradient(135deg,#0f172a,#1e293b)",
+          color: "white",
+          borderRadius: "20px",
         }}
       >
-        Dashboard Overview
-      </h1>
-
-      <p
-        style={{
-          marginTop: "10px",
-          opacity: 0.8,
-        }}
-      >
-        Monitor products, customers and
-        supermarket performance.
-      </p>
-    </div>
-
-    <div className="stats-grid">
-      <div className="stat-card">
-        <span>💰 Revenue</span>
-
-        <strong>
-          €{stats.revenue || stats.totalSales}
-        </strong>
-
-        <small>Total Revenue</small>
-      </div>
-
-      <div className="stat-card">
-        <span>📦 Products</span>
-
-        <strong>
-          {stats.products}
-        </strong>
-
-        <small>
-          Available Products
-        </small>
-      </div>
-
-      <div className="stat-card">
-        <span>👥 Customers</span>
-
-        <strong>
-          {stats.customers}
-        </strong>
-
-        <small>
-          Registered Customers
-        </small>
-      </div>
-
-      <div className="stat-card warning">
-        <span>⚠ Low Stock</span>
-
-        <strong>
-          {stats.lowStock}
-        </strong>
-
-        <small>
-          Need Attention
-        </small>
-      </div>
-    </div>
-
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns:
-          "2fr 1fr",
-        gap: "25px",
-        marginTop: "25px",
-      }}
-    >
-      <section className="panel">
-        <h2
+        <h1
           style={{
-            marginBottom: "20px",
+            margin: 0,
+            fontSize: "36px",
+            fontWeight: "700",
           }}
         >
-          Store Summary
-        </h2>
+          Welcome Back 👋
+        </h1>
 
-        <div className="activity-row">
+        <p
+          style={{
+            marginTop: "10px",
+            opacity: 0.85,
+          }}
+        >
+          Monitor inventory,
+          sales, staff,
+          suppliers and
+          customer activity in
+          real time.
+        </p>
+      </div>
+
+      {/* MAIN CARDS */}
+
+      <div className="stats-grid">
+        <div className="stat-card card-green">
+          <div className="card-badge">
+            Revenue
+          </div>
+
+          <div className="card-icon">
+            💰
+          </div>
+
           <span>
             Total Revenue
           </span>
 
-          <b>
+          <strong>
             €
-            {stats.revenue || stats.totalSales}
-          </b>
+            {Number(
+              stats.revenue
+            ).toLocaleString()}
+          </strong>
+
+          <small>
+            Total supermarket
+            income
+          </small>
         </div>
 
-        <div className="activity-row">
+        <div className="stat-card card-blue">
+          <div className="card-badge">
+            Inventory
+          </div>
+
+          <div className="card-icon">
+            📦
+          </div>
+
           <span>
             Products
           </span>
 
-          <b>
+          <strong>
             {stats.products}
-          </b>
+          </strong>
+
+          <small>
+            Available products
+          </small>
         </div>
 
-        <div className="activity-row">
-          <span>
+        <div className="stat-card card-purple">
+          <div className="card-badge">
             Customers
+          </div>
+
+          <div className="card-icon">
+            👥
+          </div>
+
+          <span>
+            Registered
           </span>
 
-          <b>
+          <strong>
             {stats.customers}
-          </b>
+          </strong>
+
+          <small>
+            Active customers
+          </small>
         </div>
 
-        <div className="activity-row">
+        <div className="stat-card card-red">
+          <div className="card-badge">
+            Alert
+          </div>
+
+          <div className="card-icon">
+            ⚠️
+          </div>
+
           <span>
             Low Stock
           </span>
 
-          <b>
+          <strong>
             {stats.lowStock}
-          </b>
-        </div>
+          </strong>
 
-        <div className="activity-row">
+          <small>
+            Products requiring
+            attention
+          </small>
+        </div>
+      </div>
+
+      {/* SECOND CARDS */}
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "repeat(auto-fit,minmax(220px,1fr))",
+          gap: "20px",
+          marginTop: "25px",
+        }}
+      >
+        <div className="stat-card">
           <span>
-            System Date
+            📂 Categories
           </span>
 
-          <b>
-            {new Date().toLocaleDateString()}
-          </b>
-        </div>
-      </section>
+          <strong>
+            {stats.categories}
+          </strong>
 
-      <section className="panel">
-        <h2
-          style={{
-            marginBottom: "20px",
-          }}
-        >
-          Quick Information
-        </h2>
-
-        <div className="activity-row">
-          <span>
-            Products Available
-          </span>
-
-          <b>
-            {stats.products}
-          </b>
+          <small>
+            Product Categories
+          </small>
         </div>
 
-        <div className="activity-row">
+        <div className="stat-card">
           <span>
-            Registered Customers
+            🚚 Suppliers
           </span>
 
-          <b>
-            {stats.customers}
-          </b>
+          <strong>
+            {stats.suppliers}
+          </strong>
+
+          <small>
+            Active Suppliers
+          </small>
         </div>
 
-        <div className="activity-row">
+        <div className="stat-card">
           <span>
-            Low Stock Alerts
+            👨‍💼 Employees
           </span>
 
-          <b>
-            {stats.lowStock}
-          </b>
+          <strong>
+            {stats.employees}
+          </strong>
+
+          <small>
+            Staff Members
+          </small>
         </div>
 
-        <div className="activity-row">
+        <div className="stat-card">
           <span>
-            System Status
+            🛒 Cashiers
           </span>
 
-          <b
+          <strong>
+            {stats.cashiers}
+          </strong>
+
+          <small>
+            Registered
+            Cashiers
+          </small>
+        </div>
+
+        <div className="stat-card">
+          <span>
+            💳 Payments
+          </span>
+
+          <strong>
+            {stats.payments}
+          </strong>
+
+          <small>
+            Processed
+            Payments
+          </small>
+        </div>
+
+        <div className="stat-card">
+          <span>
+            🧾 Invoices
+          </span>
+
+          <strong>
+            {stats.invoices}
+          </strong>
+
+          <small>
+            Generated
+            Invoices
+          </small>
+        </div>
+      </div>
+
+      {/* SUMMARY */}
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns:
+            "2fr 1fr",
+          gap: "25px",
+          marginTop: "25px",
+        }}
+      >
+        <section className="panel">
+          <h2
             style={{
-              color: "#10b981",
+              marginBottom:
+                "20px",
             }}
           >
-            Active
-          </b>
-        </div>
-      </section>
+            Business Summary
+          </h2>
+
+          <div className="activity-row">
+            <span>
+              Total Revenue
+            </span>
+
+            <b>
+              €
+              {Number(
+                stats.revenue
+              ).toLocaleString()}
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              Products
+            </span>
+
+            <b>
+              {stats.products}
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              Categories
+            </span>
+
+            <b>
+              {
+                stats.categories
+              }
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              Suppliers
+            </span>
+
+            <b>
+              {
+                stats.suppliers
+              }
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              Customers
+            </span>
+
+            <b>
+              {
+                stats.customers
+              }
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              Employees
+            </span>
+
+            <b>
+              {
+                stats.employees
+              }
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              Date
+            </span>
+
+            <b>
+              {new Date().toLocaleDateString()}
+            </b>
+          </div>
+        </section>
+
+        <section className="panel">
+          <h2
+            style={{
+              marginBottom:
+                "20px",
+            }}
+          >
+            System Status
+          </h2>
+
+          <div className="activity-row">
+            <span>
+              Payments
+            </span>
+
+            <b>
+              {
+                stats.payments
+              }
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              Invoices
+            </span>
+
+            <b>
+              {
+                stats.invoices
+              }
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              Low Stock
+            </span>
+
+            <b>
+              {
+                stats.lowStock
+              }
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              Cashiers
+            </span>
+
+            <b>
+              {
+                stats.cashiers
+              }
+            </b>
+          </div>
+
+          <div className="activity-row">
+            <span>
+              Status
+            </span>
+
+            <b
+              style={{
+                color:
+                  "#10b981",
+              }}
+            >
+              Active
+            </b>
+          </div>
+        </section>
+      </div>
     </div>
-
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns:
-          "repeat(auto-fit,minmax(250px,1fr))",
-        gap: "20px",
-        marginTop: "25px",
-      }}
-    >
-      <div className="panel">
-        <h3>
-          📦 Inventory
-        </h3>
-
-        <h1>
-          {stats.products}
-        </h1>
-
-        <p>
-          Total products in
-          supermarket
-        </p>
-      </div>
-
-      <div className="panel">
-        <h3>
-          👥 Customers
-        </h3>
-
-        <h1>
-          {stats.customers}
-        </h1>
-
-        <p>
-          Active customer
-          records
-        </p>
-      </div>
-
-      <div className="panel">
-        <h3>
-          ⚠ Alerts
-        </h3>
-
-        <h1>
-          {stats.lowStock}
-        </h1>
-
-        <p>
-          Products below stock
-          threshold
-        </p>
-      </div>
-    </div>
-  </div>
-);
+  );
 };
 
 export default Dashboard;
