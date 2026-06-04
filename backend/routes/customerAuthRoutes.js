@@ -34,9 +34,13 @@ router.post("/register", async (req, res) => {
         customer_id: result.insertId
       });
     });
-  } catch (error) {
-    res.status(500).json({ message: "Gabim ne server", error });
-  }
+  }catch (error) {
+  console.log(error);
+
+  alert(
+    error.response?.data?.message
+  );
+}
 });
 
 // LOGIN CUSTOMER
