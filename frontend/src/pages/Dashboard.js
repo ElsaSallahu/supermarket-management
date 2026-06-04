@@ -1,294 +1,360 @@
 ﻿import React, {
-  useEffect, 
-  useState, 
-} from 'react'
+  useEffect,
+  useState,
+} from "react";
+
 import api from "../api/axiosConfig";
 
 const Dashboard = () => {
   const [stats, setStats] =
     useState({
-      totalSales: 0,
+      revenue: 0,
       products: 0,
       customers: 0,
       lowStock: 0,
-    })
+    });
 
-  //  kur hapet faqja i merr statistikat
   useEffect(() => {
-    loadStats()
-  }, [])
+    loadStats();
+  }, []);
 
-  // merr data prej backend
   const loadStats =
-  async () => {
-    try {
+    async () => {
+      try {
+        const [
+          salesRes,
+          productsRes,
+          customersRes,
+        ] = await Promise.all([
+          api.get("/sales"),
+          api.get("/products"),
+          api.get("/customers"),
+        ]);
 
-      const salesRes =
-        await api.get(
-          "/sales"
+        const sales =
+          salesRes.data || [];
+
+        const products =
+          productsRes.data || [];
+
+        const customers =
+          customersRes.data || [];
+
+        console.log(
+          "SALES:",
+          sales
         );
 
-      const productsRes =
-        await api.get(
-          "/products"
+        console.log(
+          "PRODUCTS:",
+          products
         );
 
-      const customersRes =
-        await api.get(
-          "/customers"
+        console.log(
+          "CUSTOMERS:",
+          customers
         );
 
-      const sales =
-        salesRes.data;
+        const revenue =
+          sales.reduce(
+            (
+              sum,
+              sale
+            ) =>
+              sum +
+              Number(
+                sale.total_amount ||
+                  0
+              ),
+            0
+          );
 
-      const products =
-        productsRes.data;
+        const lowStock =
+          products.filter(
+            (p) =>
+              Number(
+                p.stoku || 0
+              ) < 10
+          ).length;
 
-      const customers =
-        customersRes.data;
-
-      const totalRevenue =
-        sales.reduce(
-          (sum, sale) =>
-            sum +
-            Number(
-              sale.total_amount || 0
-            ),
-          0
+        setStats({
+          revenue,
+          products:
+            products.length,
+          customers:
+            customers.length,
+          lowStock,
+        });
+      } catch (err) {
+        console.log(
+          "Dashboard error:",
+          err
         );
+      }
+    };
 
-      const lowStock =
-        products.filter(
-          (p) =>
-            Number(
-              p.stoku || 0
-            ) < 10
-        ).length;
-
-      setStats({
-        totalSales:
-          totalRevenue,
-        products:
-          products.length,
-        customers:
-          customers.length,
-        lowStock,
-      });
-
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  return (
-    <div className="dashboard-page">
+ return (
+  <div className="dashboard-page">
+    <div
+      className="panel"
+      style={{
+        marginBottom: "25px",
+        padding: "30px",
+        background:
+          "linear-gradient(135deg,#0f172a,#1e293b)",
+        color: "white",
+        borderRadius: "20px",
+      }}
+    >
       <h1
         style={{
-          marginBottom: '20px',
+          margin: 0,
+          fontSize: "34px",
         }}
       >
         Dashboard Overview
       </h1>
 
-      {/* Stats Cards */}
-      <div className="stats-grid">
-        <div className="stat-card">
-          <span>
-            💰 Total Sales
-          </span>
-          <strong>
-            €{ stats.totalSales}
-          </strong>
-          <small>
-            Today
-          </small>
-        </div>
-
-        <div className="stat-card">
-          <span>
-            📦 Products
-          </span>
-          <strong>
-             {stats.products}
-          </strong>
-          <small>
-            In Stock
-          </small>
-        </div>
-
-        <div className="stat-card">
-          <span>
-            👥 Customers
-          </span>
-          <strong>
-             {
-    stats.customers
-  }
-          </strong>
-          <small>
-            This Month
-          </small>
-        </div>
-
-        <div className="stat-card warning">
-          <span>
-            ⚠ Low Stock
-          </span>
-          <strong>
-            {stats.lowStock }
-          </strong>
-          <small>
-            Need Attention
-          </small>
-        </div>
-      </div>
-
-      {/* Bottom Section */}
-      <div className="dashboard-grid">
-        <section className="panel">
-          <h2>
-            Recent Activity
-          </h2>
-
-          <div className="activity-row">
-            <span>
-              🥛 Milk 1L
-              restocked
-            </span>
-
-            <b>
-              +40
-            </b>
-          </div>
-
-          <div className="activity-row">
-            <span>
-              🍞 Bread
-              sold
-            </span>
-
-            <b>
-              -18
-            </b>
-          </div>
-
-          <div className="activity-row">
-            <span>
-              👤 Cashier
-              shift opened
-            </span>
-
-            <b>
-              09:00
-            </b>
-          </div>
-
-          <div className="activity-row">
-            <span>
-              🍎 Apples
-              low stock
-            </span>
-
-            <b>
-              5 left
-            </b>
-          </div>
-        </section>
-
-        <section className="panel">
-          <h2>
-            Business Overview
-          </h2>
-
-          <div className="meter">
-            <span>
-              Daily Target
-            </span>
-
-            <div>
-              <i
-                style={{
-                  width:
-                    '72%',
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="meter">
-            <span>
-              Inventory
-              Health
-            </span>
-
-            <div>
-              <i
-                style={{
-                  width:
-                    '84%',
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="meter">
-            <span>
-              Staff
-              Coverage
-            </span>
-
-            <div>
-              <i
-                style={{
-                  width:
-                    '65%',
-                }}
-              />
-            </div>
-          </div>
-        </section>
-      </div>
-
-      {/* Quick Stats */}
-      <div
+      <p
         style={{
-          display: 'grid',
-          gridTemplateColumns:
-            'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: '20px',
-          marginTop:
-            '30px',
+          marginTop: "10px",
+          opacity: 0.8,
         }}
       >
-        <div className="panel">
-          <h3>
-            🛒 Orders
-          </h3>
-          <h1>
-            320
-          </h1>
-        </div>
+        Monitor products, customers and
+        supermarket performance.
+      </p>
+    </div>
 
-        <div className="panel">
-          <h3>
-            👨‍💼 Employees
-          </h3>
-          <h1>
-            28
-          </h1>
-        </div>
+    <div className="stats-grid">
+      <div className="stat-card">
+        <span>💰 Revenue</span>
 
-        <div className="panel">
-          <h3>
-            💳 Payments
-          </h3>
-          <h1>
-            180
-          </h1>
-        </div>
+        <strong>
+          €{stats.revenue || stats.totalSales}
+        </strong>
+
+        <small>Total Revenue</small>
+      </div>
+
+      <div className="stat-card">
+        <span>📦 Products</span>
+
+        <strong>
+          {stats.products}
+        </strong>
+
+        <small>
+          Available Products
+        </small>
+      </div>
+
+      <div className="stat-card">
+        <span>👥 Customers</span>
+
+        <strong>
+          {stats.customers}
+        </strong>
+
+        <small>
+          Registered Customers
+        </small>
+      </div>
+
+      <div className="stat-card warning">
+        <span>⚠ Low Stock</span>
+
+        <strong>
+          {stats.lowStock}
+        </strong>
+
+        <small>
+          Need Attention
+        </small>
       </div>
     </div>
-  )
-}
 
-export default Dashboard
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns:
+          "2fr 1fr",
+        gap: "25px",
+        marginTop: "25px",
+      }}
+    >
+      <section className="panel">
+        <h2
+          style={{
+            marginBottom: "20px",
+          }}
+        >
+          Store Summary
+        </h2>
+
+        <div className="activity-row">
+          <span>
+            Total Revenue
+          </span>
+
+          <b>
+            €
+            {stats.revenue || stats.totalSales}
+          </b>
+        </div>
+
+        <div className="activity-row">
+          <span>
+            Products
+          </span>
+
+          <b>
+            {stats.products}
+          </b>
+        </div>
+
+        <div className="activity-row">
+          <span>
+            Customers
+          </span>
+
+          <b>
+            {stats.customers}
+          </b>
+        </div>
+
+        <div className="activity-row">
+          <span>
+            Low Stock
+          </span>
+
+          <b>
+            {stats.lowStock}
+          </b>
+        </div>
+
+        <div className="activity-row">
+          <span>
+            System Date
+          </span>
+
+          <b>
+            {new Date().toLocaleDateString()}
+          </b>
+        </div>
+      </section>
+
+      <section className="panel">
+        <h2
+          style={{
+            marginBottom: "20px",
+          }}
+        >
+          Quick Information
+        </h2>
+
+        <div className="activity-row">
+          <span>
+            Products Available
+          </span>
+
+          <b>
+            {stats.products}
+          </b>
+        </div>
+
+        <div className="activity-row">
+          <span>
+            Registered Customers
+          </span>
+
+          <b>
+            {stats.customers}
+          </b>
+        </div>
+
+        <div className="activity-row">
+          <span>
+            Low Stock Alerts
+          </span>
+
+          <b>
+            {stats.lowStock}
+          </b>
+        </div>
+
+        <div className="activity-row">
+          <span>
+            System Status
+          </span>
+
+          <b
+            style={{
+              color: "#10b981",
+            }}
+          >
+            Active
+          </b>
+        </div>
+      </section>
+    </div>
+
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns:
+          "repeat(auto-fit,minmax(250px,1fr))",
+        gap: "20px",
+        marginTop: "25px",
+      }}
+    >
+      <div className="panel">
+        <h3>
+          📦 Inventory
+        </h3>
+
+        <h1>
+          {stats.products}
+        </h1>
+
+        <p>
+          Total products in
+          supermarket
+        </p>
+      </div>
+
+      <div className="panel">
+        <h3>
+          👥 Customers
+        </h3>
+
+        <h1>
+          {stats.customers}
+        </h1>
+
+        <p>
+          Active customer
+          records
+        </p>
+      </div>
+
+      <div className="panel">
+        <h3>
+          ⚠ Alerts
+        </h3>
+
+        <h1>
+          {stats.lowStock}
+        </h1>
+
+        <p>
+          Products below stock
+          threshold
+        </p>
+      </div>
+    </div>
+  </div>
+);
+};
+
+export default Dashboard;
