@@ -12,7 +12,6 @@ import DefaultLayout from "./layouts/DefaultLayout";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 
-import CustomerLogin from "./pages/customer/CustomerLogin";
 import CustomerHome from "./pages/customer/CustomerHome";
 import CustomerProducts from "./pages/customer/CustomerProducts";
 import CustomerCategories from "./pages/customer/CustomerCategories";
@@ -31,8 +30,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Customer Auth */}
-        <Route path="/customer-login" element={<CustomerLogin />} />
+    
+    
 
         {/* Customer Pages */}
         <Route path="/customer" element={<CustomerLayout />}>
