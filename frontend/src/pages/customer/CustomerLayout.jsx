@@ -1,4 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
+import CustomerFooter from "./CustomerFooter";
 
 function CustomerLayout() {
   const logout = () => {
@@ -40,6 +41,7 @@ function CustomerLayout() {
       </nav>
 
       <Outlet />
+      <CustomerFooter />
     </div>
   );
 }
