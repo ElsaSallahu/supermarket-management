@@ -20,7 +20,7 @@ function CustomerLayout() {
         <h2 style={{ color: "#16a34a", margin: 0 }}>Supermarket</h2>
 
         <div style={{ display: "flex", gap: "25px", alignItems: "center" }}>
-          <Link to="/customer">Home</Link>
+          <Link to="/customer/home">Home</Link>
           <Link to="/customer/products">Products</Link>
           <Link to="/customer/categories">Categories</Link>
           <Link to="/customer/offers">Offers</Link>
