@@ -3,10 +3,10 @@ import CustomerFooter from "./CustomerFooter";
 
 function CustomerLayout() {
   const logout = () => {
-    localStorage.removeItem("customerToken");
-    localStorage.removeItem("customer");
-    window.location.href = "/customer/home";
-  };
+     localStorage.removeItem("customerToken");
+     localStorage.removeItem("customer");
+     window.location.href = "/login";
+};
 
   return (
     <div>
