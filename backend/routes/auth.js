@@ -40,11 +40,12 @@ router.post("/register", (req, res) => {
         });
       }
 
-      res.json({
-        success: true,
-        message:
-          "User u regjistrua",
-      });
+     res.json({
+       success: true,
+       user,
+       accessToken,
+       refreshToken,
+    });
     }
   );
 });

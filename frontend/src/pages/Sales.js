@@ -96,64 +96,28 @@ const totalRevenue = sales.reduce(
     sum + Number(sale.total_amount || 0),
   0
 );
-  
-  const updateSale = async (
-      id
-    ) => {
-      try {
-        const response =
-          await fetch(
-            `http://localhost:5000/sales/${id}`,
-            {
-              method:
-                "PUT",
+ 
+const updateSale = async (id) => {
+  try {
+    await api.put(`/sales/${id}`, {
+      customer_id: Number(newSale.customer_id),
+      total_amount: Number(newSale.total_amount),
+      sale_date: newSale.sale_date,
+    });
 
-              headers: {
-                "Content-Type":
-                  "application/json",
-              },
+    setEditingId(null);
 
-              body:
-                JSON.stringify(
-                  {
-                    customer_id:
-                      Number(
-                        newSale.customer_id
-                      ),
+    setNewSale({
+      customer_id: "",
+      total_amount: "",
+      sale_date: "",
+    });
 
-                    total_amount:
-                      Number(
-                        newSale.total_amount
-                      ),
-
-                    sale_date:
-                      newSale.sale_date,
-                  }
-                ),
-            }
-          );
-
-        const data =
-          await response.text();
-
-        console.log(data);
-
-        setEditingId(
-          null
-        );
-
-        setNewSale({
-          customer_id: "",
-          total_amount: "",
-          sale_date: "",
-        });
-
-        loadSales();
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
+    loadSales();
+  } catch (err) {
+    console.log(err);
+  }
+};
   // FILTER
   const filteredSales =
     sales.filter(
@@ -589,6 +553,5 @@ const totalRevenue = sales.reduce(
         </div>
       </div>
   );
-};
-
+}
 export default Sales;
