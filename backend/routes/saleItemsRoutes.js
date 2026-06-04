@@ -80,6 +80,7 @@ router.put("/:id", (req, res) => {
     quantity,
     price,
     subtotal,
+    id
   } = req.body;
 
   const sql = `
@@ -102,9 +103,7 @@ db.query(
   (err) => {
     if (err) {
       console.log(err);
-      return res
-        .status(500)
-        .send("Gabim ne shtim");
+      return res.status(500).json(err);
     }
 
     db.query(

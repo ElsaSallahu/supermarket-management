@@ -43,7 +43,7 @@ const Payments = () => {
   try {
     const response =
       await api.get(
-        "/payment"
+        "/payments"
       );
 
     setPayments(
@@ -80,7 +80,7 @@ const addPayment =
 
     try {
       await api.post(
-        "/payment",
+        "/payments",
         {
           sale_id,
           amount,
@@ -105,7 +105,7 @@ const deletePayment =
   async (id) => {
     try {
       await api.delete(
-        `/payment/${id}`
+        `/payments/${id}`
       );
 
       await loadPayments();
@@ -119,7 +119,7 @@ const updatePayment =
   async (id) => {
     try {
       await api.put(
-        `/payment/${id}`,
+        `/payments/${id}`,
         newPayment
       );
 
