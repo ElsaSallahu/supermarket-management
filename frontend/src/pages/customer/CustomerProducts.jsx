@@ -63,9 +63,9 @@ function CustomerProducts() {
                 <div style={imageWrapper}>
                   <img
                    src={p.foto || "https://images.unsplash.com/photo-1542838132-92c53300491e?w=600"}
-  alt={p.emri}
-  style={image}
-/>
+                   alt={p.emri}
+                   style={image}
+                    />
 
                   <span
                     style={{
