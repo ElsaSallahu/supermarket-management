@@ -47,10 +47,18 @@ const Login = () => {
   )
 );
 console.log(res.data);
+console.log("ACCESS TOKEN:", res.data.accessToken);
+
 localStorage.setItem(
   "token",
-  res.data.accesstoken
+  res.data.accessToken
 );
+
+console.log(
+  "TOKEN SAVED:",
+  localStorage.getItem("token")
+);
+
 
 localStorage.setItem(
   "refreshToken",
