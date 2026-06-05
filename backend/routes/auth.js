@@ -41,11 +41,9 @@ router.post("/register", (req, res) => {
       }
 
      res.json({
-       success: true,
-       user,
-       accessToken,
-       refreshToken,
-    });
+  success: true,
+  message: "User registered successfully",
+});
     }
   );
 });

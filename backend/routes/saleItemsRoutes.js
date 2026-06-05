@@ -80,7 +80,6 @@ router.put("/:id", (req, res) => {
     quantity,
     price,
     subtotal,
-    id
   } = req.body;
 
   const sql = `
